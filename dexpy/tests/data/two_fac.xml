@@ -1,0 +1,41 @@
+<!DOCTYPE DEXXMLDoc SYSTEM "DEXXMLDoc.DTD">
+<DEXXMLDoc name="two_two.dxpx" version="10.0.0.0">
+<designInfo studyType="Factorial" studySubType="Randomized" designType="Factorial2" noOfRuns="4" noOfFactors="2" noOfResponses="1" />
+<factorInfo>
+<factor id="A" name="A" unit="" type="Numeric">
+<numeric low="-1" high="1" />
+</factor>
+<factor id="B" name="B" unit="" type="Numeric">
+<numeric low="-1" high="1" />
+</factor>
+</factorInfo>
+<responseInfo>
+<response id="1" name="R1" />
+</responseInfo>
+<designModel terms="4">
+<designTerm id="0" coef="1" term="Intercept"/>
+<designTerm id="1" coef="1" term="A"/>
+<designTerm id="2" coef="1" term="B"/>
+<designTerm id="3" coef="1" term="AB"/>
+</designModel>
+<run stdNo="4" runNo="1">
+<facActual id="A">1</facActual>
+<facActual id="B">1</facActual>
+<resVal id="1">Missing</resVal>
+</run>
+<run stdNo="2" runNo="2">
+<facActual id="A">1</facActual>
+<facActual id="B">-1</facActual>
+<resVal id="1">Missing</resVal>
+</run>
+<run stdNo="1" runNo="3">
+<facActual id="A">-1</facActual>
+<facActual id="B">-1</facActual>
+<resVal id="1">Missing</resVal>
+</run>
+<run stdNo="3" runNo="4">
+<facActual id="A">-1</facActual>
+<facActual id="B">1</facActual>
+<resVal id="1">Missing</resVal>
+</run>
+</DEXXMLDoc>
