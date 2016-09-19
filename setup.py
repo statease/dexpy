@@ -18,7 +18,6 @@ class TestCommand(Command):
 
     def run(self):
         import sys, subprocess
-        print("running tests")
         raise SystemExit(subprocess.call([sys.executable, 'dexpy/tests/__init__.py']))
 
 def run_setup():
