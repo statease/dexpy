@@ -1,25 +1,14 @@
 from xml.dom import minidom
 
-def load(file_path):
-
-    xmldoc = minidom.parse(file_path)
-    factors = xmldoc.getElementsByTagName('factor')
-    responses = xmldoc.getElementsByTagName('response')
-    runs = xmldoc.getElementsByTagName('run')
-
-    return Design(factors, responses, runs)
-
 class Design:
-
-    factors = []
-    responses = []
-    factor_data = []
-    response_data = []
+    """Represents a design. Contains factor and response data."""
 
     def __init__(self, factors, responses, runs):
 
         self.factors = factors
         self.responses = responses
+        self.factor_data = []
+        self.response_data = []
 
         for r_ele in runs:
             factor_settings = []
@@ -35,6 +24,18 @@ class Design:
                     response_values.append(res_val.firstChild.nodeValue)
             self.response_data.append(response_values)
 
+    @classmethod
+    def load(cls, file_path):
+        "Loads an xml file into a Design object."
+
+        xmldoc = minidom.parse(file_path)
+        factors = xmldoc.getElementsByTagName('factor')
+        responses = xmldoc.getElementsByTagName('response')
+        runs = xmldoc.getElementsByTagName('run')
+
+        return cls(factors, responses, runs)
+
     @property
     def runs(self):
+        "Returns the number of runs in the design."
         return len(self.factor_data)
