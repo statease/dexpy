@@ -3,26 +3,10 @@ from xml.dom import minidom
 class Design:
     """Represents a design. Contains factor and response data."""
 
-    def __init__(self, factors, responses, runs):
+    def __init__(self, factor_data, response_data):
 
-        self.factors = factors
-        self.responses = responses
-        self.factor_data = []
-        self.response_data = []
-
-        for r_ele in runs:
-            factor_settings = []
-            for fac_actual in r_ele.getElementsByTagName('facActual'):
-                factor_settings.append(fac_actual.firstChild.nodeValue)
-            self.factor_data.append(factor_settings)
-
-            response_values = []
-            for res_val in r_ele.getElementsByTagName('resVal'):
-                if res_val.firstChild.nodeValue == "Missing":
-                    response_values.append(None)
-                else:
-                    response_values.append(res_val.firstChild.nodeValue)
-            self.response_data.append(response_values)
+        self.factor_data = factor_data
+        self.response_data = response_data
 
     @classmethod
     def load(cls, file_path):
@@ -33,7 +17,24 @@ class Design:
         responses = xmldoc.getElementsByTagName('response')
         runs = xmldoc.getElementsByTagName('run')
 
-        return cls(factors, responses, runs)
+        factor_data = []
+        response_data = []
+
+        for r_ele in runs:
+            factor_settings = []
+            for fac_actual in r_ele.getElementsByTagName('facActual'):
+                factor_settings.append(fac_actual.firstChild.nodeValue)
+            factor_data.append(factor_settings)
+
+            response_values = []
+            for res_val in r_ele.getElementsByTagName('resVal'):
+                if res_val.firstChild.nodeValue == "Missing":
+                    response_values.append(None)
+                else:
+                    response_values.append(res_val.firstChild.nodeValue)
+            response_data.append(response_values)
+
+        return cls(factor_data, response_data)
 
     @property
     def runs(self):
