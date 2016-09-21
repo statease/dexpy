@@ -46,45 +46,54 @@ class TestTerm(TestCase):
         term = dexpy.model.Term.from_string('P"^2')
         self.assertEqual(2, term.powers[64])
 
+    def test_parse_intercept(self):
+
+        term = dexpy.model.Term.from_string('1')
+        self.assertEqual(1, term.coefficient)
+        self.assertEqual(0, len(term.powers))
+
 class TestLinearModel(TestCase):
 
     def test_parse_model(self):
 
-        model = dexpy.model.LinearModel.from_string("A+ 2B +C+AB + 4.1*AbC + 10A*C + A^2 + B^2 + A^2B + AB^2")
-        self.assertEqual(10, len(model.terms))
+        model = dexpy.model.LinearModel.from_string("1+A+ 2B +C+AB + 4.1*AbC + 10A*C + A^2 + B^2 + A^2B + AB^2")
+        self.assertEqual(11, len(model.terms))
 
         self.assertEqual(1, model.terms[0].coefficient)
-        self.assertEqual(1, model.terms[0].powers[0])
+        self.assertEqual(0, len(model.terms[0].powers))
 
-        self.assertEqual(2, model.terms[1].coefficient)
-        self.assertEqual(1, model.terms[1].powers[1])
+        self.assertEqual(1, model.terms[1].coefficient)
+        self.assertEqual(1, model.terms[1].powers[0])
 
-        self.assertEqual(1, model.terms[2].coefficient)
-        self.assertEqual(1, model.terms[2].powers[2])
+        self.assertEqual(2, model.terms[2].coefficient)
+        self.assertEqual(1, model.terms[2].powers[1])
 
         self.assertEqual(1, model.terms[3].coefficient)
-        self.assertEqual(1, model.terms[3].powers[0])
-        self.assertEqual(1, model.terms[3].powers[1])
+        self.assertEqual(1, model.terms[3].powers[2])
 
-        self.assertEqual(4.1, model.terms[4].coefficient)
+        self.assertEqual(1, model.terms[4].coefficient)
         self.assertEqual(1, model.terms[4].powers[0])
         self.assertEqual(1, model.terms[4].powers[1])
-        self.assertEqual(1, model.terms[4].powers[2])
 
-        self.assertEqual(10, model.terms[5].coefficient)
+        self.assertEqual(4.1, model.terms[5].coefficient)
         self.assertEqual(1, model.terms[5].powers[0])
+        self.assertEqual(1, model.terms[5].powers[1])
         self.assertEqual(1, model.terms[5].powers[2])
 
-        self.assertEqual(1, model.terms[6].coefficient)
-        self.assertEqual(2, model.terms[6].powers[0])
+        self.assertEqual(10, model.terms[6].coefficient)
+        self.assertEqual(1, model.terms[6].powers[0])
+        self.assertEqual(1, model.terms[6].powers[2])
 
         self.assertEqual(1, model.terms[7].coefficient)
-        self.assertEqual(2, model.terms[7].powers[1])
+        self.assertEqual(2, model.terms[7].powers[0])
 
         self.assertEqual(1, model.terms[8].coefficient)
-        self.assertEqual(2, model.terms[8].powers[0])
-        self.assertEqual(1, model.terms[8].powers[1])
+        self.assertEqual(2, model.terms[8].powers[1])
 
         self.assertEqual(1, model.terms[9].coefficient)
-        self.assertEqual(1, model.terms[9].powers[0])
-        self.assertEqual(2, model.terms[9].powers[1])
+        self.assertEqual(2, model.terms[9].powers[0])
+        self.assertEqual(1, model.terms[9].powers[1])
+
+        self.assertEqual(1, model.terms[10].coefficient)
+        self.assertEqual(1, model.terms[10].powers[0])
+        self.assertEqual(2, model.terms[10].powers[1])
