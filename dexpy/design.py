@@ -40,3 +40,16 @@ class Design:
     def runs(self):
         "Returns the number of runs in the design."
         return len(self.factor_data)
+
+    def create_model_matrix(self, model):
+        """Expands a model to a matrix using the run and factor settings
+           in the design."""
+
+        model_matrix = []
+        for run in self.factor_data:
+            model_matrix.append([])
+            for term in model.terms:
+                model_matrix[-1].append(term.coefficient)
+                for var_id in term.powers:
+                    model_matrix[-1][-1] *= pow(run[var_id], term.powers[var_id])
+        return model_matrix
