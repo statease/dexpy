@@ -18,7 +18,7 @@ def power(model, model_matrix, effect_size, alpha):
     for t in range(0, len(model.terms)):
         nc = adjust_non_centrality(non_centrality[t], model.terms[t])
         nc *= effect_size * effect_size / 4.0
-        p = (1 - ncf.cdf(crit_value, 1, residual_df, nc) * 100.0;
+        p = (1 - ncf.cdf(crit_value, 1, residual_df, nc))
         power.append(p)
 
     return power
