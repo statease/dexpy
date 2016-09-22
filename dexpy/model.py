@@ -4,7 +4,7 @@ import string
 class Term:
     """An individual term in a model."""
     _i_index = 8
-    _valid_vars = string.ascii_uppercase.replace("I", "")
+    valid_vars = string.ascii_uppercase.replace("I", "")
 
     def __init__(self, coefficient, powers):
         self.coefficient = float(coefficient)
@@ -17,10 +17,10 @@ class Term:
         for var_id in self.powers:
             power = self.powers[var_id]
             if power != 0:
-                out += self._valid_vars[var_id % len(self._valid_vars)]
-                if var_id >= len(self._valid_vars) * 2:
+                out += self.valid_vars[var_id % len(self.valid_vars)]
+                if var_id >= len(self.valid_vars) * 2:
                     out += '"'
-                elif var_id >= len(self._valid_vars):
+                elif var_id >= len(self.valid_vars):
                     out += "'"
                 if power != 1:
                     out += "^" + str(power)
@@ -41,15 +41,15 @@ class Term:
         for match in iterator:
 
             var = match.group(1).upper()
-            var_id = cls._valid_vars.find(var)
+            var_id = cls.valid_vars.find(var)
             if var_id == -1:
                 raise RuntimeError("Invalid variable name used: '{}'".format(var))
 
             # check for prime/double-prime notation
             if match.group(2) == "'":
-                var_id += len(cls._valid_vars) # skip the first 25 variable ids (A to Z minus I)
+                var_id += len(cls.valid_vars) # skip the first 25 variable ids (A to Z minus I)
             elif match.group(2) == '"':
-                var_id += len(cls._valid_vars) * 2 # skip A to Z and A' to Z'
+                var_id += len(cls.valid_vars) * 2 # skip A to Z and A' to Z'
 
             power = 1
             if match.group(3):

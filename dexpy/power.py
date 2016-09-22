@@ -5,7 +5,6 @@ from scipy.stats import ncf
 def power(model, model_matrix, effect_size, alpha):
 
     X = np.array(model_matrix)
-    print(X.shape)
     residual_df = X.shape[0] - X.shape[1]
 
     XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
