@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import f
-from scipy.special import ncfdtr
+from scipy.stats import ncf
 
 def power(model, model_matrix, effect_size, alpha):
 
@@ -18,12 +18,7 @@ def power(model, model_matrix, effect_size, alpha):
     for t in range(0, len(model.terms)):
         nc = adjust_non_centrality(non_centrality[t], model.terms[t])
         nc *= effect_size * effect_size / 4.0
-        p = ncfdtr(1, residual_df, nc, crit_value) * 100.0;
-        print(residual_df)
-        print(nc)
-        print(crit_value)
-        print(non_centrality[t])
-        print()
+        p = (1 - ncf.cdf(crit_value, 1, residual_df, nc) * 100.0;
         power.append(p)
 
     return power
