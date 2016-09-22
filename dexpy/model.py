@@ -58,6 +58,11 @@ class Term:
 
         return cls(coefficient, powers)
 
+    def always_positive(self):
+        for p in self.powers:
+            if self.powers[p] % 2 != 0:
+                return False
+        return True;
 
 class LinearModel:
     """Represents a linear regression model."""

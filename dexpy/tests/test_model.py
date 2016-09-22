@@ -52,6 +52,14 @@ class TestTerm(TestCase):
         self.assertEqual(1, term.coefficient)
         self.assertEqual(0, len(term.powers))
 
+    def test_always_positive(self):
+
+        self.assertTrue(dexpy.model.Term.from_string('A^2').always_positive())
+        self.assertFalse(dexpy.model.Term.from_string('A^3').always_positive())
+        self.assertTrue(dexpy.model.Term.from_string('A^4').always_positive())
+        self.assertTrue(dexpy.model.Term.from_string('A^4B^2').always_positive())
+        self.assertFalse(dexpy.model.Term.from_string('A^4C').always_positive())
+
 class TestLinearModel(TestCase):
 
     def test_parse_model(self):

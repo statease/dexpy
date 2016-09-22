@@ -6,7 +6,7 @@ import dexpy.design
 import dexpy.model
 
 class TestModelMatrix(TestCase):
-    """Tests for generating a model matri"""
+    """Tests for generating a model matrix"""
 
     def test_quadratic_model(self):
         """Test expanding a quadratic model in a rotatable ccd"""
