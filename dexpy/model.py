@@ -76,6 +76,12 @@ class LinearModel:
             out.append(str(term))
         return " + ".join(out)
 
+    @property
+    def columns(self):
+        """Returns the sum of the degrees of freedom of all terms in the model."""
+        # TODO: this assumes all factors have 1 degree of freedom
+        return len(self.terms)
+
     @classmethod
     def from_string(cls, model_string):
         return cls(LinearModel.parse_terms(model_string))

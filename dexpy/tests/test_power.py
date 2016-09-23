@@ -58,4 +58,3 @@ class TestPower(TestCase):
         X = design.create_model_matrix(model)
 
         power = dexpy.power.power(model, X, 2, 0.05)
-        print(power)

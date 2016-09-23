@@ -51,5 +51,5 @@ class Design:
             for term in model.terms:
                 model_matrix[-1].append(term.coefficient)
                 for var_id in term.powers:
-                    model_matrix[-1][-1] *= pow(run[var_id], term.powers[var_id])
+                    model_matrix[-1][-1] *= run[var_id] ** term.powers[var_id]
         return model_matrix
