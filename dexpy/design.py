@@ -1,12 +1,13 @@
 from xml.dom import minidom
+import numpy as np
 
 class Design:
     """Represents a design. Contains factor and response data."""
 
     def __init__(self, factor_data, response_data):
 
-        self.factor_data = factor_data
-        self.response_data = response_data
+        self.factor_data = np.array(factor_data)
+        self.response_data = np.array(response_data)
 
     @classmethod
     def load(cls, file_path):
@@ -45,11 +46,10 @@ class Design:
         """Expands a model to a matrix using the run and factor settings
            in the design."""
 
-        model_matrix = []
-        for run in self.factor_data:
-            model_matrix.append([])
-            for term in model.terms:
-                model_matrix[-1].append(term.coefficient)
-                for var_id in term.powers:
-                    model_matrix[-1][-1] *= run[var_id] ** term.powers[var_id]
+        model_matrix = np.ones((model.columns, self.runs))
+        main_effects = self.factor_data.transpose()
+        for t in range(len(model.terms)):
+            for var_id in model.terms[t].powers:
+                for p in range(model.terms[t].powers[var_id]):
+                    model_matrix[t] = model_matrix[t] * main_effects[var_id]
         return model_matrix

@@ -4,10 +4,10 @@ from scipy.stats import ncf
 
 def power(model, model_matrix, effect_size, alpha):
 
-    X = np.array(model_matrix)
-    residual_df = X.shape[0] - X.shape[1]
+    X = model_matrix
+    residual_df = X.shape[1] - X.shape[0]
 
-    XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+    XtXi = np.linalg.inv(np.dot(X, np.transpose(X)))
     non_centrality = 1 / np.diag(XtXi)
 
     # pre-calculate crit value for 1 df, most common case
