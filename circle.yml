@@ -19,9 +19,9 @@ dependencies:
       fi
     - >
       if [ ! -d ${DEXPY_ENV_ROOT} ]; then
-          conda create -y -n ${DEXPY_ENV_NAME} -c ${DEXPY_DEPENDENCIES};
+          conda create -y -n ${DEXPY_ENV_NAME} ${DEXPY_DEPENDENCIES};
       else
-          conda install -y -n ${DEXPY_ENV_NAME} -c ${DEXPY_DEPENDENCIES};
+          conda install -y -n ${DEXPY_ENV_NAME} ${DEXPY_DEPENDENCIES};
       fi
 
 test:
