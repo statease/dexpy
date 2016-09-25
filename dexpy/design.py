@@ -44,7 +44,8 @@ class Design:
 
     def create_model_matrix(self, model):
         """Expands a model to a matrix using the run and factor settings
-           in the design."""
+           in the design. The matrix is transposed from the traditional
+           X matrix for speed, since numpy defauls to row major storage."""
 
         model_matrix = np.ones((model.columns, self.runs))
         main_effects = self.factor_data.transpose()

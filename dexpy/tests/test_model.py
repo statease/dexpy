@@ -105,3 +105,8 @@ class TestLinearModel(TestCase):
         self.assertEqual(1, model.terms[10].coefficient)
         self.assertEqual(1, model.terms[10].powers[0])
         self.assertEqual(2, model.terms[10].powers[1])
+
+    def test_columns(self):
+
+        model = dexpy.model.LinearModel.from_string("1+A+B+C+AB+AC+BC+ABC+A^2")
+        self.assertEqual(9, model.columns)
