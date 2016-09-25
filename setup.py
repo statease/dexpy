@@ -31,6 +31,7 @@ def run_setup():
         author_email='hank@statease.com',
         url='https://statease.github.io/dexpy/',
         packages=['dexpy', 'dexpy.tests'],
+        install_requires=['numpy'],
     )
 
 run_setup()
