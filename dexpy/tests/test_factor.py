@@ -3,7 +3,7 @@ from unittest import TestCase
 import os
 import dexpy.factor
 
-class TestTerm(TestCase):
+class TestFactor(TestCase):
 
     def test_categoric(self):
 
