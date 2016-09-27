@@ -11,7 +11,7 @@ def power(model, model_matrix, effect_size, alpha):
     non_centrality = 1 / np.diag(XtXi)
 
     # pre-calculate crit value for 1 df, most common case
-    crit_value = f.ppf(1 -alpha, 1, residual_df)
+    crit_value = f.ppf(1 - alpha, 1, residual_df)
 
     power = []
     for t in range(0, len(model.terms)):

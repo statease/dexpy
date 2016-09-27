@@ -3,7 +3,7 @@ machine:
     CONDA_ROOT: $HOME/.miniconda
     DEXPY_ENV_NAME: dexpy_env
     DEXPY_ENV_ROOT: $HOME/.miniconda/envs/dexpy_env
-    DEXPY_DEPENDENCIES: numpy scipy matplotlib
+    DEXPY_DEPENDENCIES: numpy scipy matplotlib coverage
     PATH: ${DEXPY_ENV_ROOT}/bin:${CONDA_ROOT}/bin:${PATH}
 
 dependencies:
