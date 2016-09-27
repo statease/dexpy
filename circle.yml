@@ -27,3 +27,8 @@ dependencies:
 test:
   override:
     - source ci/circle_tests.sh
+
+general:
+  branches:
+    ignore:
+      - gh-pages

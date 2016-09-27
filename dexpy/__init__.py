@@ -1,4 +1,8 @@
-"""dexpy"""
+"""dexpy
+
+A python package for Design of Experiments (DOE).
+
+"""
 
 from dexpy.design import *
 from dexpy.factor import *
