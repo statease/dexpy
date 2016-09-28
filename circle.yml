@@ -37,4 +37,4 @@ deployment:
   docs:
     branch: master
     commands:
-      - cd docs && make gh-pages
+      - source ci/deploy_ghpages.sh
