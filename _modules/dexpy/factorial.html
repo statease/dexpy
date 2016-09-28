@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; dexpy 0.1 documentation</title>
+  <title>dexpy.factorial &mdash; dexpy 0.1 documentation</title>
   
 
   
@@ -25,16 +24,17 @@
 
   
   
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   
 
   
 
   
-    <link rel="top" title="dexpy 0.1 documentation" href="index.html"/> 
+    <link rel="top" title="dexpy 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
 
   
-  <script src="_static/js/modernizr.min.js"></script>
+  <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -49,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> dexpy
+            <a href="../../index.html" class="icon icon-home"> dexpy
           
 
           
@@ -66,7 +66,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -93,7 +93,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">dexpy</a>
+        <a href="../../index.html">dexpy</a>
       </nav>
 
 
@@ -108,9 +108,11 @@
 
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-    <li></li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>dexpy.factorial</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -122,24 +124,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  <h1>Source code for dexpy.factorial</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">dexpy</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 
-<h1 id="index">Index</h1>
+<div class="viewcode-block" id="factorial"><a class="viewcode-back" href="../../index.html#dexpy.factorial.factorial">[docs]</a><span class="k">def</span> <span class="nf">factorial</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">runs</span><span class="p">):</span>
 
-<div class="genindex-jumpbox">
- <a href="#D"><strong>D</strong></a>
- 
-</div>
-<h2 id="D">D</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="index.html#module-dexpy">dexpy (module)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-
+    <span class="n">factor_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">runs</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">factors</span><span class="p">)):</span>
+            <span class="n">factor_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">run</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">Design</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span></div>
+</pre></div>
 
            </div>
           </div>
@@ -171,23 +167,23 @@
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
+            URL_ROOT:'../../',
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
         };
     </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
   
   
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
   
