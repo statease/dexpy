@@ -2,6 +2,10 @@
 
 GH_PAGES_SOURCES="docs/source docs/Makefile"
 
+# need to set user/email, get from env vars (will need to be set in circle)
+git config --global user.email "$GH_EMAIL" > /dev/null 2>&1
+git config --global user.name "$GH_NAME" > /dev/null 2>&1
+
 git checkout gh-pages
 rm -rf docs/build docs/_sources docs/_static
 git rm -rf .
