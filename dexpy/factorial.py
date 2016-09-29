@@ -1,7 +1,7 @@
 import dexpy
 import itertools
 
-def factorial(factors, runs):
+def build_factorial(factors, runs):
 
     factor_data = []
     if runs == 2 ** len(factors):
