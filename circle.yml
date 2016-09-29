@@ -2,8 +2,7 @@ machine:
   environment:
     CONDA_ROOT: $HOME/.miniconda
     DEXPY_ENV_NAME: dexpy_env
-    DEXPY_ENV_ROOT: $HOME/.miniconda/envs/dexpy_env
-    DEXPY_DEPENDENCIES: numpy scipy matplotlib coverage sphinx sphinx_rtd_theme
+    DEXPY_ENV_ROOT: $HOME/.miniconda/envs/${DEXPY_ENV_NAME}
     PATH: ${DEXPY_ENV_ROOT}/bin:${CONDA_ROOT}/bin:${PATH}
 
 dependencies:
@@ -11,18 +10,7 @@ dependencies:
     - ~/.miniconda
 
   override:
-    - >
-      if [[ ! -d ${CONDA_ROOT} ]]; then
-          echo "Installing Miniconda...";
-          wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.16.0-Linux-x86_64.sh &&
-          bash Miniconda3-3.16.0-Linux-x86_64.sh -bf -p ${CONDA_ROOT};
-      fi
-    - >
-      if [ ! -d ${DEXPY_ENV_ROOT} ]; then
-          conda create -y -n ${DEXPY_ENV_NAME} ${DEXPY_DEPENDENCIES};
-      else
-          conda install -y -n ${DEXPY_ENV_NAME} ${DEXPY_DEPENDENCIES};
-      fi
+    - source ci/install_conda.sh
 
 test:
   override:

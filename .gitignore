@@ -1,3 +1,9 @@
+# python files
 __pycache__
 dexpy.egg-info
 .coverage
+
+# text editor files
+*.swp
+*.swo
+*~
