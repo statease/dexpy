@@ -24,6 +24,8 @@ class Term:
                     out += "'"
                 if power != 1:
                     out += "^" + str(power)
+        if not out:
+            return "1" # intercept
         return out
 
     @classmethod

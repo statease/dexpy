@@ -59,6 +59,15 @@ class TestTerm(TestCase):
         self.assertTrue(dexpy.Term.from_string('A^4B^2').always_positive())
         self.assertFalse(dexpy.Term.from_string('A^4C').always_positive())
 
+    def test_invalid_term(self):
+
+        caught = False
+        try:
+            term = dexpy.Term.from_string("abi")
+        except RuntimeError:
+            caught = True
+        self.assertTrue(caught)
+
 class TestLinearModel(TestCase):
 
     def test_parse_model(self):
@@ -109,3 +118,8 @@ class TestLinearModel(TestCase):
 
         model = dexpy.LinearModel.from_string("1+A+B+C+AB+AC+BC+ABC+A^2")
         self.assertEqual(9, model.columns)
+
+    def test_str(self):
+
+        model = dexpy.LinearModel.from_string("1+A+B+C+AB+AC+BC+ABC+A^2")
+        self.assertEqual('1 + A + B + C + AB + AC + BC + ABC + A^2', str(model))

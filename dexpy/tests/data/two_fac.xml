@@ -26,7 +26,7 @@
 <run stdNo="2" runNo="2">
 <facActual id="A">1</facActual>
 <facActual id="B">-1</facActual>
-<resVal id="1">Missing</resVal>
+<resVal id="1">2</resVal>
 </run>
 <run stdNo="1" runNo="3">
 <facActual id="A">-1</facActual>
