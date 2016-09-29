@@ -127,6 +127,7 @@
   <h1>Source code for dexpy.model</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 
 <div class="viewcode-block" id="Term"><a class="viewcode-back" href="../../index.html#dexpy.model.Term">[docs]</a><span class="k">class</span> <span class="nc">Term</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An individual term in a model.&quot;&quot;&quot;</span>
@@ -214,6 +215,12 @@
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="LinearModel.from_string"><a class="viewcode-back" href="../../index.html#dexpy.model.LinearModel.from_string">[docs]</a>    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">model_string</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">LinearModel</span><span class="o">.</span><span class="n">parse_terms</span><span class="p">(</span><span class="n">model_string</span><span class="p">))</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LinearModel.build_factorial_model"><a class="viewcode-back" href="../../index.html#dexpy.model.LinearModel.build_factorial_model">[docs]</a>    <span class="k">def</span> <span class="nf">build_factorial_model</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">factor_count</span><span class="p">,</span> <span class="n">max_order</span><span class="p">):</span>
+        <span class="n">combos</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combo</span><span class="p">)</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_order</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">combo</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">([</span><span class="n">Term</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">factor_count</span><span class="p">)],</span> <span class="n">order</span><span class="p">)]</span>
+        <span class="n">model_str</span> <span class="o">=</span> <span class="s2">&quot;1 + &quot;</span> <span class="o">+</span> <span class="s2">&quot; + &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combos</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">model_str</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="LinearModel.parse_terms"><a class="viewcode-back" href="../../index.html#dexpy.model.LinearModel.parse_terms">[docs]</a>    <span class="k">def</span> <span class="nf">parse_terms</span><span class="p">(</span><span class="n">model_string</span><span class="p">):</span>
