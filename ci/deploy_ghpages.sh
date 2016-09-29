@@ -19,7 +19,10 @@ git checkout master .gitignore
 git reset HEAD
 mv ../dexpy-html/* .
 touch .nojekyll
-echo "test:\n  override:\n    - echo \"test\"\n" > circle.yml
+echo "test:
+  override:
+    - echo \"test\"
+" > circle.yml
 git add -A
 git rm .gitignore -f
 git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`"
