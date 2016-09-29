@@ -129,7 +129,7 @@
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">f</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ncf</span>
 
-<div class="viewcode-block" id="power"><a class="viewcode-back" href="../../index.html#dexpy.power.power">[docs]</a><span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../index.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
 
     <span class="n">X</span> <span class="o">=</span> <span class="n">model_matrix</span>
     <span class="n">residual_df</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
