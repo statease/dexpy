@@ -2,7 +2,7 @@ import numpy as np
 from scipy.stats import f
 from scipy.stats import ncf
 
-def power(model, model_matrix, effect_size, alpha):
+def f_power(model, model_matrix, effect_size, alpha):
 
     X = model_matrix
     residual_df = X.shape[1] - X.shape[0]

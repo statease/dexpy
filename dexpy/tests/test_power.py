@@ -31,7 +31,7 @@ class TestPower(TestCase):
         model = dexpy.LinearModel.from_string("1 + A + B + AB + A^2 + B^2")
         X = design.create_model_matrix(model)
 
-        power = dexpy.power(model, X, 2, 0.05)
+        power = dexpy.f_power(model, X, 2, 0.05)
 
         np.testing.assert_allclose(power, [0.2887584, 0.49002743118623, 0.49002743118623, 0.28875325867897, 0.63145653747073, 0.63145653747073], rtol=1e-4)
 
@@ -55,4 +55,4 @@ class TestPower(TestCase):
         model = dexpy.LinearModel.from_string(model_str)
         X = design.create_model_matrix(model)
 
-        power = dexpy.power(model, X, 2, 0.05)
+        power = dexpy.f_power(model, X, 2, 0.05)
