@@ -44,15 +44,13 @@ class TestPower(TestCase):
         for run in itertools.product([-1, 1], repeat=factor_count):
             factor_data.append(list(run))
 
-        # generate a 5fi model
-        max_order = factor_count
-        combos = [''.join(combo) for order in range(1, max_order) for combo in itertools.combinations([dexpy.Term.valid_vars[var] for var in range(0, factor_count)], order)]
-        model_str = "1 + " + " + ".join(combos)
+        # generate a 4fi model
+        max_order = factor_count - 1
+        model = dexpy.LinearModel.build_factorial_model(factor_count, max_order)
 
         response_data = []
 
         design = dexpy.Design(factor_data, response_data)
-        model = dexpy.LinearModel.from_string(model_str)
         X = design.create_model_matrix(model)
 
         power = dexpy.f_power(model, X, 2, 0.05)

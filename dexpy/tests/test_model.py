@@ -114,6 +114,16 @@ class TestLinearModel(TestCase):
         self.assertEqual(1, model.terms[10].powers[0])
         self.assertEqual(2, model.terms[10].powers[1])
 
+    def test_factorial_model(self):
+
+        model = dexpy.LinearModel.build_factorial_model(5, 3)
+        self.assertEqual(26, len(model.terms))
+        # last term should be CDE
+        self.assertEqual(1, model.terms[25].coefficient)
+        self.assertEqual(1, model.terms[25].powers[2])
+        self.assertEqual(1, model.terms[25].powers[3])
+        self.assertEqual(1, model.terms[25].powers[4])
+
     def test_columns(self):
 
         model = dexpy.LinearModel.from_string("1+A+B+C+AB+AC+BC+ABC+A^2")

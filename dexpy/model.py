@@ -1,5 +1,6 @@
 import re
 import string
+import itertools
 
 class Term:
     """An individual term in a model."""
@@ -87,6 +88,12 @@ class LinearModel:
     @classmethod
     def from_string(cls, model_string):
         return cls(LinearModel.parse_terms(model_string))
+
+    @classmethod
+    def build_factorial_model(cls, factor_count, max_order):
+        combos = [''.join(combo) for order in range(1, max_order+1) for combo in itertools.combinations([Term.valid_vars[var] for var in range(0, factor_count)], order)]
+        model_str = "1 + " + " + ".join(combos)
+        return cls.from_string(model_str)
 
     @staticmethod
     def parse_terms(model_string):
