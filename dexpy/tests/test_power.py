@@ -28,9 +28,8 @@ class TestPower(TestCase):
         response_data = []
 
         design = dexpy.Design(factor_data, response_data)
-        model = dexpy.LinearModel.from_string("1 + A + B + AB + A^2 + B^2")
+        model = "1 + A + B + A:B + I(A**2) + I(B**2)"
         X = design.create_model_matrix(model)
-
         power = dexpy.f_power(model, X, 2, 0.05)
 
         np.testing.assert_allclose(power, [0.2887584, 0.49002743118623, 0.49002743118623, 0.28875325867897, 0.63145653747073, 0.63145653747073], rtol=1e-4)
@@ -44,13 +43,10 @@ class TestPower(TestCase):
         for run in itertools.product([-1, 1], repeat=factor_count):
             factor_data.append(list(run))
 
-        # generate a 4fi model
-        max_order = factor_count - 1
-        model = dexpy.LinearModel.build_factorial_model(factor_count, max_order)
-
         response_data = []
 
         design = dexpy.Design(factor_data, response_data)
+        model = "A:B:C:D:E:F:G:H:J" # will generate a 4fi model?
         X = design.create_model_matrix(model)
 
         power = dexpy.f_power(model, X, 2, 0.05)

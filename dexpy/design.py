@@ -1,13 +1,29 @@
 from xml.dom import minidom
+
+import string
 import numpy as np
+from patsy import dmatrix
+import pandas as pd
 
 class Design:
     """Represents a design. Contains factor and response data."""
 
+    valid_vars = string.ascii_uppercase.replace("I", "")
+
     def __init__(self, factor_data, response_data):
 
-        self.factor_data = np.array(factor_data)
-        self.response_data = np.array(response_data)
+        self.factor_data = pd.DataFrame(factor_data, columns=[Design.get_var_name(i) for i in range(len(factor_data[0]))])
+        if len(response_data):
+            self.response_data = pd.DataFrame(response_data, columns=['R' + str(i+1) for i in range(len(response_data[0]))])
+
+    @staticmethod
+    def get_var_name(var_id):
+        out = Design.valid_vars[var_id % len(Design.valid_vars)]
+        if var_id >= len(Design.valid_vars) * 2:
+            out += '"'
+        elif var_id >= len(Design.valid_vars):
+            out += "'"
+        return out
 
     @classmethod
     def load(cls, file_path):
@@ -42,15 +58,7 @@ class Design:
         "Returns the number of runs in the design."
         return len(self.factor_data)
 
-    def create_model_matrix(self, model):
-        """Expands a model to a matrix using the run and factor settings
-           in the design. The matrix is transposed from the traditional
-           X matrix for speed, since numpy defauls to row major storage."""
-
-        model_matrix = np.ones((model.columns, self.runs))
-        main_effects = self.factor_data.transpose()
-        for t in range(len(model.terms)):
-            for var_id in model.terms[t].powers:
-                for p in range(model.terms[t].powers[var_id]):
-                    model_matrix[t] = model_matrix[t] * main_effects[var_id]
-        return model_matrix
+    def create_model_matrix(self, formula):
+        """Expands a patsy formula to a matrix using the run and factor settings
+           in the design."""
+        return dmatrix(formula, self.factor_data)
