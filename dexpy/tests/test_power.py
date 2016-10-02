@@ -46,7 +46,7 @@ class TestPower(TestCase):
         response_data = []
 
         design = dexpy.Design(factor_data, response_data)
-        model = "A:B:C:D:E:F:G:H:J" # will generate a 4fi model?
+        model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
         X = design.create_model_matrix(model)
 
         power = dexpy.f_power(model, X, 2, 0.05)

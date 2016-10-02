@@ -6,6 +6,7 @@ class TestFactorial(TestCase):
 
     def test_full(self):
 
-        factors = [dexpy.Factor(str(i), "", [0, 1]) for i in range(3)]
-        design = dexpy.build_factorial(factors, 8)
+        factor_count = 3
+        run_count = 8
+        design = dexpy.build_factorial(factor_count, run_count)
         self.assertEqual(8, design.runs)
