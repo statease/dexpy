@@ -9,15 +9,14 @@ factor_count = 12
 run_count = 2 ** factor_count
 
 start = timer()
-factors = [dexpy.Factor(str(i), "", [0, 1]) for i in range(factor_count)]
-design = dexpy.build_factorial(factors, run_count)
+design = dexpy.build_factorial(factor_count, run_count)
 end = timer()
 
 logger.debug("time to build {} factor {} run factorial: {}s".format(factor_count, run_count, end - start))
 
 start = timer()
 max_order = factor_count - 1
-model = dexpy.LinearModel.build_factorial_model(factor_count, max_order)
+model = "(A+B+C+D+E+F+G+H+J+K+L+M)**11" # will generate a 12fi model
 end = timer()
 
 logger.debug("time to generate {}fi model: {}s".format(max_order, end - start))
