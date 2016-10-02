@@ -140,11 +140,15 @@
 <p>Represents a design. Contains factor and response data.</p>
 <dl class="method">
 <dt id="dexpy.design.Design.create_model_matrix">
-<code class="descname">create_model_matrix</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#Design.create_model_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.Design.create_model_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expands a model to a matrix using the run and factor settings
-in the design. The matrix is transposed from the traditional
-X matrix for speed, since numpy defauls to row major storage.</p>
+<code class="descname">create_model_matrix</code><span class="sig-paren">(</span><em>formula</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#Design.create_model_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.Design.create_model_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expands a patsy formula to a matrix using the run and factor settings
+in the design.</p>
 </dd></dl>
+
+<dl class="staticmethod">
+<dt id="dexpy.design.Design.get_var_name">
+<em class="property">static </em><code class="descname">get_var_name</code><span class="sig-paren">(</span><em>var_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#Design.get_var_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.Design.get_var_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="dexpy.design.Design.load">
@@ -158,26 +162,16 @@ X matrix for speed, since numpy defauls to row major storage.</p>
 <dd><p>Returns the number of runs in the design.</p>
 </dd></dl>
 
-</dd></dl>
-
-<span class="target" id="module-dexpy.factor"></span><dl class="class">
-<dt id="dexpy.factor.Factor">
-<em class="property">class </em><code class="descname">Factor</code><span class="sig-paren">(</span><em>name</em>, <em>units</em>, <em>levels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factor.html#Factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factor.Factor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Represents a factor in a design.</p>
 <dl class="attribute">
-<dt id="dexpy.factor.Factor.type">
-<code class="descname">type</code><a class="headerlink" href="#dexpy.factor.Factor.type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines the type of factor from the levels.
-TODO: This will have to be changed to a member at some point, since
-we don&#8217;t want to have a O(n) cost to retrieving the type.</p>
-</dd></dl>
+<dt id="dexpy.design.Design.valid_vars">
+<code class="descname">valid_vars</code><em class="property"> = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'</em><a class="headerlink" href="#dexpy.design.Design.valid_vars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
 <span class="target" id="module-dexpy.factorial"></span><dl class="function">
 <dt id="dexpy.factorial.build_factorial">
-<code class="descname">build_factorial</code><span class="sig-paren">(</span><em>factors</em>, <em>runs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factorial.html#build_factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factorial.build_factorial" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_factorial</code><span class="sig-paren">(</span><em>factor_count</em>, <em>run_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factorial.html#build_factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factorial.build_factorial" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <span class="target" id="module-dexpy.model"></span><dl class="class">
@@ -232,9 +226,14 @@ we don&#8217;t want to have a O(n) cost to retrieving the type.</p>
 
 <span class="target" id="module-dexpy.power"></span><dl class="function">
 <dt id="dexpy.power.adjust_non_centrality">
-<code class="descname">adjust_non_centrality</code><span class="sig-paren">(</span><em>nc</em>, <em>term</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#adjust_non_centrality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.adjust_non_centrality" title="Permalink to this definition">¶</a></dt>
+<code class="descname">adjust_non_centrality</code><span class="sig-paren">(</span><em>nc</em>, <em>x_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#adjust_non_centrality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.adjust_non_centrality" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjusts the non-centrality parameter for terms that aren&#8217;t -1 to 1</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="dexpy.power.always_positive">
+<code class="descname">always_positive</code><span class="sig-paren">(</span><em>x_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#always_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.always_positive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="dexpy.power.f_power">

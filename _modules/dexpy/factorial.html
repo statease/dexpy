@@ -128,13 +128,13 @@
 <span></span><span class="kn">import</span> <span class="nn">dexpy</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
-<div class="viewcode-block" id="build_factorial"><a class="viewcode-back" href="../../index.html#dexpy.factorial.build_factorial">[docs]</a><span class="k">def</span> <span class="nf">build_factorial</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">runs</span><span class="p">):</span>
+<div class="viewcode-block" id="build_factorial"><a class="viewcode-back" href="../../index.html#dexpy.factorial.build_factorial">[docs]</a><span class="k">def</span> <span class="nf">build_factorial</span><span class="p">(</span><span class="n">factor_count</span><span class="p">,</span> <span class="n">run_count</span><span class="p">):</span>
 
     <span class="n">factor_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">runs</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">factors</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">run_count</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">factor_count</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">factor_count</span><span class="p">):</span>
             <span class="n">factor_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">run</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">Design</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">Design</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="p">[])</span></div>
 </pre></div>
 
            </div>
