@@ -15,7 +15,7 @@ def f_power(model, model_matrix, effect_size, alpha):
 
     power = []
     for t in range(0, X.shape[1]):
-        nc = adjust_non_centrality(non_centrality[t], X[t])
+        nc = adjust_non_centrality(non_centrality[t], X[:,t])
         nc *= effect_size * effect_size / 4.0
         p = (1 - ncf.cdf(crit_value, 1, residual_df, nc))
         power.append(p)

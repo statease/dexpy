@@ -28,4 +28,4 @@ class TestModelMatrix(TestCase):
 
         design = dexpy.Design(factor_data, response_data)
         X = design.create_model_matrix("1 + A + B + A:B + I(A**2) + I(B**2)")
-        np.testing.assert_almost_equal([1.0, axial_pt, 0.0, -0.0, pow(axial_pt, 2), 0.0], X[:,5])
+        np.testing.assert_almost_equal([1.0, axial_pt, 0.0, -0.0, pow(axial_pt, 2), 0.0], X[5])
