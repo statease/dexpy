@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.stats import f
 from scipy.stats import ncf
-from patsy import ModelDesc
 
 def f_power(model, model_matrix, effect_size, alpha):
 
@@ -14,20 +13,20 @@ def f_power(model, model_matrix, effect_size, alpha):
     # pre-calculate crit value for 1 df, most common case
     crit_value = f.ppf(1 - alpha, 1, residual_df)
 
-    md = ModelDesc.from_formula(model)
-
     power = []
     for t in range(0, X.shape[1]):
-        nc = adjust_non_centrality(non_centrality[t], md[t])
+        nc = adjust_non_centrality(non_centrality[t], X[t])
         nc *= effect_size * effect_size / 4.0
         p = (1 - ncf.cdf(crit_value, 1, residual_df, nc))
         power.append(p)
 
     return power
 
-def adjust_non_centrality(nc, term):
+def adjust_non_centrality(nc, x_col):
     """Adjusts the non-centrality parameter for terms that aren't -1 to 1"""
-    print(term)
-    if term.always_positive():
+    if always_positive(x_col):
         return nc * 4 # term goes from 0 to 1
     return nc
+
+def always_positive(x_col):
+    return np.all(x_col >= 0)
