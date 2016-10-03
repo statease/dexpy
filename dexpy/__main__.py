@@ -44,7 +44,6 @@ logger.debug("time to calculate power: {}s".format(end - start))
 start = timer()
 ols_data = design.factor_data
 ols_data = ols_data.join(design.response_data)
-print(ols_data)
 lm = ols("R1 ~ " + model, data=ols_data).fit()
 print(lm.summary())
 end = timer()
@@ -58,3 +57,5 @@ end = timer()
 logger.debug("time to calculate anova: {}s".format(end - start))
 
 print(table)
+
+print(dexpy.plot_pareto(lm.params, lm.bse))
