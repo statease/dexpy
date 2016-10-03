@@ -61,4 +61,4 @@ print(table)
 
 residual_df = X.shape[0] - X.shape[1]
 dexpy.plot_pareto(lm.params, lm.bse, residual_df)
-pp.show()
+#pp.show()
