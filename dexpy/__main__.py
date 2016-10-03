@@ -4,6 +4,7 @@ import statsmodels.api as sm
 from statsmodels.formula.api import ols
 from timeit import default_timer as timer
 import pandas as pd
+import matplotlib.pyplot as pp
 
 logging.basicConfig(level = logging.DEBUG)
 logger = logging.getLogger()
@@ -58,4 +59,6 @@ logger.debug("time to calculate anova: {}s".format(end - start))
 
 print(table)
 
-print(dexpy.plot_pareto(lm.params, lm.bse))
+residual_df = X.shape[0] - X.shape[1]
+dexpy.plot_pareto(lm.params, lm.bse, residual_df)
+pp.show()
