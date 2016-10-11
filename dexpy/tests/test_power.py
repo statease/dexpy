@@ -30,7 +30,7 @@ class TestPower(TestCase):
         design = Design(factor_data, response_data)
         model = "1 + A + B + A:B + I(A**2) + I(B**2)"
         X = design.create_model_matrix(model)
-        power = f_power(model, X, 2, 0.05)
+        power = f_power(X, 2, 0.05)
 
         np.testing.assert_allclose(power, [0.2887584, 0.49002743118623, 0.49002743118623, 0.28875325867897, 0.63145653747073, 0.63145653747073], rtol=1e-4)
 
@@ -49,7 +49,7 @@ class TestPower(TestCase):
         model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
         X = design.create_model_matrix(model)
 
-        power = f_power(model, X, 0.2, 0.05)
+        power = f_power(X, 0.2, 0.05)
 
         answer = np.ndarray(256)
         answer.fill(0.61574355066172015)

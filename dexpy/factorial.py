@@ -1,6 +1,4 @@
-import dexpy
 import itertools
-
 from dexpy.design import Design
 
 def build_factorial(factor_count, run_count):
