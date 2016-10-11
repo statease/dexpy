@@ -18,12 +18,6 @@ dexpy
    :inherited-members:
    :show-inheritance:
 
-.. automodule:: dexpy.factor
-   :members:
-   :undoc-members:
-   :inherited-members:
-   :show-inheritance:
-
 .. automodule:: dexpy.factorial
    :members:
    :undoc-members:

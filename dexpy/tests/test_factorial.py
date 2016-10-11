@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import dexpy
+from dexpy.factorial import build_factorial
 
 class TestFactorial(TestCase):
 
@@ -8,5 +8,5 @@ class TestFactorial(TestCase):
 
         factor_count = 3
         run_count = 8
-        design = dexpy.build_factorial(factor_count, run_count)
+        design = build_factorial(factor_count, run_count)
         self.assertEqual(8, design.runs)
