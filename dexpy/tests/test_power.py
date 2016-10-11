@@ -49,4 +49,9 @@ class TestPower(TestCase):
         model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
         X = design.create_model_matrix(model)
 
-        f_power(model, X, 0.2, 0.05)
+        power = f_power(model, X, 0.2, 0.05)
+
+        answer = np.ndarray(256)
+        answer.fill(0.61574355066172015)
+        answer[0] = 0.99459040972676238
+        np.testing.assert_allclose(power, answer, rtol=1e-4)
