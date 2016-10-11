@@ -15,6 +15,8 @@ dependencies:
 test:
   override:
     - source ci/circle_tests.sh
+  post:
+    - bash <(curl -s https://codecov.io/bash)
 
 general:
   branches:
