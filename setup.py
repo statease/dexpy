@@ -1,28 +1,9 @@
-
-try:
-    from setuptools import setup, Command
-except ImportError:
-    from distutils.core import setup, Command
+from setuptools import setup
 
 VERSION = '0.1'
 DESCRIPTION = "Design of Experiments for Python"
 
-class TestCommand(Command):
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import sys, subprocess
-        raise SystemExit(subprocess.call([sys.executable, 'dexpy/tests/__init__.py']))
-
 def run_setup():
-    cmdclass = dict(test = TestCommand)
-
     setup(
         name='dexpy',
         version=VERSION,
