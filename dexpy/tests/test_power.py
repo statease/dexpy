@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-import os
 import math
 from dexpy.design import Design
 from dexpy.power import f_power
@@ -50,4 +49,4 @@ class TestPower(TestCase):
         model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
         X = design.create_model_matrix(model)
 
-        power = f_power(model, X, 2, 0.05)
+        f_power(model, X, 0.2, 0.05)

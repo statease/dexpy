@@ -63,7 +63,7 @@ class TestTerm(TestCase):
 
         caught = False
         try:
-            term = Term.from_string("abi")
+            Term.from_string("abi")
         except RuntimeError:
             caught = True
         self.assertTrue(caught)

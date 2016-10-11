@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-import os
 import math
 from dexpy.design import Design
 import numpy as np

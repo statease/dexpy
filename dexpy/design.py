@@ -1,7 +1,6 @@
 from xml.dom import minidom
 
 import string
-import numpy as np
 from patsy import dmatrix
 import pandas as pd
 
@@ -30,8 +29,6 @@ class Design:
         "Loads an xml file into a Design object."
 
         xmldoc = minidom.parse(file_path)
-        factors = xmldoc.getElementsByTagName('factor')
-        responses = xmldoc.getElementsByTagName('response')
         runs = xmldoc.getElementsByTagName('run')
 
         factor_data = []
