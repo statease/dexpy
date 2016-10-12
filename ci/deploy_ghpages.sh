@@ -13,7 +13,7 @@ mv -fv docs/build/html/* ../dexpy-html
 git config --global user.email "$GH_EMAIL" > /dev/null 2>&1
 git config --global user.name "$GH_NAME" > /dev/null 2>&1
 
-git checkout gh-pages
+git checkout -f gh-pages
 git rm -rf .
 git checkout master .gitignore
 git reset HEAD
