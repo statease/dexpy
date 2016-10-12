@@ -25,5 +25,5 @@ echo "test:
 " > circle.yml
 git add -A
 git rm .gitignore -f
-git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`"
+git commit -m "Generated gh-pages for $(git log master -1 --pretty=short --abbrev-commit)"
 git push --force --quiet "https://${GITHUB_DEPLOY_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" gh-pages > /dev/null 2>&1

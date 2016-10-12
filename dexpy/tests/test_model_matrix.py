@@ -7,7 +7,8 @@ import numpy as np
 class TestModelMatrix(TestCase):
     """Tests for generating a model matrix"""
 
-    def test_quadratic_model(self):
+    @classmethod
+    def test_quadratic_model(cls):
         """Test expanding a quadratic model in a rotatable ccd"""
 
         axial_pt = math.sqrt(2)
