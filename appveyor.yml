@@ -1,0 +1,12 @@
+install:
+
+  # add conda to the path and create the environment
+  # TODO: put this in a powershell script, cache the conda environment and
+  #       check for it rather than recreating each time (see install_conda.sh)
+  - set PATH=C:\Miniconda35-x64;C:\Miniconda35-x64\Scripts;%PATH%
+  - conda create -y -n dexpy_env numpy scipy matplotlib patsy pandas statsmodels
+
+test_script:
+
+  - activate dexpy_env
+  - python setup.py test
