@@ -1,5 +1,4 @@
-"""Functions to build factorial designs.
-"""
+"""Functions to build factorial designs."""
 
 import itertools
 from dexpy.design import Design

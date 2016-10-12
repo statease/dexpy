@@ -7,6 +7,7 @@ from patsy import dmatrix
 import pandas as pd
 
 class Design:
+
     """Represents a design. Contains factor and response data."""
 
     valid_vars = string.ascii_uppercase.replace("I", "")
@@ -19,8 +20,7 @@ class Design:
 
     @staticmethod
     def get_var_name(var_id):
-        """Converts a variable id into a character representing that factor.
-        """
+        """Converts a variable id into a character representing that factor."""
         out = Design.valid_vars[var_id % len(Design.valid_vars)]
         if var_id >= len(Design.valid_vars) * 2:
             out += '"'
@@ -30,8 +30,7 @@ class Design:
 
     @classmethod
     def load(cls, file_path):
-        """Loads an xml file into a Design object.
-        """
+        """Loads an xml file into a Design object."""
         xmldoc = minidom.parse(file_path)
         runs = xmldoc.getElementsByTagName('run')
 
@@ -56,11 +55,9 @@ class Design:
 
     @property
     def runs(self):
-        """Returns the number of runs in the design.
-        """
+        """Returns the number of runs in the design."""
         return len(self.factor_data)
 
     def create_model_matrix(self, formula):
-        """Expands a patsy formula to a matrix using the design information.
-        """
+        """Expands a patsy formula to a matrix using the design information."""
         return dmatrix(formula, self.factor_data)
