@@ -1,10 +1,13 @@
+"""Plots of model effects that assist in model selection.
+"""
+
 import matplotlib.pyplot as pp
 import numpy as np
 from scipy.stats import t
 
 def plot_pareto(coefficients, standard_errors, residual_df, alpha = 0.05):
-    """Draws a pareto plot to the current pyplot figure."""
-
+    """Draws a pareto plot to the current pyplot figure.
+    """
     effects = []
     for i in range(len(coefficients)):
         effects.append(coefficients[i] / standard_errors[i])
