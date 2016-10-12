@@ -136,7 +136,8 @@
 </div>
 <span class="target" id="module-dexpy"></span><p>dexpy</p>
 <p>A python package for Design of Experiments (DOE).</p>
-<span class="target" id="module-dexpy.design"></span><dl class="class">
+<span class="target" id="module-dexpy.design"></span><p>Contains information about a designed experiment.</p>
+<dl class="class">
 <dt id="dexpy.design.Design">
 <em class="property">class </em><code class="descname">Design</code><span class="sig-paren">(</span><em>factor_data</em>, <em>response_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#Design"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.Design" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
@@ -144,14 +145,14 @@
 <dl class="method">
 <dt id="dexpy.design.Design.create_model_matrix">
 <code class="descname">create_model_matrix</code><span class="sig-paren">(</span><em>formula</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#Design.create_model_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.Design.create_model_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expands a patsy formula to a matrix using the run and factor settings
-in the design.</p>
+<dd><p>Expands a patsy formula to a matrix using the design information.</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="dexpy.design.Design.get_var_name">
 <em class="property">static </em><code class="descname">get_var_name</code><span class="sig-paren">(</span><em>var_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#Design.get_var_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.Design.get_var_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts a variable id into a character representing that factor.</p>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="dexpy.design.Design.load">
@@ -172,76 +173,43 @@ in the design.</p>
 
 </dd></dl>
 
-<span class="target" id="module-dexpy.factorial"></span><dl class="function">
+<span class="target" id="module-dexpy.factorial"></span><p>Functions to build factorial designs.</p>
+<dl class="function">
 <dt id="dexpy.factorial.build_factorial">
 <code class="descname">build_factorial</code><span class="sig-paren">(</span><em>factor_count</em>, <em>run_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factorial.html#build_factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factorial.build_factorial" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<span class="target" id="module-dexpy.model"></span><dl class="class">
-<dt id="dexpy.model.LinearModel">
-<em class="property">class </em><code class="descname">LinearModel</code><span class="sig-paren">(</span><em>terms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#LinearModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.LinearModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Represents a linear regression model.</p>
-<dl class="classmethod">
-<dt id="dexpy.model.LinearModel.build_factorial_model">
-<em class="property">classmethod </em><code class="descname">build_factorial_model</code><span class="sig-paren">(</span><em>factor_count</em>, <em>max_order</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#LinearModel.build_factorial_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.LinearModel.build_factorial_model" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dexpy.model.LinearModel.columns">
-<code class="descname">columns</code><a class="headerlink" href="#dexpy.model.LinearModel.columns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the sum of the degrees of freedom of all terms in the model.</p>
+<dd><p>Builds a factorial design based on a number of factors and runs.</p>
+<p>If the number of runs requested is a 2**factor_count, this will be a full
+factorial.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">factor_count (int): The number of factors to build for.
+run_count (int): The number of runs in the resulting desing. Must be</p>
+<blockquote class="last">
+<div>a power of 2.</div></blockquote>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="classmethod">
-<dt id="dexpy.model.LinearModel.from_string">
-<em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>model_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#LinearModel.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.LinearModel.from_string" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="dexpy.model.LinearModel.parse_terms">
-<em class="property">static </em><code class="descname">parse_terms</code><span class="sig-paren">(</span><em>model_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#LinearModel.parse_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.LinearModel.parse_terms" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="dexpy.model.Term">
-<em class="property">class </em><code class="descname">Term</code><span class="sig-paren">(</span><em>coefficient</em>, <em>powers</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#Term"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.Term" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>An individual term in a model.</p>
-<dl class="method">
-<dt id="dexpy.model.Term.always_positive">
-<code class="descname">always_positive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#Term.always_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.Term.always_positive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="dexpy.model.Term.from_string">
-<em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>term_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/model.html#Term.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.Term.from_string" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dexpy.model.Term.valid_vars">
-<code class="descname">valid_vars</code><em class="property"> = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'</em><a class="headerlink" href="#dexpy.model.Term.valid_vars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<span class="target" id="module-dexpy.power"></span><dl class="function">
+<span class="target" id="module-dexpy.power"></span><p>Functions to calculate statistical power for a design.</p>
+<dl class="function">
 <dt id="dexpy.power.adjust_non_centrality">
 <code class="descname">adjust_non_centrality</code><span class="sig-paren">(</span><em>nc</em>, <em>x_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#adjust_non_centrality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.adjust_non_centrality" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adjusts the non-centrality parameter for terms that aren&#8217;t -1 to 1</p>
+<dd><p>Adjusts the non-centrality parameter for terms that aren&#8217;t -1 to 1.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="dexpy.power.always_positive">
 <code class="descname">always_positive</code><span class="sig-paren">(</span><em>x_col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#always_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.always_positive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Checks that a column is always positive in the design space.</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="dexpy.power.f_power">
 <code class="descname">f_power</code><span class="sig-paren">(</span><em>model_matrix</em>, <em>effect_size</em>, <em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#f_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.f_power" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the power of an F test.</p>
+<p>This calculates the probability that the F-statistic is above its critical
+value (alpha) given an effect of some size.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="indices-and-tables">

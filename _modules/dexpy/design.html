@@ -128,7 +128,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for dexpy.design</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">xml.dom</span> <span class="k">import</span> <span class="n">minidom</span>
+<span></span><span class="sd">&quot;&quot;&quot;Contains information about a designed experiment.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">xml.dom</span> <span class="k">import</span> <span class="n">minidom</span>
 
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
@@ -147,6 +149,8 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="Design.get_var_name"><a class="viewcode-back" href="../../index.html#dexpy.design.Design.get_var_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_var_name</span><span class="p">(</span><span class="n">var_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Converts a variable id into a character representing that factor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">[</span><span class="n">var_id</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">var_id</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span>
@@ -156,8 +160,8 @@
 
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="Design.load"><a class="viewcode-back" href="../../index.html#dexpy.design.Design.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
-        <span class="s2">&quot;Loads an xml file into a Design object.&quot;</span>
-
+        <span class="sd">&quot;&quot;&quot;Loads an xml file into a Design object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">xmldoc</span> <span class="o">=</span> <span class="n">minidom</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
         <span class="n">runs</span> <span class="o">=</span> <span class="n">xmldoc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)</span>
 
@@ -182,12 +186,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">runs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">&quot;Returns the number of runs in the design.&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of runs in the design.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">factor_data</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Design.create_model_matrix"><a class="viewcode-back" href="../../index.html#dexpy.design.Design.create_model_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">create_model_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Expands a patsy formula to a matrix using the run and factor settings</span>
-<span class="sd">           in the design.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Expands a patsy formula to a matrix using the design information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor_data</span><span class="p">)</span></div></div>
 </pre></div>
 
