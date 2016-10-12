@@ -10,3 +10,5 @@ test_script:
 
   - activate dexpy_env
   - python setup.py test
+
+build: off
