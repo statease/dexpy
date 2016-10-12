@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-import os
 import math
-import dexpy
+from dexpy.design import Design
+from dexpy.power import f_power
 import numpy as np
 import itertools
 
@@ -27,10 +27,10 @@ class TestPower(TestCase):
 
         response_data = []
 
-        design = dexpy.Design(factor_data, response_data)
+        design = Design(factor_data, response_data)
         model = "1 + A + B + A:B + I(A**2) + I(B**2)"
         X = design.create_model_matrix(model)
-        power = dexpy.f_power(model, X, 2, 0.05)
+        power = f_power(X, 2, 0.05)
 
         np.testing.assert_allclose(power, [0.2887584, 0.49002743118623, 0.49002743118623, 0.28875325867897, 0.63145653747073, 0.63145653747073], rtol=1e-4)
 
@@ -45,8 +45,13 @@ class TestPower(TestCase):
 
         response_data = []
 
-        design = dexpy.Design(factor_data, response_data)
+        design = Design(factor_data, response_data)
         model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
         X = design.create_model_matrix(model)
 
-        power = dexpy.f_power(model, X, 2, 0.05)
+        power = f_power(X, 0.2, 0.05)
+
+        answer = np.ndarray(256)
+        answer.fill(0.61574355066172015)
+        answer[0] = 0.99459040972676238
+        np.testing.assert_allclose(power, answer, rtol=1e-4)
