@@ -1,9 +1,15 @@
+"""Functions to calculate statistical power for a design."""
+
 import numpy as np
 from scipy.stats import f
 from scipy.stats import ncf
 
 def f_power(model_matrix, effect_size, alpha):
+    """Calculates the power of an F test.
 
+    This calculates the probability that the F-statistic is above its critical
+    value (alpha) given an effect of some size.
+    """
     X = model_matrix
     residual_df = X.shape[0] - X.shape[1]
 
@@ -23,10 +29,11 @@ def f_power(model_matrix, effect_size, alpha):
     return power
 
 def adjust_non_centrality(nc, x_col):
-    """Adjusts the non-centrality parameter for terms that aren't -1 to 1"""
+    """Adjusts the non-centrality parameter for terms that aren't -1 to 1."""
     if always_positive(x_col):
         return nc * 4 # term goes from 0 to 1
     return nc
 
 def always_positive(x_col):
+    """Checks that a column is always positive in the design space."""
     return np.all(x_col >= 0)

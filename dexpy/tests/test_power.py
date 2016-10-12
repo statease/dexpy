@@ -9,7 +9,8 @@ import itertools
 class TestPower(TestCase):
     """Tests for calculating power."""
 
-    def test_quadratic_power(self):
+    @classmethod
+    def test_quadratic_power(cls):
         """Test power for a quadratic model in a rotatable ccd"""
 
         axial_pt = math.sqrt(2)
@@ -34,7 +35,8 @@ class TestPower(TestCase):
 
         np.testing.assert_allclose(power, [0.2887584, 0.49002743118623, 0.49002743118623, 0.28875325867897, 0.63145653747073, 0.63145653747073], rtol=1e-4)
 
-    def test_large_power(self):
+    @classmethod
+    def test_large_power(cls):
 
         factor_count = 9
 
