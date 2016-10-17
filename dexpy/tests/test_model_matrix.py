@@ -1,8 +1,9 @@
 from unittest import TestCase
 
 import math
-from dexpy.design import Design
+import dexpy.design as design
 import numpy as np
+import pandas as pd
 
 class TestModelMatrix(TestCase):
     """Tests for generating a model matrix"""
@@ -24,8 +25,6 @@ class TestModelMatrix(TestCase):
             [ 0, 0]
         ]
 
-        response_data = []
-
-        design = Design(factor_data, response_data)
-        X = design.create_model_matrix("1 + A + B + A:B + I(A**2) + I(B**2)")
+        factor_data = pd.DataFrame(factor_data, columns=design.get_factor_names(len(factor_data[0])))
+        X = design.create_model_matrix(factor_data, "1 + A + B + A:B + I(A**2) + I(B**2)")
         np.testing.assert_almost_equal([1.0, axial_pt, 0.0, -0.0, pow(axial_pt, 2), 0.0], X[5])

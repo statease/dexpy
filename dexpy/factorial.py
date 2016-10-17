@@ -2,7 +2,7 @@
 
 import itertools
 import pandas as pd
-from dexpy.design import Design
+import dexpy.design as design
 
 def get_full_factorial(factor_count):
     factor_data = []
@@ -18,12 +18,11 @@ def build_factorial(factor_count, run_count):
 
     Args:
         factor_count (int): The number of factors to build for.
-        run_count (int): The number of runs in the resulting desing. Must be
+        run_count (int): The number of runs in the resulting design. Must be
                          a power of 2.
     """
 
-
-    # store minimum abberation generators for factors from 3 to max_factors
+    # store minimum aberration generators for factors from 3 to max_factors
     # these are from Design-Expert
     generator_list = {
         3 : { 4 : [ "C=AB" ] },
@@ -40,14 +39,14 @@ def build_factorial(factor_count, run_count):
     fractional_factors = len(generators)
 
     full_factor_count = factor_count - fractional_factors
-    full_factor_names = [ Design.get_var_name(f) for f in range(full_factor_count) ]
-    factor_data = pd.DataFrame(get_full_factorial(full_factor_count), columns = full_factor_names)
+    full_factor_names = design.get_factor_names(full_factor_count)
+    factor_data = pd.DataFrame(get_full_factorial(full_factor_count), columns=full_factor_names)
 
     for gen in generators:
         lhs, rhs = gen.split("=")
         cols = []
         for var in rhs:
-            cols.append(Design.get_var_id(var))
+            cols.append(design.get_var_id(var))
 
         generator_column = factor_data[cols].product(axis=1).rename(lhs)
         factor_data = factor_data.join(generator_column)
