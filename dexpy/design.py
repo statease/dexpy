@@ -28,6 +28,11 @@ class Design:
             out += "'"
         return out
 
+    @staticmethod
+    def get_var_id(var_name):
+        #TODO: need to handle var names with ' or "
+        return Design.valid_vars.index(var_name)
+
     @classmethod
     def load(cls, file_path):
         """Loads an xml file into a Design object."""

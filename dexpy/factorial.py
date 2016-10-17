@@ -4,6 +4,12 @@ import itertools
 import pandas as pd
 from dexpy.design import Design
 
+def get_full_factorial(factor_count):
+    factor_data = []
+    for run in itertools.product([-1, 1], repeat=factor_count):
+        factor_data.append(list(run))
+    return factor_data
+
 def build_factorial(factor_count, run_count):
     """Builds a factorial design based on a number of factors and runs.
 
@@ -15,15 +21,35 @@ def build_factorial(factor_count, run_count):
         run_count (int): The number of runs in the resulting desing. Must be
                          a power of 2.
     """
-    factor_data = []
+
+
+    # store minimum abberation generators for factors from 3 to max_factors
+    # these are from Design-Expert
+    generator_list = {
+        3 : { 4 : [ "C=AB" ] },
+        4 : { 8 : [ "D=ABC" ] },
+        5 : { 8 : [ "D=AB", "E=AC" ], 16 : [ "E=ABCD" ] },
+        6 : { 8 : [ "D=AB", "E=AC", "F=BC" ], 16 : [ "E=ABC", "F=BCD" ], 32 : [ "F=ABCD" ] },
+        7 : { 8 : [ "D=AB", "E=AC", "F=BC", "G=ABC" ], 16 : [ "E=ABC", "F=BCD", "G=ACD" ], 32 : [ "F=ABCD", "G=ABCE" ], 64 : [ "G=ABCDEF" ] },
+    }
+
     if run_count == 2 ** factor_count:
-        for run in itertools.product([-1, 1], repeat=factor_count):
-            factor_data.append(list(run))
-    else:
-        for run in itertools.product([-1, 1], repeat=factor_count-1):
-            factor_data.append(list(run))
-        factor_data = pd.DataFrame(factor_data)
-        generator_column = factor_data.product(axis=1).rename("gen")
+        return get_full_factorial(factor_count)
+
+    generators = generator_list[factor_count][run_count]
+    fractional_factors = len(generators)
+
+    full_factor_count = factor_count - fractional_factors
+    full_factor_names = [ Design.get_var_name(f) for f in range(full_factor_count) ]
+    factor_data = pd.DataFrame(get_full_factorial(full_factor_count), columns = full_factor_names)
+
+    for gen in generators:
+        lhs, rhs = gen.split("=")
+        cols = []
+        for var in rhs:
+            cols.append(Design.get_var_id(var))
+
+        generator_column = factor_data[cols].product(axis=1).rename(lhs)
         factor_data = factor_data.join(generator_column)
 
-    return Design(factor_data, [])
+    return factor_data
