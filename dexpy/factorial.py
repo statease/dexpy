@@ -16,10 +16,11 @@ def build_factorial(factor_count, run_count):
     If the number of runs requested is a 2**factor_count, this will be a full
     factorial.
 
-    Args:
-        factor_count (int): The number of factors to build for.
-        run_count (int): The number of runs in the resulting design. Must be
-                         a power of 2.
+    :param factor_count: The number of factors to build for.
+    :type factor_count: int
+    :param run_count: The number of runs in the resulting design. Must be a power of 2.
+    :type run_count: int
+    :returns: A pandas.DataFrame object containing the requested design.
     """
 
     # store minimum aberration generators for factors from 3 to max_factors

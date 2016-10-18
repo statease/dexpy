@@ -24,12 +24,6 @@ dexpy
    :inherited-members:
    :show-inheritance:
 
-.. automodule:: dexpy.model
-   :members:
-   :undoc-members:
-   :inherited-members:
-   :show-inheritance:
-
 .. automodule:: dexpy.power
    :members:
    :undoc-members:
