@@ -83,8 +83,12 @@
           
             
             
-                <!-- Local TOC -->
-                <div class="local-toc"></div>
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../factorial.html">Factorial Designs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../power.html">Statistical Power</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Matrix</a></li>
+</ul>
+
             
           
         </div>
@@ -134,11 +138,21 @@
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">f</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ncf</span>
 
-<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../index.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../power.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculates the power of an F test.</span>
 
 <span class="sd">    This calculates the probability that the F-statistic is above its critical</span>
 <span class="sd">    value (alpha) given an effect of some size.</span>
+
+<span class="sd">    :param model_matrix: A patsy design matrix (see :ref:`create_model_matrix &lt;create-model-matrix&gt;`)</span>
+<span class="sd">    :type model_matrix: patsy.dmatrix</span>
+<span class="sd">    :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise</span>
+<span class="sd">        ratio).</span>
+<span class="sd">    :type effect_size: float</span>
+<span class="sd">    :param alpha: The critical value that we want the test to be above.</span>
+<span class="sd">    :type alpha: float between 0 and 1</span>
+<span class="sd">    :returns: A list of percentage probabilities that an F-test could detect an effect of the given size at the given</span>
+<span class="sd">        alpha value for a particular column.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">model_matrix</span>
     <span class="n">residual_df</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -158,15 +172,15 @@
 
     <span class="k">return</span> <span class="n">power</span></div>
 
-<div class="viewcode-block" id="adjust_non_centrality"><a class="viewcode-back" href="../../index.html#dexpy.power.adjust_non_centrality">[docs]</a><span class="k">def</span> <span class="nf">adjust_non_centrality</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">x_col</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">adjust_non_centrality</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">x_col</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adjusts the non-centrality parameter for terms that aren&#39;t -1 to 1.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">always_positive</span><span class="p">(</span><span class="n">x_col</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nc</span> <span class="o">*</span> <span class="mi">4</span> <span class="c1"># term goes from 0 to 1</span>
-    <span class="k">return</span> <span class="n">nc</span></div>
+    <span class="k">return</span> <span class="n">nc</span>
 
-<div class="viewcode-block" id="always_positive"><a class="viewcode-back" href="../../index.html#dexpy.power.always_positive">[docs]</a><span class="k">def</span> <span class="nf">always_positive</span><span class="p">(</span><span class="n">x_col</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">always_positive</span><span class="p">(</span><span class="n">x_col</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Checks that a column is always positive in the design space.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x_col</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x_col</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
            </div>

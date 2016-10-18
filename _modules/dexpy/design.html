@@ -83,8 +83,12 @@
           
             
             
-                <!-- Local TOC -->
-                <div class="local-toc"></div>
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../factorial.html">Factorial Designs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../power.html">Statistical Power</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Matrix</a></li>
+</ul>
+
             
           
         </div>
@@ -136,64 +140,86 @@
 <span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<div class="viewcode-block" id="Design"><a class="viewcode-back" href="../../index.html#dexpy.design.Design">[docs]</a><span class="k">class</span> <span class="nc">Design</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Represents a design. Contains factor and response data.&quot;&quot;&quot;</span>
+<span class="n">valid_vars</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-    <span class="n">valid_vars</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor_data</span><span class="p">,</span> <span class="n">response_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_var_name</span><span class="p">(</span><span class="n">var_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts a variable id into a character representing that factor.&quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">valid_vars</span><span class="p">[</span><span class="n">var_id</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_vars</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">var_id</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_vars</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span>
+    <span class="k">elif</span> <span class="n">var_id</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_vars</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;&#39;&quot;</span>
+    <span class="k">return</span> <span class="n">out</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">factor_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">Design</span><span class="o">.</span><span class="n">get_var_name</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">factor_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))])</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">response_data</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">response_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;R&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">response_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))])</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Design.get_var_name"><a class="viewcode-back" href="../../index.html#dexpy.design.Design.get_var_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_var_name</span><span class="p">(</span><span class="n">var_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Converts a variable id into a character representing that factor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">[</span><span class="n">var_id</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">var_id</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span>
-        <span class="k">elif</span> <span class="n">var_id</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Design</span><span class="o">.</span><span class="n">valid_vars</span><span class="p">):</span>
-            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;&#39;&quot;</span>
-        <span class="k">return</span> <span class="n">out</span></div>
+<span class="k">def</span> <span class="nf">get_var_id</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span>
+    <span class="c1">#TODO: need to handle var names with &#39; or &quot;</span>
+    <span class="k">return</span> <span class="n">valid_vars</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Design.load"><a class="viewcode-back" href="../../index.html#dexpy.design.Design.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads an xml file into a Design object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">xmldoc</span> <span class="o">=</span> <span class="n">minidom</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
-        <span class="n">runs</span> <span class="o">=</span> <span class="n">xmldoc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)</span>
 
-        <span class="n">factor_data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">response_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Loads a Design-Expert xml file into a pandas DataFrame.&quot;&quot;&quot;</span>
+    <span class="n">xmldoc</span> <span class="o">=</span> <span class="n">minidom</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">runs</span> <span class="o">=</span> <span class="n">xmldoc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">r_ele</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
-            <span class="n">factor_settings</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">fac_actual</span> <span class="ow">in</span> <span class="n">r_ele</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;facActual&#39;</span><span class="p">):</span>
-                <span class="n">factor_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fac_actual</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">nodeValue</span><span class="p">)</span>
-            <span class="n">factor_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor_settings</span><span class="p">)</span>
+    <span class="n">factor_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">response_data</span> <span class="o">=</span> <span class="p">[]</span>
 
-            <span class="n">response_values</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">res_val</span> <span class="ow">in</span> <span class="n">r_ele</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;resVal&#39;</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">res_val</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">nodeValue</span> <span class="o">==</span> <span class="s2">&quot;Missing&quot;</span><span class="p">:</span>
-                    <span class="n">response_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">response_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_val</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">nodeValue</span><span class="p">)</span>
-            <span class="n">response_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response_values</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">r_ele</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
+        <span class="n">factor_settings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fac_actual</span> <span class="ow">in</span> <span class="n">r_ele</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;facActual&#39;</span><span class="p">):</span>
+            <span class="n">factor_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fac_actual</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">nodeValue</span><span class="p">)</span>
+        <span class="n">factor_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor_settings</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="n">response_data</span><span class="p">)</span></div>
+        <span class="n">response_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">res_val</span> <span class="ow">in</span> <span class="n">r_ele</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;resVal&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">res_val</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">nodeValue</span> <span class="o">==</span> <span class="s2">&quot;Missing&quot;</span><span class="p">:</span>
+                <span class="n">response_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_val</span><span class="o">.</span><span class="n">firstChild</span><span class="o">.</span><span class="n">nodeValue</span><span class="p">)</span>
+        <span class="n">response_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response_values</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">runs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns the number of runs in the design.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">factor_data</span><span class="p">)</span>
+    <span class="n">out_design</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">factor_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">out_design</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">get_factor_names</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">factor_data</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">response_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">out_design</span> <span class="o">=</span> <span class="n">out_design</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">get_response_names</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">response_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))))</span>
+    <span class="k">return</span> <span class="n">out_design</span>
 
-<div class="viewcode-block" id="Design.create_model_matrix"><a class="viewcode-back" href="../../index.html#dexpy.design.Design.create_model_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">create_model_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Expands a patsy formula to a matrix using the design information.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor_data</span><span class="p">)</span></div></div>
+
+<span class="k">def</span> <span class="nf">get_factor_names</span><span class="p">(</span><span class="n">factor_count</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of factor variable names up to the count.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; get_factor_names(3)</span>
+<span class="sd">        [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">get_var_name</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">factor_count</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">get_response_names</span><span class="p">(</span><span class="n">response_count</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of response variable names up to the count.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; get_response_names(3)</span>
+<span class="sd">        [&quot;R1&quot;, &quot;R2&quot;, &quot;R3&quot;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;R&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">response_count</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">runs</span><span class="p">(</span><span class="n">design</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">design</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="create_model_matrix"><a class="viewcode-back" href="../../design.html#dexpy.design.create_model_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_model_matrix</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Expands a patsy formula into a matrix using a pandas.DataFrame.</span>
+
+<span class="sd">    :param factor_data: A pandas.DataFrame that contains factor settings.</span>
+<span class="sd">    :param formula: A patsy formula that will be used to create the design matrix.</span>
+<span class="sd">    :returns: A patsy.dmatrix representing the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">factor_data</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

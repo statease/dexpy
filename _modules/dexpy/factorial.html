@@ -83,8 +83,12 @@
           
             
             
-                <!-- Local TOC -->
-                <div class="local-toc"></div>
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../factorial.html">Factorial Designs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../power.html">Statistical Power</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Matrix</a></li>
+</ul>
+
             
           
         </div>
@@ -128,28 +132,61 @@
            <div itemprop="articleBody">
             
   <h1>Source code for dexpy.factorial</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Functions to build factorial designs.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to build factorial designs.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">dexpy.design</span> <span class="k">import</span> <span class="n">Design</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">dexpy.design</span> <span class="k">as</span> <span class="nn">design</span>
 
-<div class="viewcode-block" id="build_factorial"><a class="viewcode-back" href="../../index.html#dexpy.factorial.build_factorial">[docs]</a><span class="k">def</span> <span class="nf">build_factorial</span><span class="p">(</span><span class="n">factor_count</span><span class="p">,</span> <span class="n">run_count</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_full_factorial</span><span class="p">(</span><span class="n">factor_count</span><span class="p">):</span>
+    <span class="n">factor_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">factor_count</span><span class="p">):</span>
+        <span class="n">factor_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">run</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">factor_data</span>
+
+<div class="viewcode-block" id="build_factorial"><a class="viewcode-back" href="../../factorial.html#dexpy.factorial.build_factorial">[docs]</a><span class="k">def</span> <span class="nf">build_factorial</span><span class="p">(</span><span class="n">factor_count</span><span class="p">,</span> <span class="n">run_count</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Builds a factorial design based on a number of factors and runs.</span>
 
 <span class="sd">    If the number of runs requested is a 2**factor_count, this will be a full</span>
 <span class="sd">    factorial.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        factor_count (int): The number of factors to build for.</span>
-<span class="sd">        run_count (int): The number of runs in the resulting desing. Must be</span>
-<span class="sd">                         a power of 2.</span>
+<span class="sd">    :param factor_count: The number of factors to build for.</span>
+<span class="sd">    :type factor_count: int</span>
+<span class="sd">    :param run_count: The number of runs in the resulting design. Must be a power of 2.</span>
+<span class="sd">    :type run_count: int</span>
+<span class="sd">    :returns: A pandas.DataFrame object containing the requested design.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">factor_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># store minimum aberration generators for factors from 3 to max_factors</span>
+    <span class="c1"># these are from Design-Expert</span>
+    <span class="n">generator_list</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">3</span> <span class="p">:</span> <span class="p">{</span> <span class="mi">4</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;C=AB&quot;</span> <span class="p">]</span> <span class="p">},</span>
+        <span class="mi">4</span> <span class="p">:</span> <span class="p">{</span> <span class="mi">8</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;D=ABC&quot;</span> <span class="p">]</span> <span class="p">},</span>
+        <span class="mi">5</span> <span class="p">:</span> <span class="p">{</span> <span class="mi">8</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;D=AB&quot;</span><span class="p">,</span> <span class="s2">&quot;E=AC&quot;</span> <span class="p">],</span> <span class="mi">16</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;E=ABCD&quot;</span> <span class="p">]</span> <span class="p">},</span>
+        <span class="mi">6</span> <span class="p">:</span> <span class="p">{</span> <span class="mi">8</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;D=AB&quot;</span><span class="p">,</span> <span class="s2">&quot;E=AC&quot;</span><span class="p">,</span> <span class="s2">&quot;F=BC&quot;</span> <span class="p">],</span> <span class="mi">16</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;E=ABC&quot;</span><span class="p">,</span> <span class="s2">&quot;F=BCD&quot;</span> <span class="p">],</span> <span class="mi">32</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;F=ABCD&quot;</span> <span class="p">]</span> <span class="p">},</span>
+        <span class="mi">7</span> <span class="p">:</span> <span class="p">{</span> <span class="mi">8</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;D=AB&quot;</span><span class="p">,</span> <span class="s2">&quot;E=AC&quot;</span><span class="p">,</span> <span class="s2">&quot;F=BC&quot;</span><span class="p">,</span> <span class="s2">&quot;G=ABC&quot;</span> <span class="p">],</span> <span class="mi">16</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;E=ABC&quot;</span><span class="p">,</span> <span class="s2">&quot;F=BCD&quot;</span><span class="p">,</span> <span class="s2">&quot;G=ACD&quot;</span> <span class="p">],</span> <span class="mi">32</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;F=ABCD&quot;</span><span class="p">,</span> <span class="s2">&quot;G=ABCE&quot;</span> <span class="p">],</span> <span class="mi">64</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;G=ABCDEF&quot;</span> <span class="p">]</span> <span class="p">},</span>
+    <span class="p">}</span>
+
     <span class="k">if</span> <span class="n">run_count</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">factor_count</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">factor_count</span><span class="p">):</span>
-            <span class="n">factor_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">run</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">Design</span><span class="p">(</span><span class="n">factor_data</span><span class="p">,</span> <span class="p">[])</span></div>
+        <span class="k">return</span> <span class="n">get_full_factorial</span><span class="p">(</span><span class="n">factor_count</span><span class="p">)</span>
+
+    <span class="n">generators</span> <span class="o">=</span> <span class="n">generator_list</span><span class="p">[</span><span class="n">factor_count</span><span class="p">][</span><span class="n">run_count</span><span class="p">]</span>
+    <span class="n">fractional_factors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">generators</span><span class="p">)</span>
+
+    <span class="n">full_factor_count</span> <span class="o">=</span> <span class="n">factor_count</span> <span class="o">-</span> <span class="n">fractional_factors</span>
+    <span class="n">full_factor_names</span> <span class="o">=</span> <span class="n">design</span><span class="o">.</span><span class="n">get_factor_names</span><span class="p">(</span><span class="n">full_factor_count</span><span class="p">)</span>
+    <span class="n">factor_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_full_factorial</span><span class="p">(</span><span class="n">full_factor_count</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">full_factor_names</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">gen</span> <span class="ow">in</span> <span class="n">generators</span><span class="p">:</span>
+        <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">rhs</span><span class="p">:</span>
+            <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">design</span><span class="o">.</span><span class="n">get_var_id</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+
+        <span class="n">generator_column</span> <span class="o">=</span> <span class="n">factor_data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span>
+        <span class="n">factor_data</span> <span class="o">=</span> <span class="n">factor_data</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">generator_column</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">factor_data</span></div>
 </pre></div>
 
            </div>
