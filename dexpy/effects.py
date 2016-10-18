@@ -29,10 +29,16 @@ def plot_pareto(coefficients, standard_errors, residual_df, alpha = 0.05):
         else:
             bar_colors.append('b')
 
-    indices = np.arange(len(heights))
+    # sort on |t-value|
+    heights, bar_colors = (list(x) for x in zip(*sorted(zip(heights, bar_colors), key=lambda pair: pair[0], reverse=True)))
+    # alternatively, could use numpy.argsort to get list of indices
+    # indices = np.argsort(heights)[::-1]
+
+    x_rank = np.arange(len(heights))
     width = 0.35
-    pp.bar(indices + width, heights, width, color=bar_colors)
-    pp.gca().set_xticks(indices + (width * 1.5))
-    pp.gca().set_xticklabels([str(i + 1) for i in indices])
+    bars = pp.bar(x_rank + width, heights, width, color=bar_colors)
+    pp.gca().set_xticks(x_rank + (width * 1.5))
+    pp.gca().set_xticklabels([str(i + 1) for i in x_rank])
     pp.gca().set_ylim([0, pp.gca().get_ylim()[1] * 1.1]) # expand the y max a bit so you can see the bonferroni line
     pp.legend()
+    return bars
