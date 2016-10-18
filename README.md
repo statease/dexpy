@@ -7,6 +7,10 @@
 
 **dexpy** is a Python package for [Design of Experiments](http://www.statease.com/media/productattachments/files/d/o/doeprimer.pdf).
 
+## Documentation
+
+See https://statease.github.io/dexpy.
+
 ## License
 
 **dexpy** is licensed under the Apache 2.0 license. Details can be found in the `LICENSE` file.

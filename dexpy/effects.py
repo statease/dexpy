@@ -1,5 +1,4 @@
-"""Plots of model effects that assist in model selection.
-"""
+"""Plots of model effects that assist in model selection."""
 
 import matplotlib.pyplot as pp
 import numpy as np
