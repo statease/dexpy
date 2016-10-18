@@ -79,5 +79,10 @@ def runs(design):
 
 
 def create_model_matrix(factor_data, formula):
-    """Expands a patsy formula into a matrix based on a pandas dataframe."""
+    """Expands a patsy formula into a matrix using a pandas.DataFrame.
+
+    :param factor_data: A pandas.DataFrame that contains factor settings.
+    :param formula: A patsy formula that will be used to create the design matrix.
+    :returns: A patsy.dmatrix representing the model.
+    """
     return dmatrix(formula, factor_data)

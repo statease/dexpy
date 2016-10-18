@@ -9,6 +9,16 @@ def f_power(model_matrix, effect_size, alpha):
 
     This calculates the probability that the F-statistic is above its critical
     value (alpha) given an effect of some size.
+
+    :param model_matrix: A patsy design matrix (see :ref:`create_model_matrix <create-model-matrix>`)
+    :type model_matrix: patsy.dmatrix
+    :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise
+        ratio).
+    :type effect_size: float
+    :param alpha: The critical value that we want the test to be above.
+    :type alpha: float between 0 and 1
+    :returns: A list of percentage probabilities that an F-test could detect an effect of the given size at the given
+        alpha value for a particular column.
     """
     X = model_matrix
     residual_df = X.shape[0] - X.shape[1]
