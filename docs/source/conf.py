@@ -61,7 +61,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'dexpy'
-copyright = u'2016, Hank Anderson'
+copyright = u'2016, Stat-Ease, Inc.'
 author = u'Hank Anderson'
 
 # The version info for the project you're documenting, acts as replacement for
