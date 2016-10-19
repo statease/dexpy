@@ -4,6 +4,10 @@ dexpy.egg-info
 .coverage
 .eggs
 
+# build directories
+build
+dist
+
 # text editor files
 *.swp
 *.swo
