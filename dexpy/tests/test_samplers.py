@@ -5,7 +5,8 @@ from dexpy.samplers import uniform_simplex_sample
 class TestSimplexSampler(unittest.TestCase):
     """ Tests the uniform simplex sampler """
 
-    def test_simplex_sample_1(self):
+    @classmethod
+    def test_simplex_sample(self):
         """ Generates a uniform sample, checks dimensions, and that the rows sum to 1 """
         result = uniform_simplex_sample(5, 4)
 
@@ -18,7 +19,8 @@ class TestSimplexSampler(unittest.TestCase):
         np.testing.assert_almost_equal(row_sums, answer)
 
 
-    def test_simplex_sample_2(self):
+    @classmethod
+    def test_simplex_sample_one_component(self):
         """ Tests an edge case """
         result = uniform_simplex_sample(1, 1)
         answer = np.ones(1)
