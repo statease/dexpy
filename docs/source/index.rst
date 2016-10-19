@@ -11,16 +11,19 @@ The primary purpose of this package is to construct designs, which can then be a
 `statsmodels <https://github.com/statsmodels/statsmodels/>`_. However, there are also functions that fill in holes in
 the existing statistical analysis packages, for example :ref:`statistical power <power>`.
 
-As of this writing there are only a handful of :ref:`factorial` available, but the catalog will be expanding to include
+As of this writing there are only a handful of :ref:`Factorial designs <factorial>` available, but the catalog will be expanding to include
 standard textbook designs like `Central Composite designs <https://en.wikipedia.org/wiki/Central_composite_design>`_,
 as well as more flexible `Optimal designs <https://en.wikipedia.org/wiki/Optimal_design>`_.
 
 .. toctree::
     :maxdepth: 2
 
-    factorial
-    power
-    design
+    design-build
+    evaluation
+    analysis
+    confirmation
+    optimization
+
 
 Indices and tables
 ==================
