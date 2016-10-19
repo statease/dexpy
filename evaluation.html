@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Design Matrix &mdash; dexpy 0.1 documentation</title>
+  <title>Design Evaluation &mdash; dexpy 0.1 documentation</title>
   
 
   
@@ -34,7 +34,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
-        <link rel="prev" title="Statistical Power" href="power.html"/> 
+        <link rel="next" title="Analyzing the Results" href="analysis.html"/>
+        <link rel="prev" title="Building a Design" href="design-build.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,9 +85,14 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="factorial.html">Factorial Designs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="power.html">Statistical Power</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Design Matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#statistical-power">Statistical Power</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
 </ul>
 
             
@@ -117,11 +123,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Design Matrix</li>
+    <li>Design Evaluation</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/design.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/evaluation.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -131,30 +137,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="design-matrix">
-<h1>Design Matrix<a class="headerlink" href="#design-matrix" title="Permalink to this headline">¶</a></h1>
-<p>This module contains functions for working with design matrices, in the form of pandas.DataFrame and patsy.dmatrix.</p>
-<span class="target" id="create-model-matrix"></span><dl class="function">
-<dt id="dexpy.design.create_model_matrix">
-<code class="descname">create_model_matrix</code><span class="sig-paren">(</span><em>factor_data</em>, <em>formula</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/design.html#create_model_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.design.create_model_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expands a patsy formula into a matrix using a pandas.DataFrame.</p>
+  <div class="section" id="design-evaluation">
+<h1>Design Evaluation<a class="headerlink" href="#design-evaluation" title="Permalink to this headline">¶</a></h1>
+<p>There are several metrics available for evaluating whether a design will be appropriate for your analysis.</p>
+<div class="section" id="statistical-power">
+<span id="power"></span><h2>Statistical Power<a class="headerlink" href="#statistical-power" title="Permalink to this headline">¶</a></h2>
+<p>A power test can show you how well your design can detect effects of a given size.</p>
+<dl class="function">
+<dt id="dexpy.power.f_power">
+<code class="descname">f_power</code><span class="sig-paren">(</span><em>model_matrix</em>, <em>effect_size</em>, <em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#f_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.f_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the power of an F test.</p>
+<p>This calculates the probability that the F-statistic is above its critical
+value (alpha) given an effect of some size.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>factor_data</strong> &#8211; A pandas.DataFrame that contains factor settings.</li>
-<li><strong>formula</strong> &#8211; A patsy formula that will be used to create the design matrix.</li>
+<li><strong>model_matrix</strong> (<em>patsy.dmatrix</em>) &#8211; A patsy design matrix</li>
+<li><strong>effect_size</strong> (<em>float</em>) &#8211; The size of the effect that the test should be able to detect (also called a signal to noise
+ratio).</li>
+<li><strong>alpha</strong> (<em>float between 0 and 1</em>) &#8211; The critical value that we want the test to be above.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A patsy.dmatrix representing the model.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of percentage probabilities that an F-test could detect an effect of the given size at the given
+alpha value for a particular column.</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</div>
 </div>
 
 
@@ -164,8 +179,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="analysis.html" class="btn btn-neutral float-right" title="Analyzing the Results" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="power.html" class="btn btn-neutral" title="Statistical Power" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="design-build.html" class="btn btn-neutral" title="Building a Design" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -174,7 +191,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, Hank Anderson.
+        &copy; Copyright 2016, Stat-Ease, Inc..
 
     </p>
   </div>

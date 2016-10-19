@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Statistical Power &mdash; dexpy 0.1 documentation</title>
+  <title>Building a Design &mdash; dexpy 0.1 documentation</title>
   
 
   
@@ -34,8 +34,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
-        <link rel="next" title="Design Matrix" href="design.html"/>
-        <link rel="prev" title="Factorial Designs" href="factorial.html"/> 
+        <link rel="next" title="Design Evaluation" href="evaluation.html"/>
+        <link rel="prev" title="dexpy - Design of Experiments in Python" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,9 +85,17 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="factorial.html">Factorial Designs</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Statistical Power</a></li>
-<li class="toctree-l1"><a class="reference internal" href="design.html">Design Matrix</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building a Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#screening-designs">Screening Designs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-dexpy.factorial">Two-Level Factorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
 </ul>
 
             
@@ -118,11 +126,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Statistical Power</li>
+    <li>Building a Design</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/power.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/design-build.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -132,34 +140,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="statistical-power">
-<span id="power"></span><h1>Statistical Power<a class="headerlink" href="#statistical-power" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="building-a-design">
+<h1>Building a Design<a class="headerlink" href="#building-a-design" title="Permalink to this headline">¶</a></h1>
+<p>First you will need to determine what kind of design suits your problem.</p>
+<div class="section" id="screening-designs">
+<h2>Screening Designs<a class="headerlink" href="#screening-designs" title="Permalink to this headline">¶</a></h2>
+<p>These designs are meant to be run with many factors, and are used to determine which factors are important
+and which can be discarded. They typically have fewer runs and are meant to be used with a linear or interaction model.</p>
+<div class="section" id="module-dexpy.factorial">
+<span id="two-level-factorial"></span><span id="factorial"></span><h3>Two-Level Factorial<a class="headerlink" href="#module-dexpy.factorial" title="Permalink to this headline">¶</a></h3>
+<p>Functions to build factorial designs.</p>
 <dl class="function">
-<dt id="dexpy.power.f_power">
-<code class="descname">f_power</code><span class="sig-paren">(</span><em>model_matrix</em>, <em>effect_size</em>, <em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#f_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.f_power" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the power of an F test.</p>
-<p>This calculates the probability that the F-statistic is above its critical
-value (alpha) given an effect of some size.</p>
+<dt id="dexpy.factorial.build_factorial">
+<code class="descname">build_factorial</code><span class="sig-paren">(</span><em>factor_count</em>, <em>run_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factorial.html#build_factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factorial.build_factorial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a factorial design based on a number of factors and runs.</p>
+<p>If the number of runs requested is a 2**factor_count, this will be a full
+factorial.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model_matrix</strong> (<em>patsy.dmatrix</em>) &#8211; A patsy design matrix (see <a class="reference internal" href="design.html#create-model-matrix"><span class="std std-ref">create_model_matrix</span></a>)</li>
-<li><strong>effect_size</strong> (<em>float</em>) &#8211; The size of the effect that the test should be able to detect (also called a signal to noise
-ratio).</li>
-<li><strong>alpha</strong> (<em>float between 0 and 1</em>) &#8211; The critical value that we want the test to be above.</li>
+<li><strong>factor_count</strong> (<em>int</em>) &#8211; The number of factors to build for.</li>
+<li><strong>run_count</strong> (<em>int</em>) &#8211; The number of runs in the resulting design. Must be a power of 2.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of percentage probabilities that an F-test could detect an effect of the given size at the given
-alpha value for a particular column.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A pandas.DataFrame object containing the requested design.</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</div>
+</div>
 </div>
 
 
@@ -169,10 +184,10 @@ alpha value for a particular column.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="design.html" class="btn btn-neutral float-right" title="Design Matrix" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="evaluation.html" class="btn btn-neutral float-right" title="Design Evaluation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="factorial.html" class="btn btn-neutral" title="Factorial Designs" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="dexpy - Design of Experiments in Python" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -181,7 +196,7 @@ alpha value for a particular column.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, Hank Anderson.
+        &copy; Copyright 2016, Stat-Ease, Inc..
 
     </p>
   </div>

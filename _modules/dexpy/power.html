@@ -84,9 +84,11 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../factorial.html">Factorial Designs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../power.html">Statistical Power</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design-build.html">Building a Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation.html">Design Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../confirmation.html">Confirmation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimization.html">Optimization</a></li>
 </ul>
 
             
@@ -138,13 +140,13 @@
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">f</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ncf</span>
 
-<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../power.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../evaluation.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculates the power of an F test.</span>
 
 <span class="sd">    This calculates the probability that the F-statistic is above its critical</span>
 <span class="sd">    value (alpha) given an effect of some size.</span>
 
-<span class="sd">    :param model_matrix: A patsy design matrix (see :ref:`create_model_matrix &lt;create-model-matrix&gt;`)</span>
+<span class="sd">    :param model_matrix: A patsy design matrix</span>
 <span class="sd">    :type model_matrix: patsy.dmatrix</span>
 <span class="sd">    :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise</span>
 <span class="sd">        ratio).</span>
@@ -192,7 +194,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, Hank Anderson.
+        &copy; Copyright 2016, Stat-Ease, Inc..
 
     </p>
   </div>
