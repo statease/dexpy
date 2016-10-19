@@ -69,7 +69,7 @@ class TestCoxPoints2Components(unittest.TestCase):
         np.testing.assert_array_almost_equal(result, answer)
 
 
-    def test_generate_cox_points_1(self):
+    def test_generate_cox_points_2(self):
         """ Moves the second coordinate of the first row to 2 equally spaced points """
         result = cx.generate_cox_points(self.X[0, ], 0, 1)
         answer = np.array([[0, 1], [1, 0]])
