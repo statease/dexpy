@@ -139,15 +139,18 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">f</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ncf</span>
+<span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
 
-<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../evaluation.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model_matrix</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../evaluation.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">design</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculates the power of an F test.</span>
 
 <span class="sd">    This calculates the probability that the F-statistic is above its critical</span>
 <span class="sd">    value (alpha) given an effect of some size.</span>
 
-<span class="sd">    :param model_matrix: A patsy design matrix</span>
-<span class="sd">    :type model_matrix: patsy.dmatrix</span>
+<span class="sd">    :param design: A pandas.DataFrame representing a design.</span>
+<span class="sd">    :type design: pandas.DataFrame</span>
+<span class="sd">    :param model: A patsy formula for which to calculate power.</span>
+<span class="sd">    :type model: patsy.formula</span>
 <span class="sd">    :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise</span>
 <span class="sd">        ratio).</span>
 <span class="sd">    :type effect_size: float</span>
@@ -155,8 +158,13 @@
 <span class="sd">    :type alpha: float between 0 and 1</span>
 <span class="sd">    :returns: A list of percentage probabilities that an F-test could detect an effect of the given size at the given</span>
 <span class="sd">        alpha value for a particular column.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">      &gt;&gt;&gt; design = build_factorial(4, 8)</span>
+<span class="sd">      &gt;&gt;&gt; print(f_power(design, &quot;1 + A + B + C + D&quot;, 2.0, 0.05))</span>
+<span class="sd">      [ 95.016, 49.003, 49.003, 49.003, 49.003 ]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">model_matrix</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>
     <span class="n">residual_df</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="n">XtXi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">X</span><span class="p">))</span>
