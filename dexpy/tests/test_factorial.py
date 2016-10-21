@@ -24,3 +24,10 @@ class TestFactorial(TestCase):
         run_count = 8
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
+
+    def test_res_iii_21_fac(self):
+        """Tests a 2^(7-4) fractional factorial."""
+        factor_count = 21
+        run_count = 32
+        design = build_factorial(factor_count, run_count)
+        self.assertEqual(32, len(design))
