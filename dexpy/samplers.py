@@ -38,9 +38,9 @@ def hit_and_run(x0, constraint_matrix, bounds, n_samples, thin = 1):
             random_dir = np.random.normal(0.0, 1.0, p)
             random_dir = random_dir / np.linalg.norm(random_dir)
 
-            intersections = (b - A.dot(x)) / (A.dot(random_dir))
-            t_low  = np.max(intersections[A.dot(random_dir) < 0])
-            t_high  = np.min(intersections[A.dot(random_dir) > 0])
+            intersections = (bounds - constraint_matrix.dot(x)) / (constraint_matrix.dot(random_dir))
+            t_low  = np.max(intersections[constraint_matrix.dot(random_dir) < 0])
+            t_high  = np.min(intersections[constraint_matrix.dot(random_dir) > 0])
 
             u = np.random.uniform(0, 1)
             random_distance = t_low + u * (t_high - t_low)
@@ -49,4 +49,4 @@ def hit_and_run(x0, constraint_matrix, bounds, n_samples, thin = 1):
         out_samples[i, ] = x_new
         x = x_new
 
-    return out_samples
+    return(out_samples)
