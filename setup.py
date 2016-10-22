@@ -1,6 +1,6 @@
-"""dexpy: Design of Experiments for Python.
+"""dexpy: Design of Experiments (DOE) for Python.
 
-dexpy is a Design of Experiments package based on the Design-Expert (r) software from Stat-Ease, Inc.
+dexpy is a DOE package based on the Design-Expert (r) software from Stat-Ease, Inc.
 
 See: https://statease.github.io/dexpy
 """
