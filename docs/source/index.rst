@@ -1,13 +1,14 @@
 .. dexpy documentation master file
 .. include:: <isonum.txt>
 
-dexpy - Design of Experiments in Python
-=======================================
+dexpy - Design of Experiments (DOE) in Python
+=============================================
 
-dexpy is a Design of Experiments package based on the Design-Expert |reg| `software
+dexpy is a Design of Experiments (DOE) package based
+on the Design-Expert |reg| `software
 <http://www.statease.com/software.html>`_ from `Stat-Ease, Inc.
 <https://www.statease.com/>`_. If you're new to
-the area of Design of Experiments is, `here is a primer
+the area of DOE, `here is a primer
 <https://en.wikipedia.org/wiki/Design_of_experiments>`_
 to help get you started.
 
