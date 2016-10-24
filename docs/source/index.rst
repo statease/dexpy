@@ -9,7 +9,7 @@ on the Design-Expert |reg| `software
 <http://www.statease.com/software.html>`_ from `Stat-Ease, Inc.
 <https://www.statease.com/>`_. If you're new to
 the area of DOE, `here is a primer
-<https://en.wikipedia.org/wiki/Design_of_experiments>`_
+<http://www.itl.nist.gov/div898/handbook/pri/section1/pri1.htm>`_
 to help get you started.
 
 The primary purpose of this package is to construct
