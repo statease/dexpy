@@ -13,3 +13,4 @@ dist
 *.swo
 *~
 .idea
+.vscode

@@ -5,6 +5,7 @@ import dexpy.design as design
 import pandas as pd
 import numpy as np
 
+
 class TestAliases(TestCase):
 
     def test_two_factors(self):
@@ -12,9 +13,9 @@ class TestAliases(TestCase):
         factor_data = [
             [-1, -1],
             [-1, -1],
-            [ 1,  1],
-            [ 1,  1],
-            [ 0,  0]
+            [1,  1],
+            [1,  1],
+            [0,  0]
         ]
 
         factor_data = pd.DataFrame(factor_data, columns=design.get_factor_names(len(factor_data[0])))

@@ -2,7 +2,8 @@ from unittest import TestCase
 
 import dexpy.design as design
 
-class Testdesign(TestCase):
+
+class TestDesign(TestCase):
 
     def test_var_name(self):
         """Tests that design converts variable ids into chars correctly."""
