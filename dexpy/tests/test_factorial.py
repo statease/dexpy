@@ -11,7 +11,8 @@ class TestFactorial(TestCase):
         run_count = 8
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
-        aliases, _ = alias_list("(A+B+C)**2", design)
+        # should be able to estimate the full 3FI model
+        aliases, _ = alias_list("(A+B+C)**3", design)
         self.assertEqual(0, len(aliases))
 
     def test_res_v(self):
@@ -23,8 +24,41 @@ class TestFactorial(TestCase):
         aliases, _ = alias_list("(A+B+C+D+E)**2", design)
         # should be no 2FI aliases in a res v design
         self.assertEqual(0, len(aliases))
+        aliases, _ = alias_list("(A+B+C+D+E)**3", design)
+        # every 2FI should be aliased with a 3FI
+        answer_aliases = [
+            'A:B = C:D:E',
+            'A:C = B:D:E',
+            'A:D = B:C:E',
+            'A:E = B:C:D',
+            'B:C = A:D:E',
+            'B:D = A:C:E',
+            'B:E = A:C:D',
+            'C:D = A:B:E',
+            'C:E = A:B:D',
+            'D:E = A:B:C'
+        ]
+        self.assertEqual(answer_aliases, aliases)
 
     def test_res_iii(self):
+        """Tests a 2^(6-3) fractional factorial."""
+        factor_count = 6
+        run_count = 8
+        design = build_factorial(factor_count, run_count)
+        self.assertEqual(8, len(design))
+        aliases, _ = alias_list("(A+B+C+D+E+F)**2", design)
+        answer_aliases = [
+            'A = B:D + C:E',
+            'B = A:D + C:F',
+            'C = A:E + B:F',
+            'D = A:B + E:F',
+            'E = A:C + D:F',
+            'F = B:C + D:E',
+            'A:F = B:E + C:D',
+        ]
+        self.assertEqual(answer_aliases, aliases)
+
+    def test_res_iii_seven_fac(self):
         """Tests a 2^(7-4) fractional factorial."""
         factor_count = 7
         run_count = 8
