@@ -37,7 +37,11 @@ def alias_list(model, design):
     for r in range(alias_coefs.shape[0]):
         alias_strings = []
         for c in range(alias_coefs.shape[1]):
-            if c == r or abs(alias_coefs[r, c]) < epsilon:
+            # all columns are "aliased" with themselves, so don't show
+            if unaliased.columns[r] == model_matrix.columns[c]:
+                continue
+            # 0 means there is no correlation
+            if abs(alias_coefs[r, c]) < epsilon:
                 continue
             if abs(alias_coefs[r, c] - 1.0) > epsilon:
                 alias_strings.append("{}*{}".format(alias_coefs[r, c],
