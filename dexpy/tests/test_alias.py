@@ -4,7 +4,6 @@ from dexpy.alias import alias_list
 import dexpy.design as design
 import pandas as pd
 import numpy as np
-import math
 
 
 class TestAliases(TestCase):

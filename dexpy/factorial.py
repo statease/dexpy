@@ -48,14 +48,18 @@ def build_factorial(factor_count, run_count):
     }
 
     if run_count == 2 ** factor_count:
-        return get_full_factorial(factor_count)
-
-    generators = generator_list[factor_count][run_count]
+        generators = []
+    else:
+        generators = generator_list[factor_count][run_count]
     fractional_factors = len(generators)
 
     full_factor_count = factor_count - fractional_factors
     full_factor_names = design.get_factor_names(full_factor_count)
-    factor_data = pd.DataFrame(get_full_factorial(full_factor_count), columns=full_factor_names)
+    factor_data = pd.DataFrame(get_full_factorial(full_factor_count),
+                               columns=full_factor_names)
+
+    if full_factor_count == factor_count:
+        return factor_data
 
     for gen in generators:
         lhs, rhs = gen.split("=")
