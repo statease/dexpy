@@ -3,7 +3,6 @@ import numpy as np
 import scipy as sp
 from patsy import dmatrix
 import math
-import logging
 
 
 def alias_list(model, design):
@@ -18,21 +17,15 @@ def alias_list(model, design):
     # use the square root of machine precision for testing for 0
     epsilon = math.sqrt(np.finfo(float).eps)
 
-    logging.debug("model:\n%s", model)
     model_matrix = dmatrix(model, design, return_type="dataframe")
-    logging.debug("model matrix (rhs):\n%s", model_matrix)
 
     # there is no requirement that the model matrix is full rank
     # so first remove linearly dependent columns using LU decomp
     _, _, upper_matrix = sp.linalg.lu(model_matrix)
-    logging.debug("upper matrix from LU:\n%s", upper_matrix)
 
     unaliased = model_matrix.loc[:, np.array(abs(np.diagonal(upper_matrix)) >
                                              epsilon)]
-    logging.debug("full rank matrix (lhs):\n%s", unaliased)
-
     alias_coefs, _, _, _ = np.linalg.lstsq(unaliased, model_matrix)
-    logging.debug("alias matrix:\n%s", alias_coefs)
     alias_list = []
     for r in range(alias_coefs.shape[0]):
         alias_strings = []
