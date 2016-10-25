@@ -2,6 +2,7 @@
 import numpy as np
 import scipy as sp
 from patsy import dmatrix
+import math
 import logging
 
 
@@ -14,6 +15,9 @@ def alias_list(model, design):
     collinear with another column.
     """
 
+    # use the square root of machine precision for testing for 0
+    epsilon = math.sqrt(np.finfo(float).eps)
+
     logging.debug("model:\n%s", model)
     model_matrix = dmatrix(model, design, return_type="dataframe")
     logging.debug("model matrix (rhs):\n%s", model_matrix)
@@ -24,7 +28,7 @@ def alias_list(model, design):
     logging.debug("upper matrix from LU:\n%s", upper_matrix)
 
     unaliased = model_matrix.loc[:, np.array(abs(np.diagonal(upper_matrix)) >
-                                             np.finfo(float).eps)]
+                                             epsilon)]
     logging.debug("full rank matrix (lhs):\n%s", unaliased)
 
     alias_coefs, _, _, _ = np.linalg.lstsq(unaliased, model_matrix)
@@ -33,9 +37,9 @@ def alias_list(model, design):
     for r in range(alias_coefs.shape[0]):
         alias_strings = []
         for c in range(alias_coefs.shape[1]):
-            if c == r or abs(alias_coefs[r, c]) < np.finfo(float).eps:
+            if c == r or abs(alias_coefs[r, c]) < epsilon:
                 continue
-            if abs(alias_coefs[r, c] - 1.0) > np.finfo(float).eps:
+            if abs(alias_coefs[r, c] - 1.0) > epsilon:
                 alias_strings.append("{}*{}".format(alias_coefs[r, c],
                                      model_matrix.columns[c]))
             else:
