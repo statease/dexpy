@@ -29,7 +29,7 @@ class TestPower(TestCase):
 
         factor_data = pd.DataFrame(factor_data, columns=design.get_factor_names(len(factor_data[0])))
         model = "1 + A + B + A:B + I(A**2) + I(B**2)"
-        power_result = power.f_power(factor_data, model, 2, 0.05)
+        power_result = power.f_power(model, factor_data, 2, 0.05)
 
         power_answers = [
             0.2887584, 0.49002743118623, 0.49002743118623, 0.28875325867897, 0.63145653747073, 0.63145653747073
@@ -49,7 +49,7 @@ class TestPower(TestCase):
 
         model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
 
-        power_result = power.f_power(factor_data, model, 0.2, 0.05)
+        power_result = power.f_power(model, factor_data, 0.2, 0.05)
 
         answer = np.ndarray(256)
         answer.fill(0.61574355066172015)
