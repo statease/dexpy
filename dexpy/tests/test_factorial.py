@@ -47,12 +47,8 @@ class TestFactorial(TestCase):
         run_count = 8
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
-        root = logging.getLogger()
-        root.setLevel(logging.DEBUG)
         model = "(A+B+C+D+E+F)**2"
-        #model = "A+B+C+D+E+F+A*B+A*C+A*F+B*C"
         aliases, _ = alias_list(model, design)
-        root.setLevel(logging.WARNING)
         answer_aliases = [
             'A = B:D + C:E',
             'B = A:D + C:F',

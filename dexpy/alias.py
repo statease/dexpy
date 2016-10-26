@@ -1,6 +1,7 @@
 
 import numpy as np
 import scipy as sp
+import scipy.linalg
 from patsy import dmatrix
 import math
 import logging
@@ -28,10 +29,21 @@ def alias_list(model, design):
     logging.debug("upper matrix from LU:\n%s", upper_matrix)
 
     column_unaliased = abs(np.diagonal(upper_matrix)) > epsilon
-    logging.debug("diag columns > 0:\n%s", column_unaliased)
     if model_matrix.shape[0] < model_matrix.shape[1]:
+        # if n < p, check the remainder of U for unaliased columns
         column_unaliased = np.append(column_unaliased, upper_matrix[-1:,model_matrix.shape[0]:] > 0)
-        logging.debug("past diag columns > 0:\n%s", column_unaliased)
+
+    logging.debug("found %d columns, X has %d rows", sum(column_unaliased), model_matrix.shape[0])
+    # remove estimable column indices until p <= n
+    extra_cols = sum(column_unaliased) - model_matrix.shape[0]
+    c = len(column_unaliased) - 1
+    while extra_cols > 0 and c >= 0:
+        if column_unaliased[c]:
+            column_unaliased[c] = False
+            extra_cols -= 1
+        c -= 1
+    logging.debug("estimating columns:\n%s", column_unaliased)
+
     unaliased = model_matrix.loc[:, column_unaliased]
     logging.debug("full rank matrix (lhs):\n%s", unaliased)
 
