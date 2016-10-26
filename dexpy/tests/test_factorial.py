@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from dexpy.factorial import build_factorial
 from dexpy.alias import alias_list
+import logging
 
 class TestFactorial(TestCase):
 
@@ -46,7 +47,12 @@ class TestFactorial(TestCase):
         run_count = 8
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
-        aliases, _ = alias_list("(A+B+C+D+E+F)**2", design)
+        root = logging.getLogger()
+        root.setLevel(logging.DEBUG)
+        model = "(A+B+C+D+E+F)**2"
+        #model = "A+B+C+D+E+F+A*B+A*C+A*F+B*C"
+        aliases, _ = alias_list(model, design)
+        root.setLevel(logging.WARNING)
         answer_aliases = [
             'A = B:D + C:E',
             'B = A:D + C:F',
