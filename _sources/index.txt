@@ -6,7 +6,7 @@ dexpy - Design of Experiments (DOE) in Python
 
 dexpy is a Design of Experiments (DOE) package based
 on the Design-Expert |reg| `software
-<http://www.statease.com/software.html>`_ from `Stat-Ease, Inc.
+<http://www.statease.com/software.html>`_ from `Stat-Ease, Inc
 <https://www.statease.com/>`_. If you're new to
 the area of DOE, `here is a primer
 <http://www.itl.nist.gov/div898/handbook/pri/section1/pri1.htm>`_
@@ -27,6 +27,7 @@ as well as more flexible `Optimal designs <https://en.wikipedia.org/wiki/Optimal
 .. toctree::
     :maxdepth: 2
 
+    install
     design-build
     evaluation
     analysis
