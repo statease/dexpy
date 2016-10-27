@@ -141,16 +141,17 @@
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ncf</span>
 <span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
 
-<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../evaluation.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">design</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+
+<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../evaluation.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">design</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculates the power of an F test.</span>
 
 <span class="sd">    This calculates the probability that the F-statistic is above its critical</span>
 <span class="sd">    value (alpha) given an effect of some size.</span>
 
-<span class="sd">    :param design: A pandas.DataFrame representing a design.</span>
-<span class="sd">    :type design: pandas.DataFrame</span>
 <span class="sd">    :param model: A patsy formula for which to calculate power.</span>
 <span class="sd">    :type model: patsy.formula</span>
+<span class="sd">    :param design: A pandas.DataFrame representing a design.</span>
+<span class="sd">    :type design: pandas.DataFrame</span>
 <span class="sd">    :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise</span>
 <span class="sd">        ratio).</span>
 <span class="sd">    :type effect_size: float</span>

@@ -145,7 +145,7 @@
 <p>A power test can show you how well your design can detect effects of a given size.</p>
 <dl class="function">
 <dt id="dexpy.power.f_power">
-<code class="descname">f_power</code><span class="sig-paren">(</span><em>design</em>, <em>model</em>, <em>effect_size</em>, <em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#f_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.f_power" title="Permalink to this definition">¶</a></dt>
+<code class="descname">f_power</code><span class="sig-paren">(</span><em>model</em>, <em>design</em>, <em>effect_size</em>, <em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#f_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.f_power" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the power of an F test.</p>
 <p>This calculates the probability that the F-statistic is above its critical
 value (alpha) given an effect of some size.</p>
@@ -154,8 +154,8 @@ value (alpha) given an effect of some size.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>design</strong> (<em>pandas.DataFrame</em>) &#8211; A pandas.DataFrame representing a design.</li>
 <li><strong>model</strong> (<em>patsy.formula</em>) &#8211; A patsy formula for which to calculate power.</li>
+<li><strong>design</strong> (<em>pandas.DataFrame</em>) &#8211; A pandas.DataFrame representing a design.</li>
 <li><strong>effect_size</strong> (<em>float</em>) &#8211; The size of the effect that the test should be able to detect (also called a signal to noise
 ratio).</li>
 <li><strong>alpha</strong> (<em>float between 0 and 1</em>) &#8211; The critical value that we want the test to be above.</li>
