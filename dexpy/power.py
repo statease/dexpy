@@ -5,16 +5,17 @@ from scipy.stats import f
 from scipy.stats import ncf
 from patsy import dmatrix
 
-def f_power(design, model, effect_size, alpha):
+
+def f_power(model, design, effect_size, alpha):
     """Calculates the power of an F test.
 
     This calculates the probability that the F-statistic is above its critical
     value (alpha) given an effect of some size.
 
-    :param design: A pandas.DataFrame representing a design.
-    :type design: pandas.DataFrame
     :param model: A patsy formula for which to calculate power.
     :type model: patsy.formula
+    :param design: A pandas.DataFrame representing a design.
+    :type design: pandas.DataFrame
     :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise
         ratio).
     :type effect_size: float
