@@ -26,22 +26,17 @@ def alias_list(model, design):
     # there is no requirement that the model matrix is full rank
     # so first remove linearly dependent columns using LU decomp
     _, _, upper_matrix = sp.linalg.lu(model_matrix)
-    logging.debug("upper matrix from LU:\n%s", upper_matrix)
 
-    column_unaliased = abs(np.diagonal(upper_matrix)) > epsilon
-    if model_matrix.shape[0] < model_matrix.shape[1]:
-        # if n < p, check the remainder of U for unaliased columns
-        column_unaliased = np.append(column_unaliased, upper_matrix[-1:,model_matrix.shape[0]:] > 0)
-
-    logging.debug("found %d columns, X has %d rows", sum(column_unaliased), model_matrix.shape[0])
-    # remove estimable column indices until p <= n
-    extra_cols = sum(column_unaliased) - model_matrix.shape[0]
-    c = len(column_unaliased) - 1
-    while extra_cols > 0 and c >= 0:
-        if column_unaliased[c]:
-            column_unaliased[c] = False
-            extra_cols -= 1
-        c -= 1
+    row = 0
+    col = 0
+    # this array will be used to select columns for the full rank X matrix
+    column_unaliased = [False] * model_matrix.shape[1]
+    # iterate over diagonals of U, skipping columns with 0 in the diagonal
+    while row < model_matrix.shape[0] and col < model_matrix.shape[1]:
+        if abs(upper_matrix[row, col]) > epsilon:
+            column_unaliased[col] = True
+            row += 1
+        col += 1
     logging.debug("estimating columns:\n%s", column_unaliased)
 
     unaliased = model_matrix.loc[:, column_unaliased]

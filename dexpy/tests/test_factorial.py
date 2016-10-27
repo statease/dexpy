@@ -2,7 +2,6 @@ from unittest import TestCase
 
 from dexpy.factorial import build_factorial
 from dexpy.alias import alias_list
-import logging
 
 class TestFactorial(TestCase):
 
@@ -112,9 +111,9 @@ class TestFactorial(TestCase):
             'A:F = B:C + D:J + E:N + G:H + L:M + P:V + Q:S + R:T',
             'A:G = B:D + C:J + E:Q + F:H + L:P + M:V + N:S + O:T',
             'A:H = B:J + C:D + E:S + F:G + L:V + M:P + N:Q + O:R',
-            'A:L = A:L + B:E + C:N + D:Q + F:M + G:P + H:V + J:S + K:T',
-            'A:M = A:M + B:N + C:E + D:S + F:L + G:V + H:P + J:Q + K:R',
-            'A:P = A:P + B:Q + C:S + D:E + F:V + G:L + H:M + J:N + K:O'
+            'A:L = B:E + C:N + D:Q + F:M + G:P + H:V + J:S + K:T',
+            'A:M = B:N + C:E + D:S + F:L + G:V + H:P + J:Q + K:R',
+            'A:P = B:Q + C:S + D:E + F:V + G:L + H:M + J:N + K:O'
         ]
 
         self.assertEqual(answer_aliases, aliases)
