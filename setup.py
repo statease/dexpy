@@ -7,7 +7,7 @@ See: https://statease.github.io/dexpy
 
 from setuptools import setup
 
-VERSION = '0.11'
+VERSION = '0.12'
 DOCLINES = (__doc__ or '').split("\n")
 
 CLASSIFIERS = filter(None, map(str.strip,
