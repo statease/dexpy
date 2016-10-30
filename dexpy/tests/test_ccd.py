@@ -16,8 +16,7 @@ class TestCentralComposite(TestCase):
             [-1, 0],
             [1, 0],
             [0, -1],
-            [0, 1],
-            [0, 0]
+            [0, 1]
         ]
 
         ccd_data = build_ccd(2, 1.0)
