@@ -4,6 +4,7 @@ import itertools
 import pandas as pd
 import dexpy.design as design
 
+
 def build_full_factorial(factor_count):
     """Builds a full 2^K factorial design.
 
@@ -14,6 +15,7 @@ def build_full_factorial(factor_count):
     for run in itertools.product([-1, 1], repeat=factor_count):
         factor_data.append(list(run))
     return factor_data
+
 
 def build_factorial(factor_count, run_count):
     """Builds a factorial design based on a number of factors and runs.

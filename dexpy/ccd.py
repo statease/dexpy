@@ -4,11 +4,12 @@ from dexpy.factorial import build_full_factorial
 import pandas as pd
 import numpy as np
 
+
 def build_ccd(factor_count, alpha):
 
     factor_names = design.get_factor_names(factor_count)
     factorial_runs = pd.DataFrame(build_full_factorial(factor_count),
-                               columns=factor_names)
+                                  columns=factor_names)
 
     axial_count = factor_count * 2
     axial_runs = pd.DataFrame(0,
