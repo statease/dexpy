@@ -14,7 +14,7 @@ def build_ccd(factor_count, alpha):
                                   columns=factor_names)
 
     axial_count = factor_count * 2
-    axial_runs = pd.DataFrame(0,
+    axial_runs = pd.DataFrame(0.0,
                               index=np.arange(0, axial_count),
                               columns=factor_names)
 
