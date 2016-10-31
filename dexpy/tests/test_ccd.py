@@ -5,21 +5,40 @@ from dexpy.ccd import alpha_from_type
 import numpy as np
 import patsy
 
+def det_xtxi(x_matrix):
+    """Calculates the determinant of the inverse of the information matrix.
+
+    Also known as the D-optimal criterion.
+
+    TODO: move this out of the tests and into a dexpy module
+    TODO: should be calculating the log
+    """
+    xtxi = np.linalg.inv(np.dot(x_matrix.T, x_matrix))
+    return np.linalg.det(xtxi)
+
+def make_quadratic_model(factor_names):
+    """Creates patsy formula representing a quadratic model for the input terms.
+
+    TODO: move out of tests and into a dexpy module
+    """
+
+    interaction_model = "({})**2".format("+".join(factor_names))
+    squared_terms = "pow({}, 2)".format(",2)+pow(".join(factor_names))
+    return "{}+{}".format(interaction_model, squared_terms)
+
+
 class TestCentralComposite(TestCase):
 
     def test_fcd(self):
         """Tests a simple 2 factor face-centered central composite design."""
 
         ccd_data = build_ccd(2, 1.0)
-        x_matrix = patsy.dmatrix("A+B+A*B+pow(A,2)+pow(B,2)",
+        x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
                                  ccd_data,
                                  return_type="dataframe")
 
-        xtxi = np.linalg.inv(np.dot(x_matrix.T, x_matrix))
-        det_xtxi = np.linalg.det(xtxi)
-
         answer_d = 4.340e-4
-        self.assertAlmostEqual(answer_d, det_xtxi)
+        self.assertAlmostEqual(answer_d, det_xtxi(x_matrix))
 
 
 class TestAlphaParsing(TestCase):
