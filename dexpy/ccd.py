@@ -18,7 +18,7 @@ def build_ccd(factor_count, alpha, center_points=1):
                               index=np.arange(0, axial_count),
                               columns=factor_names)
 
-    alpha = alpha_from_type(factor_count, alpha)
+    alpha = alpha_from_type(factor_count, alpha, center_points)
     axial_run = 0
     for f in range(factor_count):
         axial_runs.loc[axial_run][f] = -alpha
@@ -35,31 +35,48 @@ def build_ccd(factor_count, alpha, center_points=1):
     return factor_data
 
 
-def alpha_from_type(factor_count, type):
+def alpha_from_type(factor_count, alpha_type, center_points=0):
+    """Calculates an alpha value based on the type of ccd.
 
-    if isinstance(type, numbers.Real):
-        return type
+    :param factor_count: The number of factors in the ccd.
+    :type factor_count: integer
+    :param alpha_type: The type of alpha to calculate, e.g. "rotatable". If this
+                       parameter is a float, it will be assumed that the alpha
+                       is being explicitly set and will be returned immediately.
+    :type alpha_type: integer or float
+    :param center_points: The number of center points in the design. This
+                          affects the calculation of the "orthogonal" alpha
+                          type. If the design is blocked this is the center
+                          point count in the factorial block.
+    :type center_points: integer
+    """
+
+    if isinstance(alpha_type, numbers.Real):
+        return alpha_type
 
     # TODO: these should be parameters
     star_reps = 1
+    # if the design is blocked this is the center point count in the axial block
     star_center_points = 0
     star_points = factor_count * 2 * star_reps
     factorial_points = 2**factor_count
-    factorial_center_points = 0
 
-    if type == "rotatable":
+    if alpha_type == "rotatable":
         return math.sqrt(math.sqrt(factorial_points / star_reps));
-    if type == "spherical":
+    if alpha_type == "spherical":
         return math.sqrt(factor_count)
-    if type == "orthogonal":
-        vroot = math.sqrt(factorial_points + star_points + star_center_points + factorial_center_points) - math.sqrt(factorial_points)
+    if alpha_type == "orthogonal":
+        vroot = math.sqrt(factorial_points + star_points + star_center_points +
+                          center_points) - math.sqrt(factorial_points)
         qNumerator = vroot * vroot * factorial_points
         qDenominator = 4.0 * star_reps * star_reps
         # alpha = [(VNf)/(4Rs^2)]^(1/4)
         return math.sqrt(math.sqrt(qNumerator/qDenominator))
-    if type == "practical":
+    if alpha_type == "practical":
         return math.sqrt(math.sqrt(factor_count))
-    if type == "face centered" or type == "facecentered" or type == "face":
+    if (alpha_type == "face centered" or
+        alpha_type == "facecentered" or
+        alpha_type == "face"):
         return 1.0
 
-    raise ValueError("Didn't recognize alpha type '{}'!".format(type))
+    raise ValueError("Didn't recognize alpha type '{}'!".format(alpha_type))
