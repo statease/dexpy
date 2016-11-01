@@ -29,7 +29,8 @@ def make_quadratic_model(factor_names):
 
 class TestCentralComposite(TestCase):
 
-    def test_fcd(self):
+    @classmethod
+    def test_fcd(cls):
         """Tests a simple 2 factor face-centered central composite design."""
 
         ccd_data = build_ccd(2, 1.0)
@@ -40,7 +41,8 @@ class TestCentralComposite(TestCase):
         answer_d = 1.929e-4
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-5)
 
-    def test_rotatable(self):
+    @classmethod
+    def test_rotatable(cls):
         """Tests a 5 factor rotatable central composite design."""
 
         ccd_data = build_ccd(5, "rotatable")
@@ -51,7 +53,8 @@ class TestCentralComposite(TestCase):
         answer_d = 1.380e-33
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-4)
 
-    def test_spherical(self):
+    @classmethod
+    def test_spherical(cls):
         """Tests a 3 factor spherical central composite design."""
 
         ccd_data = build_ccd(3, "spherical")
@@ -62,7 +65,8 @@ class TestCentralComposite(TestCase):
         answer_d = 5.231e-11
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-4)
 
-    def test_orthogonal(self):
+    @classmethod
+    def test_orthogonal(cls):
         """Tests a 7 factor orthogonal central composite design."""
 
         ccd_data = build_ccd(7, "orthogonal")
@@ -73,7 +77,8 @@ class TestCentralComposite(TestCase):
         answer_d = 5.029e-72
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-3)
 
-    def test_practical(self):
+    @classmethod
+    def test_practical(cls):
         """Tests a 9 factor practical central composite design."""
 
         ccd_data = build_ccd(9, "practical")
