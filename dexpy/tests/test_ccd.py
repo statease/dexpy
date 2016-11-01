@@ -37,8 +37,52 @@ class TestCentralComposite(TestCase):
                                  ccd_data,
                                  return_type="dataframe")
 
-        answer_d = 4.340e-4
-        self.assertAlmostEqual(answer_d, det_xtxi(x_matrix))
+        answer_d = 1.929e-4
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-5)
+
+    def test_rotatable(self):
+        """Tests a 5 factor rotatable central composite design."""
+
+        ccd_data = build_ccd(5, "rotatable")
+        x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
+                                 ccd_data,
+                                 return_type="dataframe")
+
+        answer_d = 1.380e-33
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-4)
+
+    def test_spherical(self):
+        """Tests a 3 factor spherical central composite design."""
+
+        ccd_data = build_ccd(3, "spherical")
+        x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
+                                 ccd_data,
+                                 return_type="dataframe")
+
+        answer_d = 5.231e-11
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-4)
+
+    def test_orthogonal(self):
+        """Tests a 7 factor orthogonal central composite design."""
+
+        ccd_data = build_ccd(7, "orthogonal")
+        x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
+                                 ccd_data,
+                                 return_type="dataframe")
+
+        answer_d = 5.029e-72
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-3)
+
+    def test_practical(self):
+        """Tests a 9 factor practical central composite design."""
+
+        ccd_data = build_ccd(9, "practical")
+        x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
+                                 ccd_data,
+                                 return_type="dataframe")
+
+        answer_d = 2.383e-137
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-3)
 
 
 class TestAlphaParsing(TestCase):
