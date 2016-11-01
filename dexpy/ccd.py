@@ -7,7 +7,7 @@ import math
 import numbers
 
 
-def build_ccd(factor_count, alpha):
+def build_ccd(factor_count, alpha, center_points=1):
 
     factor_names = design.get_factor_names(factor_count)
     factorial_runs = pd.DataFrame(build_full_factorial(factor_count),
@@ -26,6 +26,11 @@ def build_ccd(factor_count, alpha):
         axial_runs.loc[axial_run][f] = alpha
         axial_run += 1
     factor_data = factorial_runs.append(axial_runs)
+
+    center_runs = pd.DataFrame(0.0,
+                               index=np.arange(0, center_points),
+                               columns=factor_names)
+    factor_data = factor_data.append(center_runs)
 
     return factor_data
 
