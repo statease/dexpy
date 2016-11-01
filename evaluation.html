@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Design Evaluation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#statistical-power">Statistical Power</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alias-list">Alias List</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
@@ -171,9 +172,32 @@ alpha value for a particular column.</p>
 </table>
 <dl class="docutils">
 <dt>Usage:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">design</span> <span class="o">=</span> <span class="n">build_factorial</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">f_power</span><span class="p">(</span><span class="n">design</span><span class="p">,</span> <span class="s2">&quot;1 + A + B + C + D&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="s2">&quot;1 + A + B + C + D&quot;</span><span class="p">,</span> <span class="n">design</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
 <span class="go">[ 95.016, 49.003, 49.003, 49.003, 49.003 ]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="alias-list">
+<span id="id1"></span><h2>Alias List<a class="headerlink" href="#alias-list" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dexpy.alias.alias_list">
+<code class="descname">alias_list</code><span class="sig-paren">(</span><em>model</em>, <em>design</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/alias.html#alias_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.alias.alias_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a human-readable list of dependent model columns.</p>
+<p>This is done by solving AX=B, where X is the full rank model matrix,
+and B is all of the columns of the model matrix. The result is a matrix
+of coefficients which represent to what degree a given column is
+collinear with another column.</p>
+<dl class="docutils">
+<dt>Usage:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aliases</span><span class="p">,</span> <span class="n">alias_coefs</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">alias</span><span class="o">.</span><span class="n">alias_list</span><span class="p">(</span><span class="s2">&quot;(A+B+C+D)**2)&quot;</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">aliases</span><span class="p">)</span>
+<span class="go">[&#39;A:B = C:D&#39;, &#39;A:C = B:D&#39;, &#39;A:D = B:C&#39;]</span>
 </pre></div>
 </div>
 </dd>

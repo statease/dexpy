@@ -162,8 +162,8 @@
 <span class="sd">        alpha value for a particular column.</span>
 
 <span class="sd">    Usage:</span>
-<span class="sd">      &gt;&gt;&gt; design = build_factorial(4, 8)</span>
-<span class="sd">      &gt;&gt;&gt; print(f_power(design, &quot;1 + A + B + C + D&quot;, 2.0, 0.05))</span>
+<span class="sd">      &gt;&gt;&gt; design = dexpy.factorial.build_factorial(4, 8)</span>
+<span class="sd">      &gt;&gt;&gt; print(dexpy.power.f_power(&quot;1 + A + B + C + D&quot;, design, 2.0, 0.05))</span>
 <span class="sd">      [ 95.016, 49.003, 49.003, 49.003, 49.003 ]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>

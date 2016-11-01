@@ -13,3 +13,10 @@ A power test can show you how well your design can detect effects of a given siz
 
 .. autofunction:: dexpy.power.f_power
 
+.. _alias-list:
+
+==========
+Alias List
+==========
+
+.. autofunction:: dexpy.alias.alias_list
