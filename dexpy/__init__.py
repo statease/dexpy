@@ -4,4 +4,5 @@ A python package for Design of Experiments (DOE).
 
 """
 
-__all__ = [ "design", "factorial", "power", "effects" ]
+__all__ = [ "alias", "ccd", "cox_effects", "design", "effects",
+            "factorial", "power", "samplers" ]

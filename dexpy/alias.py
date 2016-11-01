@@ -14,6 +14,12 @@ def alias_list(model, design):
     and B is all of the columns of the model matrix. The result is a matrix
     of coefficients which represent to what degree a given column is
     collinear with another column.
+
+    Usage:
+      >>> design = dexpy.factorial.build_factorial(4, 8)
+      >>> aliases, alias_coefs = dexpy.alias.alias_list("(A+B+C+D)**2)", design)
+      >>> print(aliases)
+      ['A:B = C:D', 'A:C = B:D', 'A:D = B:C']
     """
 
     # use the square root of machine precision for testing for 0

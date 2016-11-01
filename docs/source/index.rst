@@ -21,7 +21,7 @@ analysis packages, for example :ref:`statistical power <power>`.
 
 As of this writing there are only a handful of designs available,
 but the catalog will be expanding to include standard textbook designs
-like `Central Composite designs <https://en.wikipedia.org/wiki/Central_composite_design>`_,
+like :ref:`Central Composite designs <central-composite>`
 as well as more flexible `Optimal designs <https://en.wikipedia.org/wiki/Optimal_design>`_.
 
 .. toctree::

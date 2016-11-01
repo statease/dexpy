@@ -4,17 +4,32 @@ import itertools
 import pandas as pd
 import dexpy.design as design
 
-def get_full_factorial(factor_count):
+
+def build_full_factorial(factor_count):
+    """Builds a full 2^K factorial design.
+
+    The resulting design will contain every combination of -1 and +1 for the
+    number of factors given.
+    """
     factor_data = []
     for run in itertools.product([-1, 1], repeat=factor_count):
         factor_data.append(list(run))
     return factor_data
 
-def build_factorial(factor_count, run_count):
-    """Builds a factorial design based on a number of factors and runs.
 
-    If the number of runs requested is a 2**factor_count, this will be a full
-    factorial.
+def build_factorial(factor_count, run_count):
+    """Builds a regular two-level design based on a number of factors and runs.
+
+    Full two-level factorial designs may be run for up to 9 factors. These
+    designs permit estimation of all main effects and all interaction effects.
+    If the number of runs requested is a 2^factor_count, the design will be a
+    full factorial.
+
+    If the number of runs is less than 2^factor_count (it still must be a power
+    of two) a fractional design will be created. Not all combinations of runs
+    and factor counts will result in a design. Use the
+    :ref:`alias list<alias-list>` method to see what terms are estimable in
+    the resulting design.
 
     :param factor_count: The number of factors to build for.
     :type factor_count: int
@@ -55,7 +70,7 @@ def build_factorial(factor_count, run_count):
 
     full_factor_count = factor_count - fractional_factors
     full_factor_names = design.get_factor_names(full_factor_count)
-    factor_data = pd.DataFrame(get_full_factorial(full_factor_count),
+    factor_data = pd.DataFrame(build_full_factorial(full_factor_count),
                                columns=full_factor_names)
 
     if full_factor_count == factor_count:

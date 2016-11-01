@@ -25,8 +25,8 @@ def f_power(model, design, effect_size, alpha):
         alpha value for a particular column.
 
     Usage:
-      >>> design = build_factorial(4, 8)
-      >>> print(f_power(design, "1 + A + B + C + D", 2.0, 0.05))
+      >>> design = dexpy.factorial.build_factorial(4, 8)
+      >>> print(dexpy.power.f_power("1 + A + B + C + D", design, 2.0, 0.05))
       [ 95.016, 49.003, 49.003, 49.003, 49.003 ]
     """
     X = dmatrix(model, design)
