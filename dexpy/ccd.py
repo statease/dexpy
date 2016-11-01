@@ -7,7 +7,74 @@ import math
 import numbers
 
 
-def build_ccd(factor_count, alpha, center_points=1):
+def build_ccd(factor_count, alpha="rotatable", center_points=1):
+    """Builds a central composite design.
+
+    The most popular response surface method (RSM) design is the central
+    composite design (CCD). A CCD has three groups of design points:
+
+    (a) two-level factorial or fractional factorial design points
+    (b) axial points (sometimes called "star" points)
+    (c) center points
+
+    CCDs are designed to estimate the coefficients of a quadratic model.
+
+    **Factorial Points**
+
+    The two-level factorial part of the design consists of all possible
+    combinations of the +1 and -1 levels of the factors. For the two factor case
+    there are four design points:
+
+        (-1, -1) (+1, -1) (-1, +1) (+1, +1)
+
+    **Star or Axial Points**
+
+    The star points have all of the factors set to 0, the midpoint, except one
+    factor, which has the value +/- Alpha. For a two-factor problem, the star
+    points are:
+
+        (-Alpha, 0) (+Alpha, 0) (0, -Alpha) (0, +Alpha)
+
+    The value for Alpha is calculated in each design for both rotatability and
+    orthogonality of blocks. The experimenter can choose between these values or
+    enter a different one. The default value is set to the rotatable value.
+
+    Another position for the star points is at the face of the cube portion on
+    the design. This is commonly referred to as a face-centered central
+    composite design. You can create this by setting the alpha distance to one,
+    or setting the alpha parameter to "face centered". This design only requires
+    three levels for each factor.
+
+    **Center Points**
+
+    Center points, as implied by the name, are points with all levels set to
+    coded level 0 - the midpoint of each factor range: (0, 0)
+
+    Center points are usually repeated 4-6 times to get a good estimate of
+    experimental error (pure error).
+
+    To summarize, central composite designs require 5 levels of each factor:
+    -Alpha, -1, 0, 1, and +Alpha. One of the commendable attributes of the
+    central composite design is that its structure lends itself to sequential
+    experimentation. Central composite designs can be carried out in blocks.
+
+    **Categorical Factors**
+
+    You may also add categorical factors to this design. This will cause the
+    number of runs generated to be multiplied by the number of combinations of
+    the categorical factor levels.
+
+    :param factor_count: The number of factors to build for.
+    :type factor_count: int
+    :param alpha_type: The alpha to use for the axial points calculate. This can
+                       be either a float, in which case the "star" or "axial"
+                       points in the design will be placed at that distance. It
+                       can also be a string indicating the type of CCD to build
+                       e.g. "rotatable".
+    :type alpha_type: integer or float
+    :param center_points: The number of center points to include in the design.
+    :type center_points: integer
+    """
 
     factor_names = design.get_factor_names(factor_count)
     factorial_runs = pd.DataFrame(build_full_factorial(factor_count),
