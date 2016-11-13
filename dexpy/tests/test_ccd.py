@@ -3,19 +3,9 @@ from unittest import TestCase
 from dexpy.ccd import build_ccd
 from dexpy.ccd import alpha_from_type
 from dexpy.eval import det_xtxi
+from dexpy.model import make_quadratic_model
 import numpy as np
 import patsy
-
-
-def make_quadratic_model(factor_names):
-    """Creates patsy formula representing a quadratic model for the input terms.
-
-    TODO: move out of tests and into a dexpy module
-    """
-
-    interaction_model = "({})**2".format("+".join(factor_names))
-    squared_terms = "pow({}, 2)".format(",2)+pow(".join(factor_names))
-    return "{}+{}".format(interaction_model, squared_terms)
 
 
 class TestCentralComposite(TestCase):
