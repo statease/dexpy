@@ -2,29 +2,10 @@ from unittest import TestCase
 
 from dexpy.ccd import build_ccd
 from dexpy.ccd import alpha_from_type
+from dexpy.eval import det_xtxi
+from dexpy.model import make_quadratic_model
 import numpy as np
 import patsy
-
-def det_xtxi(x_matrix):
-    """Calculates the determinant of the inverse of the information matrix.
-
-    Also known as the D-optimal criterion.
-
-    TODO: move this out of the tests and into a dexpy module
-    TODO: should be calculating the log
-    """
-    xtxi = np.linalg.inv(np.dot(x_matrix.T, x_matrix))
-    return np.linalg.det(xtxi)
-
-def make_quadratic_model(factor_names):
-    """Creates patsy formula representing a quadratic model for the input terms.
-
-    TODO: move out of tests and into a dexpy module
-    """
-
-    interaction_model = "({})**2".format("+".join(factor_names))
-    squared_terms = "pow({}, 2)".format(",2)+pow(".join(factor_names))
-    return "{}+{}".format(interaction_model, squared_terms)
 
 
 class TestCentralComposite(TestCase):
@@ -38,7 +19,7 @@ class TestCentralComposite(TestCase):
                                  ccd_data,
                                  return_type="dataframe")
 
-        answer_d = 1.929e-4
+        answer_d = -8.55333223803211
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-5)
 
     @classmethod
@@ -50,7 +31,7 @@ class TestCentralComposite(TestCase):
                                  ccd_data,
                                  return_type="dataframe")
 
-        answer_d = 1.380e-33
+        answer_d = -75.66313056042111
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-4)
 
     @classmethod
@@ -62,7 +43,7 @@ class TestCentralComposite(TestCase):
                                  ccd_data,
                                  return_type="dataframe")
 
-        answer_d = 5.231e-11
+        answer_d = -23.673909747960984
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-4)
 
     @classmethod
@@ -74,7 +55,7 @@ class TestCentralComposite(TestCase):
                                  ccd_data,
                                  return_type="dataframe")
 
-        answer_d = 5.029e-72
+        answer_d = -164.17093230784621
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-3)
 
     @classmethod
@@ -86,7 +67,7 @@ class TestCentralComposite(TestCase):
                                  ccd_data,
                                  return_type="dataframe")
 
-        answer_d = 2.383e-137
+        answer_d = -314.58564545825374
         np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-3)
 
 
