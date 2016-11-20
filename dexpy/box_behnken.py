@@ -1,5 +1,6 @@
 import dexpy.design as design
 import pandas as pd
+import numpy as np
 import os
 
 
@@ -39,7 +40,10 @@ def build_box_behnken(factor_count, center_points = 5):
 
     factor_names = design.get_factor_names(factor_count)
     csv_path = os.path.join(os.path.dirname(__file__), "data", "BB_{:02d}.csv".format(factor_count))
-    factor_data = pd.read_csv(csv_path)
-    factor_data.columns = factor_names
+    factor_data = pd.read_csv(csv_path, names=factor_names)
+
+    if center_points > 0:
+        center_point_df = pd.DataFrame(0, columns=factor_names, index=np.arange(len(factor_data), len(factor_data) + center_points))
+        factor_data = factor_data.append(center_point_df)
 
     return factor_data

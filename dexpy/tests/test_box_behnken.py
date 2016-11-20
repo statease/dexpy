@@ -35,16 +35,35 @@ class TestBoxBehnken(TestCase):
         """Tests a 6 factor Box-Behnken design."""
         factor_count = 6
         design = build_box_behnken(factor_count)
-        self.assertEqual(65, len(design))
+        self.assertEqual(53, len(design))
+        x_matrix = patsy.dmatrix(make_quadratic_model(design.columns),
+                                 design,
+                                 return_type="dataframe")
+
+        answer_d = -70.8199239661506
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-5)
 
     def test_twelve_factor(self):
         """Tests a 12 factor Box-Behnken design."""
         factor_count = 12
         design = build_box_behnken(factor_count)
-        self.assertEqual(269, len(design))
+        self.assertEqual(197, len(design))
+        x_matrix = patsy.dmatrix(make_quadratic_model(design.columns),
+                                 design,
+                                 return_type="dataframe")
+
+        answer_d = -285.7997819420118
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-5)
 
     def test_twentyone_factor(self):
         """Tests a 21 factor Box-Behnken design."""
         factor_count = 21
         design = build_box_behnken(factor_count)
-        self.assertEqual(845, len(design))
+        self.assertEqual(341, len(design))
+
+        x_matrix = patsy.dmatrix(make_quadratic_model(design.columns),
+                                 design,
+                                 return_type="dataframe")
+
+        answer_d = -765.04475512524230
+        np.testing.assert_allclose(answer_d, det_xtxi(x_matrix), rtol=1e-5)
