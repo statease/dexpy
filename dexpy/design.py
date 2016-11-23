@@ -59,9 +59,17 @@ def get_factor_names(factor_count):
 
     Example:
         >>> get_factor_names(3)
-        ["A", "B", "C"]
+        ["X1", "X2", "X3"]
     """
-    return [get_var_name(i) for i in range(factor_count)]
+    # Design-Expert uses A/B/C for variable names, switching to A'/B'/C'
+    # and A"/B"/C" after 25 or 50 variables (I is not used)
+    # unfortunately the prime and double prime (single/double quote) characters
+    # are not really suitable for strings
+    # use X1/X2/X3 instead, which is common in academic material (see the NIST
+    # pages,for example)
+    # return [get_var_name(i) for i in range(factor_count)]
+
+    return ["X" + str(i+1) for i in range(factor_count)]
 
 
 def get_response_names(response_count):

@@ -26,5 +26,5 @@ class TestModelMatrix(TestCase):
         ]
 
         factor_data = pd.DataFrame(factor_data, columns=design.get_factor_names(len(factor_data[0])))
-        X = design.create_model_matrix(factor_data, "1 + A + B + A:B + I(A**2) + I(B**2)")
+        X = design.create_model_matrix(factor_data, "1 + X1 + X2 + X1:X2 + I(X1**2) + I(X2**2)")
         np.testing.assert_almost_equal([1.0, axial_pt, 0.0, -0.0, pow(axial_pt, 2), 0.0], X[5])

@@ -22,7 +22,7 @@ class TestAliases(TestCase):
         factor_names = design.get_factor_names(len(factor_data[0]))
         factor_data = pd.DataFrame(factor_data, columns=factor_names)
 
-        aliases, alias_coefs = alias_list("A+B", factor_data)
+        aliases, alias_coefs = alias_list("X1+X2", factor_data)
         answer = [[1, 0, 0], [0, 1, 1]]
 
         np.testing.assert_allclose(alias_coefs,
@@ -30,7 +30,7 @@ class TestAliases(TestCase):
                                    rtol=1e-4,
                                    atol=np.finfo(float).eps)
 
-        answer_list = ["A = B"]
+        answer_list = ["X1 = X2"]
         self.assertEqual(answer_list, aliases)
 
     def test_pb(self):
@@ -54,7 +54,7 @@ class TestAliases(TestCase):
         factor_names = design.get_factor_names(len(factor_data[0]))
         factor_data = pd.DataFrame(factor_data, columns=factor_names)
 
-        aliases, alias_coefs = alias_list("(A+B+C+D+E+F+G+H+J+K+L)**2", factor_data)
+        aliases, alias_coefs = alias_list("(X1+X2+X3+X4+X5+X6+X7+X8+X9+X10+X11)**2", factor_data)
 
         for r in range(alias_coefs.shape[0]):
             for c in range(alias_coefs.shape[1]):

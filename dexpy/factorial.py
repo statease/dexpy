@@ -78,6 +78,7 @@ def build_factorial(factor_count, run_count):
 
     for gen in generators:
         lhs, rhs = gen.split("=")
+        lhs = "X" + str(design.get_var_id(lhs)+1 ) # rename to X1/X2/etc
         cols = []
         for var in rhs:
             cols.append(design.get_var_id(var))

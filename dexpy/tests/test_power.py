@@ -28,7 +28,7 @@ class TestPower(TestCase):
         ]
 
         factor_data = pd.DataFrame(factor_data, columns=design.get_factor_names(len(factor_data[0])))
-        model = "1 + A + B + A:B + I(A**2) + I(B**2)"
+        model = "1 + X1 + X2 + X1:X2 + I(X1**2) + I(X2**2)"
         power_result = power.f_power(model, factor_data, 2, 0.05)
 
         power_answers = [
@@ -47,7 +47,7 @@ class TestPower(TestCase):
             factor_data.append(list(run))
         factor_data = pd.DataFrame(factor_data, columns=design.get_factor_names(factor_count))
 
-        model = "(A+B+C+D+E+F+G+H+J)**4" # will generate a 4fi model
+        model = "(X1+X2+X3+X4+X5+X6+X7+X8+X9)**4" # will generate a 4fi model
 
         power_result = power.f_power(model, factor_data, 0.2, 0.05)
 
