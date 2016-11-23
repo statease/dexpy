@@ -1,8 +1,8 @@
 import dexpy.design as design
 import pandas as pd
 import numpy as np
-import math
 import itertools
+from dexpy.eval import count_n_choose_k as count_nk
 
 def build_simplex_centroid(factor_count):
     """Builds a Simplex Centroid mixture design.
@@ -26,9 +26,7 @@ def build_simplex_centroid(factor_count):
 
     run_count = 0
     for i in range(1, factor_count+1):
-        run_count += (math.factorial(factor_count) /
-                      math.factorial(i) /
-                      math.factorial(factor_count - i))
+        run_count += count_nk(factor_count, i)
 
     factor_names = design.get_factor_names(factor_count)
     factor_data = pd.DataFrame(0, columns=factor_names,
