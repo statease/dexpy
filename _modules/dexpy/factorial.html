@@ -215,6 +215,7 @@
 
     <span class="k">for</span> <span class="n">gen</span> <span class="ow">in</span> <span class="n">generators</span><span class="p">:</span>
         <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="n">lhs</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">design</span><span class="o">.</span><span class="n">get_var_id</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span> <span class="p">)</span> <span class="c1"># rename to X1/X2/etc</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">rhs</span><span class="p">:</span>
             <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">design</span><span class="o">.</span><span class="n">get_var_id</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
