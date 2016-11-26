@@ -12,7 +12,7 @@ class TestFactorial(TestCase):
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
         # should be able to estimate the full 3FI model
-        aliases, _ = alias_list("(A+B+C)**3", design)
+        aliases, _ = alias_list("(X1+X2+X3)**3", design)
         self.assertEqual(0, len(aliases))
 
     def test_res_v(self):
@@ -21,22 +21,22 @@ class TestFactorial(TestCase):
         run_count = 16
         design = build_factorial(factor_count, run_count)
         self.assertEqual(16, len(design))
-        aliases, _ = alias_list("(A+B+C+D+E)**2", design)
+        aliases, _ = alias_list("(X1+X2+X3+X4+X5)**2", design)
         # should be no 2FI aliases in a res v design
         self.assertEqual(0, len(aliases))
-        aliases, _ = alias_list("(A+B+C+D+E)**3", design)
+        aliases, _ = alias_list("(X1+X2+X3+X4+X5)**3", design)
         # every 2FI should be aliased with a 3FI
         answer_aliases = [
-            'A:B = C:D:E',
-            'A:C = B:D:E',
-            'A:D = B:C:E',
-            'A:E = B:C:D',
-            'B:C = A:D:E',
-            'B:D = A:C:E',
-            'B:E = A:C:D',
-            'C:D = A:B:E',
-            'C:E = A:B:D',
-            'D:E = A:B:C'
+            'X1:X2 = X3:X4:X5',
+            'X1:X3 = X2:X4:X5',
+            'X1:X4 = X2:X3:X5',
+            'X1:X5 = X2:X3:X4',
+            'X2:X3 = X1:X4:X5',
+            'X2:X4 = X1:X3:X5',
+            'X2:X5 = X1:X3:X4',
+            'X3:X4 = X1:X2:X5',
+            'X3:X5 = X1:X2:X4',
+            'X4:X5 = X1:X2:X3'
         ]
         self.assertEqual(answer_aliases, aliases)
 
@@ -46,16 +46,16 @@ class TestFactorial(TestCase):
         run_count = 8
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
-        model = "(A+B+C+D+E+F)**2"
+        model = "(X1+X2+X3+X4+X5+X6)**2"
         aliases, _ = alias_list(model, design)
         answer_aliases = [
-            'A = B:D + C:E',
-            'B = A:D + C:F',
-            'C = A:E + B:F',
-            'D = A:B + E:F',
-            'E = A:C + D:F',
-            'F = B:C + D:E',
-            'A:F = B:E + C:D',
+            'X1 = X2:X4 + X3:X5',
+            'X2 = X1:X4 + X3:X6',
+            'X3 = X1:X5 + X2:X6',
+            'X4 = X1:X2 + X5:X6',
+            'X5 = X1:X3 + X4:X6',
+            'X6 = X2:X3 + X4:X5',
+            'X1:X6 = X2:X5 + X3:X4',
         ]
         self.assertEqual(answer_aliases, aliases)
 
@@ -65,12 +65,12 @@ class TestFactorial(TestCase):
         run_count = 8
         design = build_factorial(factor_count, run_count)
         self.assertEqual(8, len(design))
-        aliases, _ = alias_list("(A+B+C+D+E+F+G)**2", design)
+        aliases, _ = alias_list("(X1+X2+X3+X4+X5+X6+X7)**2", design)
         answer_aliases = [
-            'A = B:D + C:E + F:G', 'B = A:D + C:F + E:G',
-            'C = A:E + B:F + D:G', 'D = A:B + C:G + E:F',
-            'E = A:C + B:G + D:F', 'F = A:G + B:C + D:E',
-            'G = A:F + B:E + C:D'
+            'X1 = X2:X4 + X3:X5 + X6:X7', 'X2 = X1:X4 + X3:X6 + X5:X7',
+            'X3 = X1:X5 + X2:X6 + X4:X7', 'X4 = X1:X2 + X3:X7 + X5:X6',
+            'X5 = X1:X3 + X2:X7 + X4:X6', 'X6 = X1:X7 + X2:X3 + X4:X5',
+            'X7 = X1:X6 + X2:X5 + X3:X4'
         ]
         self.assertEqual(answer_aliases, aliases)
 
@@ -80,40 +80,40 @@ class TestFactorial(TestCase):
         run_count = 32
         design = build_factorial(factor_count, run_count)
         self.assertEqual(32, len(design))
-        model = "(A+B+C+D+E+F+G+H+J+K+L+M+N+O+P+Q+R+S+T+U+V)**2"
+        model = "(X1+X2+X3+X4+X5+X6+X7+X8+X9+X10+X11+X12+X13+X14+X15+X16+X17+X18+X19+X20+X21)**2"
         aliases, _ = alias_list(model, design)
         answer_aliases = [
-            'A = J:K + N:O + Q:R + S:T + U:V',
-            'B = H:K + M:O + P:R + S:U + T:V',
-            'C = G:K + L:O + P:T + Q:U + R:V',
-            'D = F:K + L:R + M:T + N:U + O:V',
-            'E = F:O + G:R + H:T + J:U + K:V',
-            'F = D:K + E:O + P:U + Q:T + R:S',
-            'G = C:K + E:R + M:U + N:T + O:S',
-            'H = B:K + E:T + L:U + N:R + O:Q',
-            'J = A:K + E:U + L:T + M:R + O:P',
-            'K = A:J + B:H + C:G + D:F + E:V + L:S + M:Q + N:P',
-            'L = C:O + D:R + H:U + J:T + K:S',
-            'M = B:O + D:T + G:U + J:R + K:Q',
-            'N = A:O + D:U + G:T + H:R + K:P',
-            'O = A:N + B:M + C:L + D:V + E:F + G:S + H:Q + J:P',
-            'P = B:R + C:T + F:U + J:O + K:N',
-            'Q = A:R + C:U + F:T + H:O + K:M',
-            'R = A:Q + B:P + C:V + D:L + E:G + F:S + H:N + J:M',
-            'S = A:T + B:U + F:R + G:O + K:L',
-            'T = A:S + B:V + C:P + D:M + E:H + F:Q + G:N + J:L',
-            'U = A:V + B:S + C:Q + D:N + E:J + F:P + G:M + H:L',
-            'V = A:U + B:T + C:R + D:O + E:K',
-            'A:B = C:F + D:G + E:L + H:J + M:N + P:Q + S:V + T:U',
-            'A:C = B:F + D:H + E:M + G:J + L:N + P:S + Q:V + R:U',
-            'A:D = B:G + C:H + E:P + F:J + L:Q + M:S + N:V + O:U',
-            'A:E = B:L + C:M + D:P + F:N + G:Q + H:S + J:V + K:U',
-            'A:F = B:C + D:J + E:N + G:H + L:M + P:V + Q:S + R:T',
-            'A:G = B:D + C:J + E:Q + F:H + L:P + M:V + N:S + O:T',
-            'A:H = B:J + C:D + E:S + F:G + L:V + M:P + N:Q + O:R',
-            'A:L = B:E + C:N + D:Q + F:M + G:P + H:V + J:S + K:T',
-            'A:M = B:N + C:E + D:S + F:L + G:V + H:P + J:Q + K:R',
-            'A:P = B:Q + C:S + D:E + F:V + G:L + H:M + J:N + K:O'
+            'X1 = X9:X10 + X13:X14 + X16:X17 + X18:X19 + X20:X21',
+            'X2 = X8:X10 + X12:X14 + X15:X17 + X18:X20 + X19:X21',
+            'X3 = X7:X10 + X11:X14 + X15:X19 + X16:X20 + X17:X21',
+            'X4 = X6:X10 + X11:X17 + X12:X19 + X13:X20 + X14:X21',
+            'X5 = X6:X14 + X7:X17 + X8:X19 + X9:X20 + X10:X21',
+            'X6 = X4:X10 + X5:X14 + X15:X20 + X16:X19 + X17:X18',
+            'X7 = X3:X10 + X5:X17 + X12:X20 + X13:X19 + X14:X18',
+            'X8 = X2:X10 + X5:X19 + X11:X20 + X13:X17 + X14:X16',
+            'X9 = X1:X10 + X5:X20 + X11:X19 + X12:X17 + X14:X15',
+            'X10 = X1:X9 + X2:X8 + X3:X7 + X4:X6 + X5:X21 + X11:X18 + X12:X16 + X13:X15',
+            'X11 = X3:X14 + X4:X17 + X8:X20 + X9:X19 + X10:X18',
+            'X12 = X2:X14 + X4:X19 + X7:X20 + X9:X17 + X10:X16',
+            'X13 = X1:X14 + X4:X20 + X7:X19 + X8:X17 + X10:X15',
+            'X14 = X1:X13 + X2:X12 + X3:X11 + X4:X21 + X5:X6 + X7:X18 + X8:X16 + X9:X15',
+            'X15 = X2:X17 + X3:X19 + X6:X20 + X9:X14 + X10:X13',
+            'X16 = X1:X17 + X3:X20 + X6:X19 + X8:X14 + X10:X12',
+            'X17 = X1:X16 + X2:X15 + X3:X21 + X4:X11 + X5:X7 + X6:X18 + X8:X13 + X9:X12',
+            'X18 = X1:X19 + X2:X20 + X6:X17 + X7:X14 + X10:X11',
+            'X19 = X1:X18 + X2:X21 + X3:X15 + X4:X12 + X5:X8 + X6:X16 + X7:X13 + X9:X11',
+            'X20 = X1:X21 + X2:X18 + X3:X16 + X4:X13 + X5:X9 + X6:X15 + X7:X12 + X8:X11',
+            'X21 = X1:X20 + X2:X19 + X3:X17 + X4:X14 + X5:X10',
+            'X1:X2 = X3:X6 + X4:X7 + X5:X11 + X8:X9 + X12:X13 + X15:X16 + X18:X21 + X19:X20',
+            'X1:X3 = X2:X6 + X4:X8 + X5:X12 + X7:X9 + X11:X13 + X15:X18 + X16:X21 + X17:X20',
+            'X1:X4 = X2:X7 + X3:X8 + X5:X15 + X6:X9 + X11:X16 + X12:X18 + X13:X21 + X14:X20',
+            'X1:X5 = X2:X11 + X3:X12 + X4:X15 + X6:X13 + X7:X16 + X8:X18 + X9:X21 + X10:X20',
+            'X1:X6 = X2:X3 + X4:X9 + X5:X13 + X7:X8 + X11:X12 + X15:X21 + X16:X18 + X17:X19',
+            'X1:X7 = X2:X4 + X3:X9 + X5:X16 + X6:X8 + X11:X15 + X12:X21 + X13:X18 + X14:X19',
+            'X1:X8 = X2:X9 + X3:X4 + X5:X18 + X6:X7 + X11:X21 + X12:X15 + X13:X16 + X14:X17',
+            'X1:X11 = X2:X5 + X3:X13 + X4:X16 + X6:X12 + X7:X15 + X8:X21 + X9:X18 + X10:X19',
+            'X1:X12 = X2:X13 + X3:X5 + X4:X18 + X6:X11 + X7:X21 + X8:X15 + X9:X16 + X10:X17',
+            'X1:X15 = X2:X16 + X3:X18 + X4:X5 + X6:X21 + X7:X11 + X8:X12 + X9:X13 + X10:X14'
         ]
 
         self.assertEqual(answer_aliases, aliases)

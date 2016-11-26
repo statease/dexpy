@@ -10,9 +10,9 @@ class TestLoad(TestCase):
         design = dsn.load_file(os.path.join(data_dir, "two_fac.xml"))
         self.assertEqual(4, dsn.runs(design))
 
-        self.assertEqual(4, len(design['A']))
-        self.assertEqual('1', design['A'][0])
-        self.assertEqual('-1', design['B'][1])
+        self.assertEqual(4, len(design['X1']))
+        self.assertEqual('1', design['X1'][0])
+        self.assertEqual('-1', design['X2'][1])
 
         self.assertEqual(4, len(design['R1']))
         self.assertEqual(None, design['R1'][0])
