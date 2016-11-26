@@ -50,3 +50,24 @@ class TestSimplexLattice(TestCase):
             actual_d.append(det_xtxi(x_matrix, use_log=True))
 
         np.testing.assert_allclose(answer_d, actual_d, rtol=1e-5)
+
+    def test_quadratic(self):
+        """Checks the optimality of cubic simplex lattice designs."""
+        answer_d = [
+            2.2096470973347775, 13.228395211331954, 39.6547285196038,
+            88.08632361788068, 165.1201784728033, 277.35271609131553,
+            431.37986869540055, 633.7971466915958, 891.1996956551948,
+            1210.1823437751189, 1597.3396416379908, 2059.265895808832,
+        ]
+        actual_d = []
+        order = ModelOrder.cubic
+        for i in range(2, 14):
+            design = build_simplex_lattice(i, order)
+            model = "-1 + " + make_model(design.columns, order,
+                                         include_powers=False)
+            x_matrix = patsy.dmatrix(model,
+                                     design,
+                                     return_type="dataframe")
+            actual_d.append(det_xtxi(x_matrix, use_log=True))
+
+        np.testing.assert_allclose(answer_d, actual_d, rtol=1e-4)
