@@ -51,7 +51,7 @@ class TestSimplexLattice(TestCase):
 
         np.testing.assert_allclose(answer_d, actual_d, rtol=1e-5)
 
-    def test_quadratic(self):
+    def test_cubic(self):
         """Checks the optimality of cubic simplex lattice designs."""
         answer_d = [
             2.2096470973347775, 13.228395211331954, 39.6547285196038,
