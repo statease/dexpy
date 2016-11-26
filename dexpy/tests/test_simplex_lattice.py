@@ -4,11 +4,11 @@ from dexpy.eval import det_xtxi
 from dexpy.model import make_model, ModelOrder
 import numpy as np
 import patsy
-import math
 
 class TestSimplexLattice(TestCase):
 
-    def test_linear(self):
+    @classmethod
+    def test_linear(cls):
         """Checks the optimality of linear simplex lattice designs."""
         answer_d = [ 1 ] * 29
         actual_d = []
@@ -24,7 +24,8 @@ class TestSimplexLattice(TestCase):
 
         np.testing.assert_allclose(answer_d, actual_d, rtol=1e-5)
 
-    def test_quadratic(self):
+    @classmethod
+    def test_quadratic(cls):
         """Checks the optimality of quadratic simplex lattice designs."""
         answer_d = [
             2.772588722239781, 8.317766166719345, 16.63553233343869,
@@ -51,7 +52,8 @@ class TestSimplexLattice(TestCase):
 
         np.testing.assert_allclose(answer_d, actual_d, rtol=1e-5)
 
-    def test_cubic(self):
+    @classmethod
+    def test_cubic(cls):
         """Checks the optimality of cubic simplex lattice designs."""
         answer_d = [
             2.2096470973347775, 13.228395211331954, 39.6547285196038,

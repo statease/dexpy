@@ -28,6 +28,6 @@ def make_model(factor_names, model_order, include_powers = True):
             return interaction_model
         squared_terms = "pow({}, 2)".format(",2)+pow(".join(factor_names))
         cubed_terms = "pow({}, 3)".format(",3)+pow(".join(factor_names))
-        return "+".join(interaction_model, squared_terms, cubed_terms)
+        return "+".join([interaction_model, squared_terms, cubed_terms])
 
     return "+".join(factor_names)

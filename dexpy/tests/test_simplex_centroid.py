@@ -7,7 +7,8 @@ import patsy
 
 class TestSimplexCentroid(TestCase):
 
-    def test_d_optimality(self):
+    @classmethod
+    def test_d_optimality(cls):
         answer_d = [ 2.513455e3, 2.197654e6, 5.52777e9,
                      1.85905e13, 3.447727e16, 1.275709e19 ]
 
