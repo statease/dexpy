@@ -23,8 +23,8 @@ general:
     ignore:
       - gh-pages
 
-deployment:
-  docs:
-    branch: master
-    commands:
-      - source ci/deploy_ghpages.sh
+#deployment:
+#  docs:
+#    branch: master
+#    commands:
+#      - source ci/deploy_ghpages.sh
