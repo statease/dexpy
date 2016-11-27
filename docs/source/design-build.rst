@@ -58,4 +58,12 @@ the sum of the other components must decrease to maintain the sum. Mixture
 optimal designs are most commonly used because they allow the most flexibility
 in your component ranges.
 
-*Coming Soon*
+Simplex Lattice
+---------------
+
+.. autofunction:: dexpy.simplex_lattice.build_simplex_lattice
+
+Simplex Centroid
+----------------
+
+.. autofunction:: dexpy.simplex_centroid.build_simplex_centroid

@@ -19,11 +19,6 @@ as `statsmodels <https://github.com/statsmodels/statsmodels/>`_.
 However, there are also functions that fill in holes in the existing statistical
 analysis packages, for example :ref:`statistical power <power>`.
 
-As of this writing there are only a handful of designs available,
-but the catalog will be expanding to include standard textbook designs
-like :ref:`Central Composite designs <central-composite>`
-as well as more flexible `Optimal designs <https://en.wikipedia.org/wiki/Optimal_design>`_.
-
 .. toctree::
     :maxdepth: 2
 
