@@ -212,7 +212,16 @@ coded -1 and +1 values, for when we make the coffee.
 | 23  | 3.25   | 9          | 4         | blade      | dark  |
 +-----+--------+------------+-----------+------------+-------+
 
-All that is left is to drink 24 pots of coffee and record the results.
+All that is left is to drink 24 pots of coffee and record the results. Note
+that, while the tables in this example are in a sorted order, the actual
+experiment was run in random order. This is done to reduce the possibility
+of incidental variables influencing the results. For example, if the
+temperature in the office for the first 8 runs was cold, the testers may
+have rated the taste higher. Hot coffee being more pleasing in a cold
+environment. If the first 8 runs were the only runs where amount was at its
+low setting, as it is in the sorted table above, we would confound the low
+amount effect with the effect of the cold office, and incorrectly conclude
+that a lower amount of coffee is better.
 
 +-----+------+-----+------+------+--------+------+
 | run | hank | joe | neal | mike | martin | mean |
