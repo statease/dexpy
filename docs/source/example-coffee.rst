@@ -54,11 +54,11 @@ to noise ratio of 2:
 ========== ======
 Term       Power
 ========== ======
-amount     99.97%
-grind_size 99.97%
-brew_time  99.97%
-grind_type 99.97%
-beans      99.97%
+amount     99.98%
+grind_size 99.98%
+brew_time  99.98%
+grind_type 99.99%
+beans      99.99%
 ========== ======
 
 This means we have a 99.97% chance of detecting a change of 2 taste rating,
@@ -90,11 +90,11 @@ see the power is still quite good.
 ========== ======
 Term       Power
 ========== ======
-amount     96.02%
-grind_size 96.02%
-brew_time  96.02%
-grind_type 98.57%
-beans      98.57%
+amount     96.55%
+grind_size 96.55%
+brew_time  96.55%
+grind_type 99.61%
+beans      99.61%
 ========== ======
 
 We can also check the power for the interaction model:
@@ -102,7 +102,6 @@ We can also check the power for the interaction model:
 .. code:: python
 
     twofi_model = "(" + '+'.join(coffee_design.columns) + ")**2"
-    desc = patsy.ModelDesc.from_formula(twofi_model)
     factorial_power = dexpy.power.f_power(twofi_model, coffee_design, sn, alpha)
     factorial_power.pop(0)
     factorial_power = ['{0:.2f}%'.format(i*100) for i in factorial_power] # convert to %
@@ -110,21 +109,21 @@ We can also check the power for the interaction model:
 ===================== ======
 Term                  Power
 ===================== ======
-amount                84.33%
-grind_size            84.33%
-brew_time             84.33%
-grind_type            90.89%
-beans                 90.89%
-amount:grind_size     84.33%
-amount:brew_time      84.33%
-amount:grind_type     84.33%
-amount:beans          84.33%
-grind_size:brew_time  84.33%
-grind_size:grind_type 84.33%
-grind_size:beans      84.33%
-brew_time:grind_type  84.33%
-brew_time:beans       84.33%
-grind_type:beans      90.89%
+amount                93.67%
+grind_size            93.67%
+brew_time             93.67%
+grind_type            98.91%
+beans                 98.91%
+amount:grind_size     93.67%
+amount:brew_time      93.67%
+amount:grind_type     93.67%
+amount:beans          93.67%
+grind_size:brew_time  93.67%
+grind_size:grind_type 93.67%
+grind_size:beans      93.67%
+brew_time:grind_type  93.67%
+brew_time:beans       93.67%
+grind_type:beans      98.91%
 ===================== ======
 
 
