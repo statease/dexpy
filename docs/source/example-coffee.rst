@@ -279,8 +279,8 @@ We'll store the mean for later as another column in the DataFrame.
 .. code:: python
 
     coffee_design['taste_rating'] = [
-        5.6, 6.4, 4.8, 5.4, 4, 5.8, 4.8, 4.8
-        6.2, 5.8, 5.4, 5.8, 6, 5.2, 5, 5.8
+        5.6, 6.4, 4.8, 5.4, 4, 5.8, 4.8, 4.8,
+        6.2, 5.8, 5.4, 5.8, 6, 5.2, 5, 5.8,
         5.4, 5, 6.2, 5.6, 5.2, 6.2, 5, 6
     ]
 
