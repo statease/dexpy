@@ -15,6 +15,15 @@ def build_simplex_lattice(factor_count, model_order = ModelOrder.quadratic):
     pure components and enough points between them to estimate an equation of
     degree m. This design differs from a simplex-centroid design by having
     enough points to estimate a full cubic model.
+
+    :param factor_count: The number of mixture components to build for.
+    :type factor_count: int
+    :param model_order: The order to build for. ModelOrder.linear will choose
+                        vertices only (pure blends). ModelOrder.quadratice will
+                        add binary blends, and ModelOrder.cubic will add blends
+                        of three components.
+
+    :type model_order: dexpy.model.ModelOrder
     """
 
 

@@ -22,6 +22,9 @@ def build_simplex_centroid(factor_count):
     This design differs from a simplex-lattice design. It cannot be used to
     estimate the full cubic model, but can be used to estimate a special cubic
     model.
+
+    :param factor_count: The number of mixture components to build for.
+    :type factor_count: int
     """
 
     run_count = 0
