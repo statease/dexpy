@@ -72,15 +72,15 @@ print(factorial_power)
 
 # results of the experiment
 coffee_design['taste_rating'] = [
-    5.6, 6.4, 4.8, 5.4, 4, 5.8, 4.8, 4.8,
-    6.2, 5.8, 5.4, 5.8, 6, 5.2, 5, 5.8,
-    5.4, 5, 6.2, 5.6, 5.2, 6.2, 5, 6
+    4.4, 5.8, 6.8, 4.6, 2.6, 5, 6.2, 3.4,
+    5.6, 5, 5.8, 6.6, 6.2, 3.4, 5, 6.4,
+    6, 6, 6.8, 6, 6, 6.2, 5, 6.4
 ]
 
 lm = statsmodels.formula.api.ols("taste_rating ~" + twofi_model, data=coffee_design).fit()
 print(lm.summary2())
 
-reduced_model = "amount + grind_size + brew_time + grind_type + beans + amount:beans + grind_size:brew_time + grind_size:grind_type"
+reduced_model = "amount + grind_size + brew_time + beans + grind_size:beans"
 lm = statsmodels.formula.api.ols("taste_rating ~" + reduced_model, data=coffee_design).fit()
 print(lm.summary2())
 

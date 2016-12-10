@@ -127,8 +127,8 @@ grind_type:beans      98.91%
 ===================== ======
 
 
-Run Experiment
---------------
+Run the Experiment
+------------------
 
 We can build the 2\ :sup:`5-1` design using :ref:`build_factorial <factorial>`,
 then appending the 8 center point runs. We actually already did this to evaluate
@@ -279,9 +279,28 @@ We'll store the mean for later as another column in the DataFrame.
 .. code:: python
 
     coffee_design['taste_rating'] = [
-        5.6, 6.4, 4.8, 5.4, 4, 5.8, 4.8, 4.8,
-        6.2, 5.8, 5.4, 5.8, 6, 5.2, 5, 5.8,
-        5.4, 5, 6.2, 5.6, 5.2, 6.2, 5, 6
+        4.4, 5.8, 6.8, 4.6, 2.6, 5, 6.2, 3.4,
+        5.6, 5, 5.8, 6.6, 6.2, 3.4, 5, 6.4,
+        6, 6, 6.8, 6, 6, 6.2, 5, 6.4
     ]
+
+
+Fit a Model
+-----------
+
+The statsmodels package has an OLS fitting routine that takes a patsy formula:
+
+.. code:: python
+
+  lm = statsmodels.formula.api.ols("taste_rating ~" + twofi_model, data=coffee_design).fit()
+  print(lm.summary2())
+
+We can reduce this model by removing terms that have a p-value above 0.05:
+
+.. code:: python
+
+  reduced_model = "amount + grind_size + brew_time + grind_type + amount:grind_type + grind_size:brew_time + grind_size:grind_type"
+  lm = statsmodels.formula.api.ols("taste_rating ~" + reduced_model, data=coffee_design).fit()
+  print(lm.summary2())
 
 .. [#] http://www.statease.com/publications/newsletter/stat-teaser-09-16#article1
