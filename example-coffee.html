@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example: Coffee Taste Test &mdash; dexpy 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
+        <link rel="prev" title="Optimization" href="optimization.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dexpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example: Coffee Taste Test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem-description">Problem Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-choice">Design Choice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-the-experiment">Run the Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fit-a-model">Fit a Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">dexpy</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Example: Coffee Taste Test</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/example-coffee.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-coffee-taste-test">
+<h1>Example: Coffee Taste Test<a class="headerlink" href="#example-coffee-taste-test" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="problem-description">
+<h2>Problem Description<a class="headerlink" href="#problem-description" title="Permalink to this headline">¶</a></h2>
+<p>A coffee taste test was conducted at the Stat-Ease office to improve the taste
+of the coffee <a class="footnote-reference" href="#id2" id="id1">[1]</a>. This example uses a simplified version of that experiment.</p>
+<p>We will look at 5 input factors:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Amount of Coffee (2.5 to 4.0 oz.)</li>
+<li>Grind size (8-10mm)</li>
+<li>Brew time (3.5 to 4.5 minutes)</li>
+<li>Grind Type (burr vs blade)</li>
+<li>Coffee beans (light vs dark)</li>
+</ul>
+</div></blockquote>
+<p>With one output, or <cite>response</cite>, variable:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Average overall liking (1-9)</li>
+</ul>
+</div></blockquote>
+<p>The liking is an average of the scores of a panel of 5 office coffee drinkers.</p>
+</div>
+<div class="section" id="design-choice">
+<h2>Design Choice<a class="headerlink" href="#design-choice" title="Permalink to this headline">¶</a></h2>
+<p>A <a class="reference external" href="http://www.itl.nist.gov/div898/handbook/pri/section3/pri3332.htm">full factorial</a>,
+that is, running all combinations of lows and highs, would take 2<sup>5</sup> = 32
+taste tests. We want to add 8 center point runs to check for curvature,
+bringing the total number of runs up to 36.  We can only do 3 per day, so as
+not to over-caffienate our testers, and can only do the tests on days when all
+5 testers are in the office. That means the test will probably take a month or
+so.</p>
+<p>We can calculate the power of a full factorial using dexpy, assuming a signal
+to noise ratio of 2:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">center_points</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">coffee_design</span> <span class="o">=</span> <span class="n">coffee_design</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">center_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+<span class="n">coffee_design</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coffee_design</span><span class="p">))</span>
+
+<span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+<span class="n">factorial_power</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># remove intercept</span>
+<span class="n">factorial_power</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">factorial_power</span><span class="p">]</span> <span class="c1"># convert to %</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Power</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>amount</td>
+<td>99.98%</td>
+</tr>
+<tr class="row-odd"><td>grind_size</td>
+<td>99.98%</td>
+</tr>
+<tr class="row-even"><td>brew_time</td>
+<td>99.98%</td>
+</tr>
+<tr class="row-odd"><td>grind_type</td>
+<td>99.99%</td>
+</tr>
+<tr class="row-even"><td>beans</td>
+<td>99.99%</td>
+</tr>
+</tbody>
+</table>
+<p>This means we have a 99.97% chance of detecting a change of 2 taste rating,
+assuming a standard deviation of 1 taste rating for the experiment. This is
+high enough that we decide to run a fraction instead, and get the experiment
+done more quickly. We can create a 2<sup>5-1</sup> fractional factorial, which
+will have 16 runs, along with the 4 center points for a total of 20. As you can
+see the power is still quite good.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_type&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">]</span>
+<span class="n">center_points</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="n">coffee_design</span> <span class="o">=</span> <span class="n">coffee_design</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">center_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+<span class="n">coffee_design</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coffee_design</span><span class="p">))</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+<span class="n">factorial_power</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># remove intercept</span>
+<span class="n">factorial_power</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">factorial_power</span><span class="p">]</span> <span class="c1"># convert to %</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Power</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>amount</td>
+<td>96.55%</td>
+</tr>
+<tr class="row-odd"><td>grind_size</td>
+<td>96.55%</td>
+</tr>
+<tr class="row-even"><td>brew_time</td>
+<td>96.55%</td>
+</tr>
+<tr class="row-odd"><td>grind_type</td>
+<td>99.61%</td>
+</tr>
+<tr class="row-even"><td>beans</td>
+<td>99.61%</td>
+</tr>
+</tbody>
+</table>
+<p>We can also check the power for the interaction model:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">twofi_model</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)**2&quot;</span>
+<span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">twofi_model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+<span class="n">factorial_power</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">factorial_power</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">factorial_power</span><span class="p">]</span> <span class="c1"># convert to %</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="78%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Power</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>amount</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-odd"><td>grind_size</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-even"><td>brew_time</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-odd"><td>grind_type</td>
+<td>98.91%</td>
+</tr>
+<tr class="row-even"><td>beans</td>
+<td>98.91%</td>
+</tr>
+<tr class="row-odd"><td>amount:grind_size</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-even"><td>amount:brew_time</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-odd"><td>amount:grind_type</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-even"><td>amount:beans</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-odd"><td>grind_size:brew_time</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-even"><td>grind_size:grind_type</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-odd"><td>grind_size:beans</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-even"><td>brew_time:grind_type</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-odd"><td>brew_time:beans</td>
+<td>93.67%</td>
+</tr>
+<tr class="row-even"><td>grind_type:beans</td>
+<td>98.91%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="run-the-experiment">
+<h2>Run the Experiment<a class="headerlink" href="#run-the-experiment" title="Permalink to this headline">¶</a></h2>
+<p>We can build the 2<sup>5-1</sup> design using <a class="reference internal" href="design-build.html#factorial"><span class="std std-ref">build_factorial</span></a>,
+then appending the 8 center point runs. We actually already did this to evaluate
+the power, but here is the code again.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_type&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">]</span>
+<span class="n">center_points</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="n">coffee_design</span> <span class="o">=</span> <span class="n">coffee_design</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">center_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+<span class="n">coffee_design</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coffee_design</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>It is convenient to print out the design in actual values, rather than the
+coded -1 and +1 values, for when we make the coffee.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">actual_lows</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;amount&#39;</span> <span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span>
+                <span class="s1">&#39;grind_type&#39;</span><span class="p">:</span> <span class="s1">&#39;burr&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">:</span> <span class="s1">&#39;light&#39;</span> <span class="p">}</span>
+<span class="n">actual_highs</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;amount&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">:</span> <span class="mf">4.5</span><span class="p">,</span>
+                 <span class="s1">&#39;grind_type&#39;</span><span class="p">:</span> <span class="s1">&#39;blade&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">:</span> <span class="s1">&#39;dark&#39;</span> <span class="p">}</span>
+<span class="n">actual_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">design</span><span class="o">.</span><span class="n">coded_to_actual</span><span class="p">(</span><span class="n">coffee_design</span><span class="p">,</span> <span class="n">actual_lows</span><span class="p">,</span> <span class="n">actual_highs</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="15%" />
+<col width="22%" />
+<col width="20%" />
+<col width="22%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">run</th>
+<th class="head">amount</th>
+<th class="head">grind_size</th>
+<th class="head">brew_time</th>
+<th class="head">grind_type</th>
+<th class="head">beans</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>2.5</td>
+<td>8</td>
+<td>3.5</td>
+<td>burr</td>
+<td>dark</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>2.5</td>
+<td>8</td>
+<td>3.5</td>
+<td>blade</td>
+<td>light</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>2.5</td>
+<td>8</td>
+<td>4.5</td>
+<td>burr</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>2.5</td>
+<td>8</td>
+<td>4.5</td>
+<td>blade</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>2.5</td>
+<td>10</td>
+<td>3.5</td>
+<td>burr</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>2.5</td>
+<td>10</td>
+<td>3.5</td>
+<td>blade</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>2.5</td>
+<td>10</td>
+<td>4.5</td>
+<td>burr</td>
+<td>dark</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>2.5</td>
+<td>10</td>
+<td>4.5</td>
+<td>blade</td>
+<td>light</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>4</td>
+<td>8</td>
+<td>3.5</td>
+<td>burr</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>4</td>
+<td>8</td>
+<td>3.5</td>
+<td>blade</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>4</td>
+<td>8</td>
+<td>4.5</td>
+<td>burr</td>
+<td>dark</td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td>4</td>
+<td>8</td>
+<td>4.5</td>
+<td>blade</td>
+<td>light</td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>4</td>
+<td>10</td>
+<td>3.5</td>
+<td>burr</td>
+<td>dark</td>
+</tr>
+<tr class="row-odd"><td>13</td>
+<td>4</td>
+<td>10</td>
+<td>3.5</td>
+<td>blade</td>
+<td>light</td>
+</tr>
+<tr class="row-even"><td>14</td>
+<td>4</td>
+<td>10</td>
+<td>4.5</td>
+<td>burr</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>4</td>
+<td>10</td>
+<td>4.5</td>
+<td>blade</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>16</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>burr</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>17</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>burr</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>18</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>blade</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>19</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>blade</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>20</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>burr</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>21</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>burr</td>
+<td>dark</td>
+</tr>
+<tr class="row-even"><td>22</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>blade</td>
+<td>light</td>
+</tr>
+<tr class="row-odd"><td>23</td>
+<td>3.25</td>
+<td>9</td>
+<td>4</td>
+<td>blade</td>
+<td>dark</td>
+</tr>
+</tbody>
+</table>
+<p>All that is left is to drink 24 pots of coffee and record the results. Note
+that, while the tables in this example are in a sorted order, the actual
+experiment was run in random order. This is done to reduce the possibility
+of incidental variables influencing the results. For example, if the
+temperature in the office for the first 8 runs was cold, the testers may
+have rated the taste higher. Hot coffee being more pleasing in a cold
+environment. If the first 8 runs were the only runs where amount was at its
+low setting, as it is in the sorted table above, we would confound the low
+amount effect with the effect of the cold office, and incorrectly conclude
+that a lower amount of coffee is better.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="14%" />
+<col width="12%" />
+<col width="14%" />
+<col width="14%" />
+<col width="19%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">run</th>
+<th class="head">hank</th>
+<th class="head">joe</th>
+<th class="head">neal</th>
+<th class="head">mike</th>
+<th class="head">martin</th>
+<th class="head">mean</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>4.4</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>5</td>
+<td>6</td>
+<td>6</td>
+<td>7</td>
+<td>5</td>
+<td>5.8</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>7</td>
+<td>7</td>
+<td>6</td>
+<td>7</td>
+<td>7</td>
+<td>6.8</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>4</td>
+<td>5</td>
+<td>3</td>
+<td>6</td>
+<td>5</td>
+<td>4.6</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>1</td>
+<td>3</td>
+<td>1</td>
+<td>5</td>
+<td>3</td>
+<td>2.6</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>7</td>
+<td>7</td>
+<td>4</td>
+<td>2</td>
+<td>5</td>
+<td>5.0</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>7</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>9</td>
+<td>6.2</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>5</td>
+<td>5</td>
+<td>3.4</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>5</td>
+<td>7</td>
+<td>5</td>
+<td>6</td>
+<td>5</td>
+<td>5.6</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>2</td>
+<td>7</td>
+<td>3</td>
+<td>8</td>
+<td>5</td>
+<td>5.0</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>2</td>
+<td>8</td>
+<td>4</td>
+<td>9</td>
+<td>6</td>
+<td>5.8</td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td>6</td>
+<td>6</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>6.6</td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>8</td>
+<td>6</td>
+<td>5</td>
+<td>5</td>
+<td>7</td>
+<td>6.2</td>
+</tr>
+<tr class="row-odd"><td>13</td>
+<td>4</td>
+<td>6</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>3.4</td>
+</tr>
+<tr class="row-even"><td>14</td>
+<td>5</td>
+<td>6</td>
+<td>3</td>
+<td>7</td>
+<td>4</td>
+<td>5.0</td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>7</td>
+<td>5</td>
+<td>4</td>
+<td>7</td>
+<td>9</td>
+<td>6.4</td>
+</tr>
+<tr class="row-even"><td>16</td>
+<td>7</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>5</td>
+<td>6.0</td>
+</tr>
+<tr class="row-odd"><td>17</td>
+<td>7</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>5</td>
+<td>6.0</td>
+</tr>
+<tr class="row-even"><td>18</td>
+<td>7</td>
+<td>8</td>
+<td>5</td>
+<td>8</td>
+<td>6</td>
+<td>6.8</td>
+</tr>
+<tr class="row-odd"><td>19</td>
+<td>6</td>
+<td>7</td>
+<td>4</td>
+<td>6</td>
+<td>7</td>
+<td>6.0</td>
+</tr>
+<tr class="row-even"><td>20</td>
+<td>7</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>5</td>
+<td>6.0</td>
+</tr>
+<tr class="row-odd"><td>21</td>
+<td>6</td>
+<td>7</td>
+<td>5</td>
+<td>7</td>
+<td>6</td>
+<td>6.2</td>
+</tr>
+<tr class="row-even"><td>22</td>
+<td>5</td>
+<td>7</td>
+<td>3</td>
+<td>6</td>
+<td>4</td>
+<td>5.0</td>
+</tr>
+<tr class="row-odd"><td>23</td>
+<td>7</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>7</td>
+<td>6.4</td>
+</tr>
+</tbody>
+</table>
+<p>We&#8217;ll store the mean for later as another column in the DataFrame.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span><span class="p">[</span><span class="s1">&#39;taste_rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mf">4.4</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span>
+    <span class="mf">5.6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">6.4</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fit-a-model">
+<h2>Fit a Model<a class="headerlink" href="#fit-a-model" title="Permalink to this headline">¶</a></h2>
+<p>The statsmodels package has an OLS fitting routine that takes a patsy formula:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">lm</span> <span class="o">=</span> <span class="n">statsmodels</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">twofi_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">summary2</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>We can reduce this model by removing terms that have a p-value above 0.05:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">reduced_model</span> <span class="o">=</span> <span class="s2">&quot;amount + grind_size + brew_time + grind_type + amount:grind_type + grind_size:brew_time + grind_size:grind_type&quot;</span>
+<span class="n">lm</span> <span class="o">=</span> <span class="n">statsmodels</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">reduced_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">summary2</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://www.statease.com/publications/newsletter/stat-teaser-09-16#article1">http://www.statease.com/publications/newsletter/stat-teaser-09-16#article1</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="optimization.html" class="btn btn-neutral" title="Optimization" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Stat-Ease, Inc..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

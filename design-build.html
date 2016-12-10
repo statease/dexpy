@@ -30,9 +30,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
         <link rel="next" title="Design Evaluation" href="evaluation.html"/>
         <link rel="prev" title="Installation" href="install.html"/> 
@@ -95,13 +92,18 @@
 <li class="toctree-l3"><a class="reference internal" href="#central-composite">Central Composite</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#mixture-designs">Mixture Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mixture-designs">Mixture Designs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simplex-lattice">Simplex Lattice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simplex-centroid">Simplex Centroid</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-coffee.html">Example: Coffee Taste Test</a></li>
 </ul>
 
             
@@ -286,7 +288,66 @@ always 1 (100% of the components being varied). As one component is increased
 the sum of the other components must decrease to maintain the sum. Mixture
 optimal designs are most commonly used because they allow the most flexibility
 in your component ranges.</p>
-<p><em>Coming Soon</em></p>
+<div class="section" id="simplex-lattice">
+<h3>Simplex Lattice<a class="headerlink" href="#simplex-lattice" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="dexpy.simplex_lattice.build_simplex_lattice">
+<code class="descname">build_simplex_lattice</code><span class="sig-paren">(</span><em>factor_count</em>, <em>model_order=&lt;ModelOrder.quadratic: 2&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/simplex_lattice.html#build_simplex_lattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.simplex_lattice.build_simplex_lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a Simplex Lattice mixture design.</p>
+<p>This design can be used for 2 to 30 components. A simplex-lattice mixture
+design of degree m consists of m+1 points of equally spaced values between
+0 and 1 for each component. If m = 2 then possible fractions are 0, 1/2, 1.
+For m = 3 the possible values are 0, 1/3, 2/3, 1. The points include the
+pure components and enough points between them to estimate an equation of
+degree m. This design differs from a simplex-centroid design by having
+enough points to estimate a full cubic model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>factor_count</strong> (<em>int</em>) &#8211; The number of mixture components to build for.</li>
+<li><strong>model_order</strong> (<em>dexpy.model.ModelOrder</em>) &#8211; The order to build for. ModelOrder.linear will choose
+vertices only (pure blends). ModelOrder.quadratice will
+add binary blends, and ModelOrder.cubic will add blends
+of three components.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="simplex-centroid">
+<h3>Simplex Centroid<a class="headerlink" href="#simplex-centroid" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="dexpy.simplex_centroid.build_simplex_centroid">
+<code class="descname">build_simplex_centroid</code><span class="sig-paren">(</span><em>factor_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/simplex_centroid.html#build_simplex_centroid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.simplex_centroid.build_simplex_centroid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a Simplex Centroid mixture design.</p>
+<p>This mixture design can be used for 3 to 8 components. A simplex-centroid
+design consists of all points that are equally weighted mixtures of 1 to q
+components. Included are permutations of:</p>
+<blockquote>
+<div><p>Pure blends: (1, 0, ...,0)</p>
+<p>Binary blends: (1/2, 1/2, 0, ...,0)</p>
+<p>Tertiary blends: (1/3, 1/3, 1/3, 0, ...,0)</p>
+</div></blockquote>
+<p>and so on to the overall centroid: (1/q, 1/q, ..., 1/q).</p>
+<p>This design differs from a simplex-lattice design. It cannot be used to
+estimate the full cubic model, but can be used to estimate a special cubic
+model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>factor_count</strong> (<em>int</em>) &#8211; The number of mixture components to build for.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 </div>
 
