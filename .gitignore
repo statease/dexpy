@@ -3,6 +3,7 @@ __pycache__
 dexpy.egg-info
 .coverage
 .eggs
+*.pyc
 
 # build directories
 build
