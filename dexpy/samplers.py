@@ -20,7 +20,7 @@ def hit_and_run(x0, constraint_matrix, bounds, n_samples, thin = 1):
 
     :param x0: The starting value of sampler.
     :param constraint_matrix: A matrix of constraints in the form Ax <= b.
-    :param bounds: A vector of bounds in them form Ax <= b.
+    :param bounds: A vector of bounds in the form Ax <= b.
     :param n_samples: The numbers of samples to return.
     :param thin: The thinning factor. Retain every 'thin' sample (e.g. if thin = 2, retain every 2nd sample)
     """
