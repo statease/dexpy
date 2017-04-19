@@ -1,11 +1,13 @@
 
-import dexpy.design as design
+import dexpy.design
 import pandas as pd
 import numpy as np
-from patsy import dmatrix, ModelDesc
+from patsy import dmatrix, ModelDesc, build_design_matrices
 from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
+
+import inspect
 
 def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     """Builds an optimal design.
@@ -17,13 +19,48 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     pp. 60-69, 1995
     """
 
-    factor_names = design.get_factor_names(factor_count)
+    factor_names = dexpy.design.get_factor_names(factor_count)
     model = make_model(factor_names, model_order, True)
 
     # first generate a valid starting design
-    start_design = bootstrap(factor_names, model)
+    (design, X) = bootstrap(factor_names, model)
+    print(X)
 
-    return start_design
+    steps = 12
+    low = -1
+    high = 1
+    d = float("inf")
+    for i in range(0, len(design)):
+
+        design_point = design.iloc[i]
+
+        for f in range(0, factor_count):
+
+            original_value = design_point[f]
+            best_step = -1
+
+            for s in range(0, steps):
+
+                design_point[f] = low + ((high - low) / (steps - 1)) * s
+                new_point = build_design_matrices([X.design_info], design_point)[0]
+                X[i] = new_point
+                try:
+                    XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+                    new_d = np.linalg.det(XtXi)
+
+                    if new_d < d and new_d > 0:
+                        best_step = s
+                        d = new_d
+                except:
+                    pass
+
+            if best_step >= 0:
+
+                design_point[f] = low + ((high - low) / (steps - 1)) * best_step
+                new_point = build_design_matrices([X.design_info], design_point)[0]
+                X[i] = new_point
+
+    return design
 
 def bootstrap(factor_names, model):
     """Create a minimal starting design that is non-singular."""
@@ -50,4 +87,5 @@ def bootstrap(factor_names, model):
     d = pd.DataFrame(start_points, columns=factor_names)
     X = dmatrix(model, d)
 
-    return d
+    return (d, X)
+
