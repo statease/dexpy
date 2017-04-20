@@ -24,41 +24,55 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
 
     # first generate a valid starting design
     (design, X) = bootstrap(factor_names, model)
-    print(X)
 
     steps = 12
     low = -1
     high = 1
     d = float("inf")
-    for i in range(0, len(design)):
+    design_improved = True
+    while design_improved:
 
-        design_point = design.iloc[i]
+        design_improved = False
+        for i in range(0, len(design)):
 
-        for f in range(0, factor_count):
+            design_point = design.iloc[i]
 
-            original_value = design_point[f]
-            best_step = -1
+            for f in range(0, factor_count):
 
-            for s in range(0, steps):
+                original_value = design_point[f]
+                best_step = -1
+                best_point = []
 
-                design_point[f] = low + ((high - low) / (steps - 1)) * s
-                new_point = build_design_matrices([X.design_info], design_point)[0]
-                X[i] = new_point
-                try:
-                    XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-                    new_d = np.linalg.det(XtXi)
+                for s in range(0, steps):
 
-                    if new_d < d and new_d > 0:
-                        best_step = s
-                        d = new_d
-                except:
-                    pass
+                    design_point[f] = low + ((high - low) / (steps - 1)) * s
+                    new_point = build_design_matrices([X.design_info], design_point)[0]
+                    X[i] = new_point
+                    try:
+                        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+                        new_d = np.linalg.det(XtXi)
 
-            if best_step >= 0:
+                        if new_d < d and new_d > 0:
+                            best_point = new_point
+                            best_step = s
+                            d = new_d
+                    except:
+                        pass
 
-                design_point[f] = low + ((high - low) / (steps - 1)) * best_step
-                new_point = build_design_matrices([X.design_info], design_point)[0]
-                X[i] = new_point
+                if best_step >= 0:
+
+                    # update X with the best point
+                    design_point[f] = low + ((high - low) / (steps - 1)) * best_step
+                    new_point = build_design_matrices([X.design_info], design_point)[0]
+                    X[i] = new_point
+                    design_improved = True
+
+                else:
+
+                    # restore the original design point value
+                    design_point[f] = original_value
+                    new_point = build_design_matrices([X.design_info], design_point)[0]
+                    X[i] = new_point
 
     return design
 
