@@ -21,5 +21,5 @@ class TestOptimal(TestCase):
         XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
         d = np.linalg.det(XtXi)
 
-        self.assertAlmostEqual(d, 3.73506e-3)
+        self.assertAlmostEqual(d, 3.73506e-3, delta=1e-5)
 

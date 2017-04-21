@@ -1,4 +1,3 @@
-
 import dexpy.design
 import pandas as pd
 import numpy as np
@@ -6,8 +5,6 @@ from patsy import dmatrix, ModelDesc, build_design_matrices
 from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
-
-import inspect
 
 def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     """Builds an optimal design.
@@ -28,7 +25,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     steps = 12
     low = -1
     high = 1
-    d = float("inf")
+    logdet = float("inf")
     design_improved = True
     while design_improved:
 
@@ -50,12 +47,12 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
                     X[i] = new_point
                     try:
                         XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-                        new_d = np.linalg.det(XtXi)
+                        (sign, new_det) = np.linalg.slogdet(XtXi)
 
-                        if new_d < d and new_d > 0:
+                        if new_det < logdet and sign == 1:
                             best_point = new_point
                             best_step = s
-                            d = new_d
+                            logdet = new_det
                     except:
                         pass
 
