@@ -6,6 +6,29 @@ from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
 
+def delta(X, row, new_point, prev_d):
+    """Calculates the multiplicative change in D-optimality from exchanging
+    one point for another in a design.
+
+    This is equation (1) in Meyer and Nachtsheim [MeyerNachtsheim1995]_.
+
+    NB: right now this is being done on the log scale so it's
+        the difference of the old D and new D not the proportion
+
+    .. [MeyerNachsheim1995] Meyer, R. K. and Nachtsheim, C.J.,
+    "The Coordinate-Exchange Algorithm for Constructing Exact Optimal
+    Experimental Designs", Technometrics, 37, pp. 60-69, 1995
+    """
+
+    X[row] = new_point
+    try:
+        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+        (sign, new_d) = np.linalg.slogdet(XtXi)
+    except:
+        return 0
+    return prev_d - new_d
+
+
 def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     """Builds an optimal design.
 
@@ -25,7 +48,10 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     steps = 12
     low = -1
     high = 1
-    logdet = float("inf")
+
+    XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+    (sign, d_optimality) = np.linalg.slogdet(XtXi)
+
     design_improved = True
     while design_improved:
 
@@ -44,24 +70,18 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
                     new_point = build_design_matrices([X.design_info], design_point)[0]
-                    X[i] = new_point
-                    try:
-                        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-                        (sign, new_det) = np.linalg.slogdet(XtXi)
+                    change_in_d = delta(X, i, new_point, d_optimality)
 
-                        if new_det < logdet and sign == 1:
-                            best_point = new_point
-                            best_step = s
-                            logdet = new_det
-                    except:
-                        pass
+                    if change_in_d > 0:
+                        best_point = new_point
+                        best_step = s
+                        d_optimality -= change_in_d
 
                 if best_step >= 0:
 
                     # update X with the best point
                     design_point[f] = low + ((high - low) / (steps - 1)) * best_step
-                    new_point = build_design_matrices([X.design_info], design_point)[0]
-                    X[i] = new_point
+                    X[i] = best_point
                     design_improved = True
 
                 else:
