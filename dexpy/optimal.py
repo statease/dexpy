@@ -6,7 +6,7 @@ from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
 
-def delta(X, row, new_point, prev_d):
+def delta(X, XtXi, row, new_point, prev_d, use_delta):
     """Calculates the multiplicative change in D-optimality from exchanging
     one point for another in a design.
 
@@ -19,14 +19,28 @@ def delta(X, row, new_point, prev_d):
     "The Coordinate-Exchange Algorithm for Constructing Exact Optimal
     Experimental Designs", Technometrics, 37, pp. 60-69, 1995
     """
+    if use_delta:
 
-    X[row] = new_point
-    try:
-        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-        (sign, new_d) = np.linalg.slogdet(XtXi)
-    except:
-        return 0
-    return prev_d - new_d
+        old_point = X[row]
+
+        # changeToD = 1 + (added - removed) + (cov*cov - added*removed)
+        added_variance = np.dot(new_point, np.dot(XtXi, new_point.T))
+        removed_variance = np.dot(old_point, np.dot(XtXi, old_point.T))
+        covariance = np.dot(new_point, np.dot(XtXi, old_point.T))
+        return (
+            1 + (added_variance - removed_variance) +
+           (covariance * covariance - added_variance * removed_variance)
+        )
+
+    else:
+
+        X[row] = new_point
+        try:
+            XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+            (sign, new_d) = np.linalg.slogdet(XtXi)
+        except:
+            return 0
+        return prev_d - new_d
 
 
 def build_optimal(factor_count, model_order = ModelOrder.quadratic):
@@ -53,6 +67,12 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     (sign, d_optimality) = np.linalg.slogdet(XtXi)
 
     design_improved = True
+    use_delta = True
+    min_change = 0
+    swaps = 0
+    evals = 0
+    if use_delta:
+        min_change = 1 + np.finfo(float).eps
     while design_improved:
 
         design_improved = False
@@ -70,19 +90,26 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
                     new_point = build_design_matrices([X.design_info], design_point)[0]
-                    change_in_d = delta(X, i, new_point, d_optimality)
+                    change_in_d = delta(X, XtXi, i, new_point, d_optimality, use_delta)
+                    evals += 1
 
-                    if change_in_d > 0:
+                    if change_in_d > min_change:
                         best_point = new_point
                         best_step = s
-                        d_optimality -= change_in_d
+                        if use_delta:
+                            d_optimality *= change_in_d
+                        else:
+                            d_optimality -= change_in_d
 
                 if best_step >= 0:
 
                     # update X with the best point
                     design_point[f] = low + ((high - low) / (steps - 1)) * best_step
                     X[i] = best_point
+                    if use_delta:
+                        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
                     design_improved = True
+                    swaps += 1
 
                 else:
 
