@@ -23,7 +23,6 @@ def delta(X, XtXi, row, new_point, prev_d, use_delta):
 
         old_point = X[row]
 
-        # changeToD = 1 + (added - removed) + (cov*cov - added*removed)
         added_variance = np.dot(new_point, np.dot(XtXi, new_point.T))
         removed_variance = np.dot(old_point, np.dot(XtXi, old_point.T))
         covariance = np.dot(new_point, np.dot(XtXi, old_point.T))
@@ -96,10 +95,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
                     if change_in_d > min_change:
                         best_point = new_point
                         best_step = s
-                        if use_delta:
-                            d_optimality *= change_in_d
-                        else:
-                            d_optimality -= change_in_d
+                        best_change = change_in_d
 
                 if best_step >= 0:
 
@@ -108,6 +104,12 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
                     X[i] = best_point
                     if use_delta:
                         XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+
+                    if use_delta:
+                        d_optimality -= math.log(best_change)
+                    else:
+                        d_optimality -= best_change
+
                     design_improved = True
                     swaps += 1
 
