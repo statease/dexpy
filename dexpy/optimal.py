@@ -7,14 +7,27 @@ from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
 
+def update(XtXi, new_point, old_point):
+    """rank-2 update of the variance-covariance matrix
+
+    Equation (6) from Meyer and Nachtsheim.
+    """
+
+    F2 = np.vstack((new_point, old_point))
+    F1 = F2.T.copy()
+    F1[:,1] *= -1
+    FD = np.dot(F2, XtXi)
+    I2x2 = np.identity(2) + np.dot(FD, F1)
+    Inverse2x2 = np.linalg.inv(I2x2)
+    F2x2FD = np.dot(np.dot(F1, Inverse2x2), FD)
+    return XtXi - np.dot(XtXi, F2x2FD)
+
+
 def delta(X, XtXi, row, new_point, prev_d, use_delta):
     """Calculates the multiplicative change in D-optimality from exchanging
     one point for another in a design.
 
     This is equation (1) in Meyer and Nachtsheim [MeyerNachtsheim1995]_.
-
-    NB: right now this is being done on the log scale so it's
-        the difference of the old D and new D not the proportion
 
     .. [MeyerNachsheim1995] Meyer, R. K. and Nachtsheim, C.J.,
     "The Coordinate-Exchange Algorithm for Constructing Exact Optimal
@@ -40,10 +53,13 @@ def delta(X, XtXi, row, new_point, prev_d, use_delta):
             (sign, new_d) = np.linalg.slogdet(XtXi)
         except:
             return 0
+
+        # this is done on the log scale so it's
+        # the difference of the old D and new D not the proportion
         return prev_d - new_d
 
 
-def build_optimal(factor_count, model_order = ModelOrder.quadratic):
+def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = True):
     """Builds an optimal design.
 
     This uses the Coordinate-Exchange algorithm from Meyer and Nachtsheim 1995.
@@ -67,12 +83,11 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     (sign, d_optimality) = np.linalg.slogdet(XtXi)
 
     design_improved = True
-    use_delta = True
     min_change = 0
     swaps = 0
     evals = 0
     if use_delta:
-        min_change = 1 + np.finfo(float).eps
+        min_change = 1.0 + np.finfo(float).eps
     while design_improved:
 
         design_improved = False
@@ -94,7 +109,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
                     change_in_d = delta(X, XtXi, i, new_point, d_optimality, use_delta)
                     evals += 1
 
-                    if change_in_d > best_change:
+                    if change_in_d - best_change > np.finfo(float).eps:
                         best_point = new_point
                         best_step = s
                         best_change = change_in_d
@@ -103,9 +118,9 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
 
                     # update X with the best point
                     design_point[f] = low + ((high - low) / (steps - 1)) * best_step
-                    X[i] = best_point
                     if use_delta:
-                        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+                        XtXi = update(XtXi, best_point, X[i])
+                    X[i] = best_point
 
                     if use_delta:
                         d_optimality -= math.log(best_change)
