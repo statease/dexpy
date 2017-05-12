@@ -130,9 +130,9 @@ def bootstrap(factor_names, model):
     md = ModelDesc.from_formula(model)
     model_size = len(md.rhs_termlist)
 
-    x0 = np.array([0, 0])
-    # add high/low bounds to constraint matrix
     factor_count = len(factor_names)
+    x0 = np.zeros(factor_count)
+    # add high/low bounds to constraint matrix
     constraint_matrix = np.zeros((factor_count * 2, factor_count))
     bounds = np.zeros(factor_count * 2)
     c = 0
