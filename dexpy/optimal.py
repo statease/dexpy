@@ -1,6 +1,7 @@
 import dexpy.design
 import pandas as pd
 import numpy as np
+import math
 from patsy import dmatrix, ModelDesc, build_design_matrices
 from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
@@ -84,6 +85,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
                 original_value = design_point[f]
                 best_step = -1
                 best_point = []
+                best_change = min_change
 
                 for s in range(0, steps):
 
@@ -92,7 +94,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
                     change_in_d = delta(X, XtXi, i, new_point, d_optimality, use_delta)
                     evals += 1
 
-                    if change_in_d > min_change:
+                    if change_in_d > best_change:
                         best_point = new_point
                         best_step = s
                         best_change = change_in_d
