@@ -136,6 +136,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
                     design_point[f] = original_value
                     new_point = build_design_matrices([X.design_info], design_point)[0]
                     X[i] = new_point
+    print("{} swaps evaluated, {} executed ({:.2f}%)".format(evals, swaps, 100*(swaps / evals)))
 
     return design
 
