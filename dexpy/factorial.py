@@ -83,7 +83,7 @@ def build_factorial(factor_count, run_count):
         for var in rhs:
             cols.append(design.get_var_id(var))
 
-        generator_column = factor_data[cols].product(axis=1).rename(lhs)
+        generator_column = factor_data.iloc[:, cols].product(axis=1).rename(lhs)
         factor_data = factor_data.join(generator_column)
 
     return factor_data
