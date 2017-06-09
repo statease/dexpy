@@ -26,7 +26,7 @@ def update(XtXi, new_point, old_point):
 def expand_point(design_info, design_point, code):
     return np.array(eval(code, {}, design_point))
 
-def delta(X, XtXi, row, new_point, prev_d, use_delta):
+def delta(X, XtXi, row, new_point, prev_d):
     """Calculates the multiplicative change in D-optimality from exchanging
     one point for another in a design.
 
@@ -36,33 +36,18 @@ def delta(X, XtXi, row, new_point, prev_d, use_delta):
     "The Coordinate-Exchange Algorithm for Constructing Exact Optimal
     Experimental Designs", Technometrics, 37, pp. 60-69, 1995
     """
-    if use_delta:
 
-        old_point = X[row]
+    old_point = X[row]
 
-        added_variance = np.dot(new_point, np.dot(XtXi, new_point.T))
-        removed_variance = np.dot(old_point, np.dot(XtXi, old_point.T))
-        covariance = np.dot(new_point, np.dot(XtXi, old_point.T))
-        return (
-            1 + (added_variance - removed_variance) +
-           (covariance * covariance - added_variance * removed_variance)
-        )
+    added_variance = np.dot(new_point, np.dot(XtXi, new_point.T))
+    removed_variance = np.dot(old_point, np.dot(XtXi, old_point.T))
+    covariance = np.dot(new_point, np.dot(XtXi, old_point.T))
+    return (
+        1 + (added_variance - removed_variance) +
+       (covariance * covariance - added_variance * removed_variance)
+    )
 
-    else:
-
-        X[row] = new_point
-        try:
-            XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-            (sign, new_d) = np.linalg.slogdet(XtXi)
-        except:
-            return 0
-
-        # this is done on the log scale so it's
-        # the difference of the old D and new D not the proportion
-        return prev_d - new_d
-
-
-def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = True):
+def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     """Builds an optimal design.
 
     This uses the Coordinate-Exchange algorithm from Meyer and Nachtsheim 1995.
@@ -100,11 +85,9 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
     (sign, d_optimality) = np.linalg.slogdet(XtXi)
 
     design_improved = True
-    min_change = 0
     swaps = 0
     evals = 0
-    if use_delta:
-        min_change = 1.0 + np.finfo(float).eps
+    min_change = 1.0 + np.finfo(float).eps
     while design_improved:
 
         design_improved = False
@@ -124,7 +107,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
                     new_point = expand_point(X.design_info, design_point, code)
-                    change_in_d = delta(X, XtXi, i, new_point, d_optimality, use_delta)
+                    change_in_d = delta(X, XtXi, i, new_point, d_optimality)
                     evals += 1
 
                     if change_in_d - best_change > np.finfo(float).eps:
@@ -136,15 +119,10 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
 
                     # update X with the best point
                     design_point[f] = low + ((high - low) / (steps - 1)) * best_step
-                    if use_delta:
-                        XtXi = update(XtXi, best_point, X[i])
+                    XtXi = update(XtXi, best_point, X[i])
                     X[i] = best_point
 
-                    if use_delta:
-                        d_optimality -= math.log(best_change)
-                    else:
-                        d_optimality -= best_change
-
+                    d_optimality -= math.log(best_change)
                     design_improved = True
                     swaps += 1
 

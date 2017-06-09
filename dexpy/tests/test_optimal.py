@@ -13,7 +13,7 @@ class TestOptimal(TestCase):
         Nachtsheim 1995 paper.
         """
 
-        optimal_data = build_optimal(2, ModelOrder.quadratic, True)
+        optimal_data = build_optimal(2, ModelOrder.quadratic)
 
         model = make_model(optimal_data.columns, ModelOrder.quadratic, True)
         X = dmatrix(model, optimal_data)
