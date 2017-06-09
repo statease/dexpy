@@ -22,9 +22,6 @@ def update(XtXi, new_point, old_point):
     F2x2FD = np.dot(np.dot(F1, Inverse2x2), FD)
     return XtXi - np.dot(XtXi, F2x2FD)
 
-def expand_point(design_info, design_point):
-    return build_design_matrices([design_info], design_point)[0]
-
 def delta(X, XtXi, row, new_point, prev_d, use_delta):
     """Calculates the multiplicative change in D-optimality from exchanging
     one point for another in a design.
@@ -77,6 +74,21 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
     # first generate a valid starting design
     (design, X) = bootstrap(factor_names, model)
 
+    functions = []
+    for term, subterms in X.design_info.term_codings.items():
+        sub_funcs = []
+        for subterm in subterms:
+            for factor in subterm.factors:
+                sub_funcs.append(X.design_info.factor_infos[factor].state['eval_code'])
+        if len(sub_funcs) == 0:
+            functions.append("1") # intercept
+        else:
+            functions.append("*".join(sub_funcs))
+
+    full_func = "[" + ",".join(functions) + "]"
+    print(full_func)
+    code = compile(full_func, "<string>", "eval")
+
     steps = 12
     low = -1
     high = 1
@@ -108,7 +120,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
                 for s in range(0, steps):
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
-                    new_point = expand_point(X.design_info, design_point)
+                    new_point = np.array(eval(code, {}, design_point))
                     change_in_d = delta(X, XtXi, i, new_point, d_optimality, use_delta)
                     evals += 1
 
