@@ -28,6 +28,7 @@ analysis packages, for example :ref:`statistical power <power>`.
     analysis
     confirmation
     optimization
+    reference
     example-coffee
 
 

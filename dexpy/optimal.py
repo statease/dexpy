@@ -55,6 +55,17 @@ def build_optimal(factor_count, **kwargs):
     Meyer, R. K. and Nachtsheim, C.J., "The Coordinate-Exchange Algorithm for
     Constructing Exact Optimal Experimental Designs", Technometrics, 37,
     pp. 60-69, 1995
+
+    :param factor_count: The number of factors to build for.
+    :type factor_count: integer
+
+    :Keyword Arguments:
+        * **order** (:class:`ModelOrder <dexpy.model.ModelOrder>`) -- \
+            Builds a design for this order model.\
+            Mutually exclusive with the **model** parameter.
+        * **model** (`patsy formula <https://patsy.readthedocs.io>`_) -- \
+            Builds a design for this model formula. \
+            Mutually exclusive with the **order** parameter.
     """
 
     factor_names = dexpy.design.get_factor_names(factor_count)
