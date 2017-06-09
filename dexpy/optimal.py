@@ -2,6 +2,7 @@ import dexpy.design
 import pandas as pd
 import numpy as np
 import math
+import logging
 from patsy import dmatrix, ModelDesc, build_design_matrices
 from dexpy.factorial import build_full_factorial
 from dexpy.model import make_model, ModelOrder
@@ -21,6 +22,9 @@ def update(XtXi, new_point, old_point):
     Inverse2x2 = np.linalg.inv(I2x2)
     F2x2FD = np.dot(np.dot(F1, Inverse2x2), FD)
     return XtXi - np.dot(XtXi, F2x2FD)
+
+def expand_point(design_info, design_point, code):
+    return np.array(eval(code, {}, design_point))
 
 def delta(X, XtXi, row, new_point, prev_d, use_delta):
     """Calculates the multiplicative change in D-optimality from exchanging
@@ -86,7 +90,6 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
             functions.append("*".join(sub_funcs))
 
     full_func = "[" + ",".join(functions) + "]"
-    print(full_func)
     code = compile(full_func, "<string>", "eval")
 
     steps = 12
@@ -120,7 +123,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
                 for s in range(0, steps):
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
-                    new_point = np.array(eval(code, {}, design_point))
+                    new_point = expand_point(X.design_info, design_point, code)
                     change_in_d = delta(X, XtXi, i, new_point, d_optimality, use_delta)
                     evals += 1
 
@@ -151,7 +154,7 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic, use_delta = 
                     design_point[f] = original_value
                     X[i] = original_expanded
 
-    print("{} swaps evaluated, {} executed ({:.2f}%)".format(evals, swaps, 100*(swaps / evals)))
+    logging.info("{} swaps evaluated, {} executed ({:.2f}%)".format(evals, swaps, 100*(swaps / evals)))
 
     return design
 
