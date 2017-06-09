@@ -47,7 +47,7 @@ def delta(X, XtXi, row, new_point, prev_d):
        (covariance * covariance - added_variance * removed_variance)
     )
 
-def build_optimal(factor_count, model_order = ModelOrder.quadratic):
+def build_optimal(factor_count, **kwargs):
     """Builds an optimal design.
 
     This uses the Coordinate-Exchange algorithm from Meyer and Nachtsheim 1995.
@@ -58,7 +58,11 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
     """
 
     factor_names = dexpy.design.get_factor_names(factor_count)
-    model = make_model(factor_names, model_order, True)
+
+    model = kwargs.get('model', None)
+    if model is None:
+        order = kwargs.get('order', ModelOrder.quadratic)
+        model = make_model(factor_names, order, True)
 
     # first generate a valid starting design
     (design, X) = bootstrap(factor_names, model)
@@ -68,7 +72,10 @@ def build_optimal(factor_count, model_order = ModelOrder.quadratic):
         sub_funcs = []
         for subterm in subterms:
             for factor in subterm.factors:
-                sub_funcs.append(X.design_info.factor_infos[factor].state['eval_code'])
+                eval_code = X.design_info.factor_infos[factor].state['eval_code']
+                if eval_code[0] == 'I':
+                    eval_code = eval_code[1:]
+                sub_funcs.append(eval_code)
         if len(sub_funcs) == 0:
             functions.append("1") # intercept
         else:
