@@ -11,7 +11,7 @@ from dexpy.samplers import hit_and_run
 def update(XtXi, new_point, old_point):
     """rank-2 update of the variance-covariance matrix
 
-    Equation (6) from Meyer and Nachtsheim.
+    Equation (6) from Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
     """
 
     F2 = np.vstack((new_point, old_point))
@@ -30,11 +30,7 @@ def delta(X, XtXi, row, new_point, prev_d):
     """Calculates the multiplicative change in D-optimality from exchanging
     one point for another in a design.
 
-    This is equation (1) in Meyer and Nachtsheim [MeyerNachtsheim1995]_.
-
-    .. [MeyerNachsheim1995] Meyer, R. K. and Nachtsheim, C.J.,
-    "The Coordinate-Exchange Algorithm for Constructing Exact Optimal
-    Experimental Designs", Technometrics, 37, pp. 60-69, 1995
+    This is equation (1) in Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
     """
 
     old_point = X[row]
@@ -50,11 +46,8 @@ def delta(X, XtXi, row, new_point, prev_d):
 def build_optimal(factor_count, **kwargs):
     """Builds an optimal design.
 
-    This uses the Coordinate-Exchange algorithm from Meyer and Nachtsheim 1995.
-
-    Meyer, R. K. and Nachtsheim, C.J., "The Coordinate-Exchange Algorithm for
-    Constructing Exact Optimal Experimental Designs", Technometrics, 37,
-    pp. 60-69, 1995
+    This uses the Coordinate-Exchange algorithm from Meyer and Nachtsheim 1995
+    :cite:`MeyerNachtsheim1995`.
 
     :param factor_count: The number of factors to build for.
     :type factor_count: integer

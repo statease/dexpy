@@ -68,11 +68,18 @@ Simplex Centroid
 
 .. autofunction:: dexpy.simplex_centroid.build_simplex_centroid
 
-
-Optimal Design
-==============
+===============
+Optimal Designs
+===============
 
 Optimal designs are designs built algorithmically to satisfy some criteria (e.g. D-optimality).
 
 .. autofunction:: dexpy.optimal.build_optimal
+
+
+.. rubric:: References
+
+.. bibliography:: references.bib
+  :filter: docname in docnames
+  :style: plain
 
