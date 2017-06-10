@@ -49,6 +49,33 @@ class TestOptimal(TestCase):
 
         self.assertAlmostEqual(d, 3.04338E-6, delta=1e-4)
 
+    def test_additional_model_points(self):
+        """Tests a 3 factor optimal design with extra points."""
+
+        optimal_data = build_optimal(3,
+                                     order=ModelOrder.quadratic,
+                                     run_count=20)
+
+        model = make_model(optimal_data.columns, ModelOrder.quadratic, True)
+        X = dmatrix(model, optimal_data)
+        XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+        d = np.linalg.det(XtXi)
+
+        self.assertAlmostEqual(d, 2.15652E-10, delta=1e-10)
+
+    def test_too_few_points(self):
+        """Tests a 3 factor optimal design with insufficient runs."""
+
+        caught_error = False
+        try:
+            optimal_data = build_optimal(3,
+                                         order=ModelOrder.quadratic,
+                                         run_count=5)
+        except ValueError:
+            caught_error = True
+
+        self.assertTrue(caught_error)
+
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(SomeTest)
     unittest.TextTestRunner(verbosity=0).run(suite)
