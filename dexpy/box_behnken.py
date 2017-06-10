@@ -1,3 +1,5 @@
+"""Functions for building Box-Behnken designs."""
+
 import dexpy.design as design
 import pandas as pd
 import numpy as np

@@ -1,3 +1,5 @@
+"""A worked example of a DOE using dexpy and statsmodels."""
+
 import dexpy.factorial
 import dexpy.power
 import pandas as pd
@@ -83,4 +85,3 @@ print(lm.summary2())
 reduced_model = "amount + grind_size + brew_time + beans + grind_size:beans"
 lm = statsmodels.formula.api.ols("taste_rating ~" + reduced_model, data=coffee_design).fit()
 print(lm.summary2())
-

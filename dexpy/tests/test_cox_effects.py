@@ -3,7 +3,6 @@ import unittest
 import numpy as np
 
 class TestCoxPoints3Components(unittest.TestCase):
-
     """Tests the generation of points along the Cox effect direction.
 
     These tests are in 3-component simplex space.
@@ -62,7 +61,6 @@ class TestCoxPoints3Components(unittest.TestCase):
 
 
 class TestCoxPoints2Components(unittest.TestCase):
-
     """Tests the generation of points along the Cox effect direction in 2-component simplex space."""
 
     def setUp(self):

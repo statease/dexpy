@@ -11,7 +11,6 @@ class TestModelMatrix(TestCase):
     @classmethod
     def test_quadratic_model(cls):
         """Test expanding a quadratic model in a rotatable ccd"""
-
         axial_pt = math.sqrt(2)
         factor_data = [
             [-1, -1],
