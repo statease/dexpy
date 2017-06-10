@@ -65,7 +65,7 @@ def build_ccd(factor_count, alpha="rotatable", center_points=1):
     the categorical factor levels.
 
     :param factor_count: The number of factors to build for.
-    :type factor_count: int
+    :type factor_count: integer
     :param alpha_type: The alpha to use for the axial points calculate. This can
                        be either a float, in which case the "star" or "axial"
                        points in the design will be placed at that distance. It
@@ -117,7 +117,6 @@ def alpha_from_type(factor_count, alpha_type, center_points=0):
                           point count in the factorial block.
     :type center_points: integer
     """
-
     if isinstance(alpha_type, numbers.Real):
         return alpha_type
 

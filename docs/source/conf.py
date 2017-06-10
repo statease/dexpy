@@ -41,6 +41,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinxcontrib.bibtex',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -61,7 +62,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'dexpy'
-copyright = u'2016, Stat-Ease, Inc.'
+copyright = u'2017, Stat-Ease, Inc.'
 author = u'Hank Anderson'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -271,8 +272,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'dexpy.tex', u'dexpy Documentation',
-     u'Hank Anderson', 'manual'),
+    (master_doc, 'dexpy.tex', u'dexpy Documentation', u'Hank Anderson', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

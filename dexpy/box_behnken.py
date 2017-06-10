@@ -37,7 +37,6 @@ def build_box_behnken(factor_count, center_points = 5):
     :param center_points: The number of center points to include in the design.
     :type center_points: integer
     """
-
     factor_names = design.get_factor_names(factor_count)
     csv_path = os.path.join(os.path.dirname(__file__), "data", "BB_{:02d}.csv".format(factor_count))
     factor_data = pd.read_csv(csv_path, names=factor_names)
