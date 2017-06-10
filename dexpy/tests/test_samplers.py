@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from dexpy.samplers import *
+from dexpy.samplers import hit_and_run, uniform_simplex_sample
 
 class TestSimplexSampler(unittest.TestCase):
 
@@ -105,7 +105,6 @@ class TestHitAndRunOneDimension(unittest.TestCase):
     @classmethod
     def test_hit_and_run_one_dim(cls):
         """Tests generation of 2 points with thin = 2."""
-
         x0 = np.array([0.5])
         A = np.array([[1], [-1]])
         bounds = np.array([1, 0])
