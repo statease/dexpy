@@ -25,8 +25,7 @@ def expand_point(design_info, design_point, code):
     return np.array(eval(code, {}, design_point))
 
 def delta(X, XtXi, row, new_point, prev_d):
-    """Calculates the multiplicative change in D-optimality from exchanging
-    one point for another in a design.
+    """Calculates the change in D-optimality from exchanging a point.
 
     This is equation (1) in Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
     """
@@ -41,7 +40,7 @@ def delta(X, XtXi, row, new_point, prev_d):
     )
 
 def build_optimal(factor_count, **kwargs):
-    """Builds an optimal design.
+    r"""Builds an optimal design.
 
     This uses the Coordinate-Exchange algorithm from Meyer and Nachtsheim 1995
     :cite:`MeyerNachtsheim1995`.
