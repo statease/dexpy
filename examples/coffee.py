@@ -64,7 +64,7 @@ factorial_power = dexpy.power.f_power(twofi_model, coffee_design, sn, alpha)
 factorial_power.pop(0) # remove intercept
 factorial_power = ['{0:.2f}%'.format(i*100) for i in factorial_power] # convert to %
 factorial_power = pd.DataFrame(factorial_power,
-                               columns=['Power'], 
+                               columns=['Power'],
                                index=desc.describe().strip("~ ").split(" + "))
 
 print("\nPower for fractional factorial (2FI model):")

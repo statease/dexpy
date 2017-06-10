@@ -13,7 +13,6 @@ class TestCentralComposite(TestCase):
     @classmethod
     def test_fcd(cls):
         """Tests a simple 2 factor face-centered central composite design."""
-
         ccd_data = build_ccd(2, 1.0)
         x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
                                  ccd_data,
@@ -25,7 +24,6 @@ class TestCentralComposite(TestCase):
     @classmethod
     def test_rotatable(cls):
         """Tests a 5 factor rotatable central composite design."""
-
         ccd_data = build_ccd(5, "rotatable")
         x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
                                  ccd_data,
@@ -37,7 +35,6 @@ class TestCentralComposite(TestCase):
     @classmethod
     def test_spherical(cls):
         """Tests a 3 factor spherical central composite design."""
-
         ccd_data = build_ccd(3, "spherical")
         x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
                                  ccd_data,
@@ -49,7 +46,6 @@ class TestCentralComposite(TestCase):
     @classmethod
     def test_orthogonal(cls):
         """Tests a 7 factor orthogonal central composite design."""
-
         ccd_data = build_ccd(7, "orthogonal")
         x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
                                  ccd_data,
@@ -61,7 +57,6 @@ class TestCentralComposite(TestCase):
     @classmethod
     def test_practical(cls):
         """Tests a 9 factor practical central composite design."""
-
         ccd_data = build_ccd(9, "practical")
         x_matrix = patsy.dmatrix(make_quadratic_model(ccd_data.columns),
                                  ccd_data,

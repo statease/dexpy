@@ -1,6 +1,4 @@
-
 import numpy as np
-import scipy as sp
 import scipy.linalg
 from patsy import dmatrix
 import math
@@ -31,7 +29,7 @@ def alias_list(model, design):
 
     # there is no requirement that the model matrix is full rank
     # so first remove linearly dependent columns using LU decomp
-    _, _, upper_matrix = sp.linalg.lu(model_matrix)
+    _, _, upper_matrix = scipy.linalg.lu(model_matrix)
 
     row = 0
     col = 0

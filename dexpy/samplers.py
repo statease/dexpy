@@ -3,7 +3,7 @@
 import numpy as np
 
 def uniform_simplex_sample(N, q):
-    """ Returns an array of points sampled uniformly from a simplex
+    """Returns an array of points sampled uniformly from a simplex
 
     :param N: the number of random sample to be generated
     :param q: the dimension of the simplex
@@ -16,7 +16,7 @@ def uniform_simplex_sample(N, q):
 
 
 def hit_and_run(x0, constraint_matrix, bounds, n_samples, thin = 1):
-    """ A basic implementation of the hit and run sampler
+    """A basic implementation of the hit and run sampler
 
     :param x0: The starting value of sampler.
     :param constraint_matrix: A matrix of constraints in the form Ax <= b.

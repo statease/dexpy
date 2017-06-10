@@ -37,7 +37,6 @@ def build_factorial(factor_count, run_count):
     :type run_count: int
     :returns: A pandas.DataFrame object containing the requested design.
     """
-
     # store minimum aberration generators for factors from 3 to max_factors
     # these are from Design-Expert
     generator_list = {

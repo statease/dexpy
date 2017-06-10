@@ -10,7 +10,6 @@ class TestAliases(TestCase):
 
     def test_two_factors(self):
         """Tests the alias list for two identical factors."""
-
         factor_data = [
             [-1, -1],
             [-1, -1],
@@ -35,7 +34,6 @@ class TestAliases(TestCase):
 
     def test_pb(self):
         """Tests the alias list for an 11 factor Plackett-Burman design."""
-
         factor_data = [
             [1, -1, -1, -1, 1, -1, 1, 1, -1, 1, 1],
             [1, -1, 1, 1, 1, -1, -1, -1, 1, -1, 1],

@@ -3,10 +3,11 @@ import numpy as np
 from dexpy.samplers import *
 
 class TestSimplexSampler(unittest.TestCase):
-    """ Tests the uniform simplex sampler """
+
+    """Tests the uniform simplex sampler."""
 
     def test_simplex_sample(self):
-        """ Generates a uniform sample, checks dimensions, and that the rows sum to 1 """
+        """Generates a uniform sample, checks dimensions, and that the rows sum to 1."""
         result = uniform_simplex_sample(5, 4)
 
         self.assertEqual(result.shape[0], 5)
@@ -18,14 +19,15 @@ class TestSimplexSampler(unittest.TestCase):
 
     @classmethod
     def test_simplex_sample_one_component(cls):
-        """ Tests an edge case """
+        """Tests an edge case."""
         result = uniform_simplex_sample(1, 1)
         answer = np.ones(1)
         np.testing.assert_approx_equal(result, answer)
 
 
 class TestHitAndRunSquare(unittest.TestCase):
-    """ Tests the hit and run sampler over [0, 1] x [0, 1] """
+
+    """Tests the hit and run sampler over [0, 1] x [0, 1]."""
 
     def setUp(self):
 
@@ -39,21 +41,21 @@ class TestHitAndRunSquare(unittest.TestCase):
 
 
     def test_hit_and_run_1(self):
-        """ Tests generation of a single point """
+        """Tests generation of a single point."""
         result = hit_and_run(self.x0, self.A, self.bounds, 1, 1)
         answer = np.array([[0.57548241, 0.62646417]])
         np.testing.assert_almost_equal(result, answer)
 
 
     def test_hit_and_run_2(self):
-        """ Tests generation of a single point with thin = 3 """
+        """Tests generation of a single point with thin = 3."""
         result = hit_and_run(self.x0, self.A, self.bounds, 1, 3)
         answer = np.array([[0.32222719, 0.10867805]])
         np.testing.assert_almost_equal(result, answer)
 
 
     def test_hit_and_run_3(self):
-        """ Tests generation of 3 points """
+        """Tests generation of 3 points."""
         result = hit_and_run(self.x0, self.A, self.bounds, 2, 1)
         answer = np.array([[0.57548241, 0.62646417],
                            [0.77956909, 0.17414724]])
@@ -69,12 +71,15 @@ class TestHitAndRunSquare(unittest.TestCase):
 
 
 class TestHitAndRunConstrained(unittest.TestCase):
-    """ Tests the hit and run sampler over [0, 1] x [0, 1], with
-        the additional constraint that x1 + x2 > 0.9 """
+
+    """Tests the hit and run sampler over [0, 1] x [0, 1].
+
+    With the additional constraint that x1 + x2 > 0.9.
+    """
 
     @classmethod
     def test_hit_and_run_constrained(cls):
-        """ Tests generation of 4 points """
+        """Tests generation of 4 points."""
         x0 = np.array([0.5, 0.5])
         A = np.array([[1, 0],
                       [0, 1],
@@ -94,11 +99,12 @@ class TestHitAndRunConstrained(unittest.TestCase):
 
 
 class TestHitAndRunOneDimension(unittest.TestCase):
-    """ Tests the hit and run sampler over [0, 1]. """
+
+    """Tests the hit and run sampler over [0, 1]."""
 
     @classmethod
     def test_hit_and_run_one_dim(cls):
-        """ Tests generation of 2 points with thin = 2 """
+        """Tests generation of 2 points with thin = 2."""
 
         x0 = np.array([0.5])
         A = np.array([[1], [-1]])

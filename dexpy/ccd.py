@@ -117,7 +117,6 @@ def alpha_from_type(factor_count, alpha_type, center_points=0):
                           point count in the factorial block.
     :type center_points: integer
     """
-
     if isinstance(alpha_type, numbers.Real):
         return alpha_type
 
