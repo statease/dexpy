@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 import math
 import logging
-from patsy import dmatrix, ModelDesc, build_design_matrices
-from dexpy.factorial import build_full_factorial
+from patsy import dmatrix, ModelDesc
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
 
@@ -13,7 +12,6 @@ def update(XtXi, new_point, old_point):
 
     Equation (6) from Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
     """
-
     F2 = np.vstack((new_point, old_point))
     F1 = F2.T.copy()
     F1[:,1] *= -1
@@ -32,7 +30,6 @@ def delta(X, XtXi, row, new_point, prev_d):
 
     This is equation (1) in Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
     """
-
     old_point = X[row]
 
     added_variance = np.dot(new_point, np.dot(XtXi, new_point.T))
@@ -40,7 +37,7 @@ def delta(X, XtXi, row, new_point, prev_d):
     covariance = np.dot(new_point, np.dot(XtXi, old_point.T))
     return (
         1 + (added_variance - removed_variance) +
-       (covariance * covariance - added_variance * removed_variance)
+            (covariance * covariance - added_variance * removed_variance)
     )
 
 def build_optimal(factor_count, **kwargs):
@@ -63,7 +60,6 @@ def build_optimal(factor_count, **kwargs):
             The number of runs to use in the design. This must be equal\
             to or greater than the rank of the model.
     """
-
     factor_names = dexpy.design.get_factor_names(factor_count)
 
     model = kwargs.get('model', None)
@@ -77,7 +73,7 @@ def build_optimal(factor_count, **kwargs):
     (design, X) = bootstrap(factor_names, model, run_count)
 
     functions = []
-    for term, subterms in X.design_info.term_codings.items():
+    for _, subterms in X.design_info.term_codings.items():
         sub_funcs = []
         for subterm in subterms:
             for factor in subterm.factors:
@@ -98,7 +94,7 @@ def build_optimal(factor_count, **kwargs):
     high = 1
 
     XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-    (sign, d_optimality) = np.linalg.slogdet(XtXi)
+    (_, d_optimality) = np.linalg.slogdet(XtXi)
 
     design_improved = True
     swaps = 0
@@ -154,7 +150,6 @@ def build_optimal(factor_count, **kwargs):
 
 def bootstrap(factor_names, model, run_count):
     """Create a minimal starting design that is non-singular."""
-
     md = ModelDesc.from_formula(model)
     model_size = len(md.rhs_termlist)
     if run_count == 0:
