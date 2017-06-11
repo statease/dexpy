@@ -3,7 +3,7 @@
 import numpy as np
 
 def generate_cox_points(point, coordinate, n_points, new_locs = None):
-    """ Generates points along the Cox effect direction
+    """Generates points along the Cox effect direction.
 
     This calculates several equally-spaced points along the Cox direction of a point.
 

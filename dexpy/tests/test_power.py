@@ -12,8 +12,7 @@ class TestPower(TestCase):
 
     @classmethod
     def test_quadratic_power(cls):
-        """Test power for a quadratic model in a rotatable ccd"""
-
+        """Test power for a quadratic model in a rotatable ccd."""
         axial_pt = math.sqrt(2)
         factor_data = [
             [-1, -1],
@@ -38,7 +37,7 @@ class TestPower(TestCase):
 
     @classmethod
     def test_large_power(cls):
-
+        """Test power for a 9 factor model."""
         factor_count = 9
 
         factor_data = []

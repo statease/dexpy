@@ -1,4 +1,4 @@
-""" Contains several samplers """
+"""Contains several samplers."""
 
 import numpy as np
 

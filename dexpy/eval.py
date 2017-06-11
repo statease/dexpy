@@ -18,7 +18,6 @@ def det_xtxi(x_matrix, use_log = True):
 # TODO: move this to a more general utility module
 def count_n_choose_k(n, k):
     """Returns the number of k combinations from the set n (n choose k)."""
-
     return (math.factorial(n) /
             math.factorial(k) /
             math.factorial(n - k))
