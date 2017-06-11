@@ -1,3 +1,5 @@
+"""Functions for creating an optimal design."""
+
 import dexpy.design
 import pandas as pd
 import numpy as np
@@ -21,10 +23,11 @@ def update(XtXi, new_point, old_point):
     F2x2FD = np.dot(np.dot(F1, Inverse2x2), FD)
     return XtXi - np.dot(XtXi, F2x2FD)
 
-def expand_point(design_info, design_point, code):
+def expand_point(design_point, code):
+    """Converts a point in factor space to conform with the X matrix."""
     return np.array(eval(code, {}, design_point))
 
-def delta(X, XtXi, row, new_point, prev_d):
+def delta(X, XtXi, row, new_point):
     """Calculates the change in D-optimality from exchanging a point.
 
     This is equation (1) in Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
@@ -80,7 +83,7 @@ def build_optimal(factor_count, **kwargs):
                 if eval_code[0] == 'I':
                     eval_code = eval_code[1:]
                 sub_funcs.append(eval_code)
-        if len(sub_funcs) == 0:
+        if not sub_funcs:
             functions.append("1") # intercept
         else:
             functions.append("*".join(sub_funcs))
@@ -117,8 +120,8 @@ def build_optimal(factor_count, **kwargs):
                 for s in range(0, steps):
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
-                    new_point = expand_point(X.design_info, design_point, code)
-                    change_in_d = delta(X, XtXi, i, new_point, d_optimality)
+                    new_point = expand_point(design_point, code)
+                    change_in_d = delta(X, XtXi, i, new_point)
                     evals += 1
 
                     if change_in_d - best_change > np.finfo(float).eps:
@@ -178,4 +181,3 @@ def bootstrap(factor_names, model, run_count):
     X = dmatrix(model, d)
 
     return (d, X)
-

@@ -1,3 +1,5 @@
+"""Functions for building a simplex lattice design."""
+
 import dexpy.design as design
 import pandas as pd
 import numpy as np
@@ -25,8 +27,6 @@ def build_simplex_lattice(factor_count, model_order = ModelOrder.quadratic):
 
     :type model_order: dexpy.model.ModelOrder
     """
-
-
     run_count = factor_count # pure blends
     if model_order == ModelOrder.quadratic:
         run_count += count_nk(factor_count, 2) # 1/2 1/2 blends
@@ -65,4 +65,3 @@ def build_simplex_lattice(factor_count, model_order = ModelOrder.quadratic):
                 row += 1
 
     return factor_data
-

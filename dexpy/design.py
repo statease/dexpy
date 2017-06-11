@@ -20,6 +20,7 @@ def get_var_name(var_id):
 
 
 def get_var_id(var_name):
+    """Returns the index of a variable name."""
     #TODO: need to handle var names with ' or "
     return valid_vars.index(var_name)
 
@@ -47,9 +48,9 @@ def load_file(file_path):
         response_data.append(response_values)
 
     out_design = pd.DataFrame()
-    if len(factor_data) > 0:
+    if factor_data:
         out_design = pd.DataFrame(factor_data, columns=get_factor_names(len(factor_data[0])))
-    if len(response_data) > 0:
+    if response_data:
         out_design = out_design.join(pd.DataFrame(response_data, columns=get_response_names(len(response_data[0]))))
     return out_design
 
@@ -83,6 +84,7 @@ def get_response_names(response_count):
 
 
 def runs(design):
+    """Returns the number of runs in a design."""
     return len(design)
 
 

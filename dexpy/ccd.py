@@ -1,3 +1,4 @@
+"""Functions for building Central Composite designs."""
 
 import dexpy.design as design
 from dexpy.factorial import build_full_factorial
@@ -118,7 +119,7 @@ def alpha_from_type(factor_count, alpha_type, center_points=0):
     :type center_points: integer
     """
     if isinstance(alpha_type, numbers.Real):
-        return alpha_type
+        return float(alpha_type)
 
     # TODO: these should be parameters
     star_reps = 1
@@ -140,9 +141,9 @@ def alpha_from_type(factor_count, alpha_type, center_points=0):
         return math.sqrt(math.sqrt(qNumerator/qDenominator))
     if alpha_type == "practical":
         return math.sqrt(math.sqrt(factor_count))
-    if (alpha_type == "face centered" or
-        alpha_type == "facecentered" or
-        alpha_type == "face"):
+    if (alpha_type == "face centered"
+            or alpha_type == "facecentered"
+            or alpha_type == "face"):
         return 1.0
 
     raise ValueError("Didn't recognize alpha type '{}'!".format(alpha_type))

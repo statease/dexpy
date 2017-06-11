@@ -1,6 +1,9 @@
+"""Functions for creating and working with a model."""
+
 from enum import Enum
 
 class ModelOrder(Enum):
+    """Represents a full model order."""
 
     constant = 0
     linear = 1

@@ -1,3 +1,5 @@
+"""Functions related to the Cox effects direction."""
+
 import numpy as np
 
 def generate_cox_points(point, coordinate, n_points, new_locs = None):

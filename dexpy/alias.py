@@ -1,3 +1,5 @@
+"""Functions for detecting and listing aliases."""
+
 import numpy as np
 import scipy.linalg
 from patsy import dmatrix
@@ -19,7 +21,6 @@ def alias_list(model, design):
       >>> print(aliases)
       ['A:B = C:D', 'A:C = B:D', 'A:D = B:C']
     """
-
     # use the square root of machine precision for testing for 0
     epsilon = math.sqrt(np.finfo(float).eps)
 
@@ -63,7 +64,7 @@ def alias_list(model, design):
                                      model_matrix.columns[c]))
             else:
                 alias_strings.append(model_matrix.columns[c])
-        if len(alias_strings):
+        if alias_strings:
             alias_list.append("{} = {}".format(unaliased.columns[r],
                               " + ".join(alias_strings)))
     return alias_list, alias_coefs

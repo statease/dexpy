@@ -3,7 +3,6 @@ import numpy as np
 from dexpy.samplers import hit_and_run, uniform_simplex_sample
 
 class TestSimplexSampler(unittest.TestCase):
-
     """Tests the uniform simplex sampler."""
 
     def test_simplex_sample(self):
@@ -26,7 +25,6 @@ class TestSimplexSampler(unittest.TestCase):
 
 
 class TestHitAndRunSquare(unittest.TestCase):
-
     """Tests the hit and run sampler over [0, 1] x [0, 1]."""
 
     def setUp(self):
@@ -63,7 +61,7 @@ class TestHitAndRunSquare(unittest.TestCase):
 
 
     def test_hit_and_run_4(self):
-        """ Tests generation of 3 points with thin = 3 """
+        """Tests generation of 3 points with thin = 3."""
         result = hit_and_run(self.x0, self.A, self.bounds, 2, 3)
         answer = np.array([[0.32222719, 0.10867805],
                            [0.30750317, 0.05997018]])
@@ -71,7 +69,6 @@ class TestHitAndRunSquare(unittest.TestCase):
 
 
 class TestHitAndRunConstrained(unittest.TestCase):
-
     """Tests the hit and run sampler over [0, 1] x [0, 1].
 
     With the additional constraint that x1 + x2 > 0.9.
@@ -99,7 +96,6 @@ class TestHitAndRunConstrained(unittest.TestCase):
 
 
 class TestHitAndRunOneDimension(unittest.TestCase):
-
     """Tests the hit and run sampler over [0, 1]."""
 
     @classmethod
