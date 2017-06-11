@@ -76,7 +76,6 @@ def build_ccd(factor_count, alpha="rotatable", center_points=1):
     :param center_points: The number of center points to include in the design.
     :type center_points: integer
     """
-
     factor_names = design.get_factor_names(factor_count)
     factorial_runs = pd.DataFrame(build_full_factorial(factor_count),
                                   columns=factor_names)

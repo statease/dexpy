@@ -12,12 +12,10 @@ class ModelOrder(Enum):
 
 def make_quadratic_model(factor_names, include_squared = True):
     """Creates patsy formula representing a quadratic model."""
-
     return make_model(factor_names, ModelOrder.quadratic, include_squared)
 
 def make_model(factor_names, model_order, include_powers = True):
     """Creates patsy formula representing a given model order."""
-
     if model_order == ModelOrder.quadratic:
         interaction_model = "({})**2".format("+".join(factor_names))
         if not include_powers:

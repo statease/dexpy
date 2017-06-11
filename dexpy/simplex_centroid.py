@@ -28,7 +28,6 @@ def build_simplex_centroid(factor_count):
     :param factor_count: The number of mixture components to build for.
     :type factor_count: int
     """
-
     run_count = 0
     for i in range(1, factor_count+1):
         run_count += count_nk(factor_count, i)
