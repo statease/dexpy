@@ -59,6 +59,17 @@ As you can see, the runs are arranged in a less structured manner than a
 standard design. If you look at the design graphically, you can see that
 the points are spread out throughout the space.
 
+.. code:: python
+
+  import seaborn as sns
+  fg = sns.lmplot('time', 'temp', data=reaction_design, fit_reg=False)
+  ax = fg.axes[0, 0]
+  ax.set_xticks([-1, 0, 1])
+  ax.set_xticklabels(['40 min', '45 min', '50 min'])
+  ax.set_yticks([-1, 0, 1])
+  ax.set_yticklabels(['80C', '85C', '90C'])
+  sns.plt.show()
+
 .. image:: img/optimal-6-run.svg
 
 We can calculate the D-optimality of this design, which is just the
