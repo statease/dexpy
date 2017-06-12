@@ -10,17 +10,16 @@ from setuptools import setup
 VERSION = '0.12'
 DOCLINES = (__doc__ or '').split("\n")
 
-CLASSIFIERS = filter(None, map(str.strip,
-"""
-Development Status :: 2 - Pre-Alpha
-Intended Audience :: Manufacturing
-Intended Audience :: Science/Research
-License :: OSI Approved :: Apache Software License
-Programming Language :: Python
-Programming Language :: Python :: 2
-Programming Language :: Python :: 3
-Topic :: Scientific/Engineering :: Mathematics
-""".splitlines()))
+CLASSIFIERS = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Manufacturing",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
 
 def run_setup():
     setup(
