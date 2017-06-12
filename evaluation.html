@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -30,6 +32,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
         <link rel="next" title="Analyzing the Results" href="analysis.html"/>
         <link rel="prev" title="Building a Design" href="design-build.html"/> 
@@ -41,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -81,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Design Evaluation</a><ul>
@@ -92,7 +101,9 @@
 <li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example-coffee.html">Example: Coffee Taste Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-optimal.html">Example: Optimal Design</a></li>
 </ul>
 
             
@@ -105,8 +116,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">dexpy</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dexpy</a>
+        
       </nav>
 
 
@@ -115,23 +128,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Design Evaluation</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Design Evaluation</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/evaluation.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/evaluation.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -143,79 +173,26 @@
 <div class="section" id="statistical-power">
 <span id="power"></span><h2>Statistical Power<a class="headerlink" href="#statistical-power" title="Permalink to this headline">¶</a></h2>
 <p>A power test can show you how well your design can detect effects of a given size.</p>
-<dl class="function">
-<dt id="dexpy.power.f_power">
-<code class="descname">f_power</code><span class="sig-paren">(</span><em>model</em>, <em>design</em>, <em>effect_size</em>, <em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/power.html#f_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.power.f_power" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the power of an F test.</p>
-<p>This calculates the probability that the F-statistic is above its critical
-value (alpha) given an effect of some size.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> (<em>patsy.formula</em>) &#8211; A patsy formula for which to calculate power.</li>
-<li><strong>design</strong> (<em>pandas.DataFrame</em>) &#8211; A pandas.DataFrame representing a design.</li>
-<li><strong>effect_size</strong> (<em>float</em>) &#8211; The size of the effect that the test should be able to detect (also called a signal to noise
-ratio).</li>
-<li><strong>alpha</strong> (<em>float between 0 and 1</em>) &#8211; The critical value that we want the test to be above.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of percentage probabilities that an F-test could detect an effect of the given size at the given
-alpha value for a particular column.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>Usage:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="s2">&quot;1 + A + B + C + D&quot;</span><span class="p">,</span> <span class="n">design</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
-<span class="go">[ 95.016, 49.003, 49.003, 49.003, 49.003 ]</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 <div class="section" id="alias-list">
 <span id="id1"></span><h2>Alias List<a class="headerlink" href="#alias-list" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="dexpy.alias.alias_list">
-<code class="descname">alias_list</code><span class="sig-paren">(</span><em>model</em>, <em>design</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/alias.html#alias_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.alias.alias_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a human-readable list of dependent model columns.</p>
-<p>This is done by solving AX=B, where X is the full rank model matrix,
-and B is all of the columns of the model matrix. The result is a matrix
-of coefficients which represent to what degree a given column is
-collinear with another column.</p>
-<dl class="docutils">
-<dt>Usage:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">aliases</span><span class="p">,</span> <span class="n">alias_coefs</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">alias</span><span class="o">.</span><span class="n">alias_list</span><span class="p">(</span><span class="s2">&quot;(A+B+C+D)**2)&quot;</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">aliases</span><span class="p">)</span>
-<span class="go">[&#39;A:B = C:D&#39;, &#39;A:C = B:D&#39;, &#39;A:D = B:C&#39;]</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="analysis.html" class="btn btn-neutral float-right" title="Analyzing the Results" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="analysis.html" class="btn btn-neutral float-right" title="Analyzing the Results" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="design-build.html" class="btn btn-neutral" title="Building a Design" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="design-build.html" class="btn btn-neutral" title="Building a Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -224,7 +201,7 @@ collinear with another column.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, Stat-Ease, Inc..
+        &copy; Copyright 2017, Stat-Ease, Inc..
 
     </p>
   </div>
@@ -249,13 +226,14 @@ collinear with another column.</p>
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

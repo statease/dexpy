@@ -14,6 +14,8 @@
 
   
   
+  
+  
 
   
 
@@ -31,6 +33,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="#"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="dexpy 0.1 documentation" href="index.html"/> 
 
   
@@ -40,6 +45,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -80,14 +86,19 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example-coffee.html">Example: Coffee Taste Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-optimal.html">Example: Optimal Design</a></li>
 </ul>
 
             
@@ -100,8 +111,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">dexpy</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dexpy</a>
+        
       </nav>
 
 
@@ -114,17 +127,34 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li></li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Index</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -134,72 +164,13 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
- | <a href="#B"><strong>B</strong></a>
- | <a href="#D"><strong>D</strong></a>
- | <a href="#F"><strong>F</strong></a>
  
 </div>
-<h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="evaluation.html#dexpy.alias.alias_list">alias_list() (in module dexpy.alias)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="B">B</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="design-build.html#dexpy.ccd.build_ccd">build_ccd() (in module dexpy.ccd)</a>
-  </dt>
-
-      
-  <dt><a href="design-build.html#dexpy.factorial.build_factorial">build_factorial() (in module dexpy.factorial)</a>
-  </dt>
-
-      
-  <dt><a href="design-build.html#dexpy.factorial.build_full_factorial">build_full_factorial() (in module dexpy.factorial)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="design-build.html#dexpy.simplex_centroid.build_simplex_centroid">build_simplex_centroid() (in module dexpy.simplex_centroid)</a>
-  </dt>
-
-      
-  <dt><a href="design-build.html#dexpy.simplex_lattice.build_simplex_lattice">build_simplex_lattice() (in module dexpy.simplex_lattice)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="D">D</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="design-build.html#module-dexpy.factorial">dexpy.factorial (module)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="F">F</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="evaluation.html#dexpy.power.f_power">f_power() (in module dexpy.power)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
 
 
-
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -209,7 +180,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, Stat-Ease, Inc..
+        &copy; Copyright 2017, Stat-Ease, Inc..
 
     </p>
   </div>
@@ -234,13 +205,14 @@
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

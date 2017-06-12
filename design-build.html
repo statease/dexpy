@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -30,6 +32,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
         <link rel="next" title="Design Evaluation" href="evaluation.html"/>
         <link rel="prev" title="Installation" href="install.html"/> 
@@ -41,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -81,11 +87,14 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Building a Design</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#screening-designs">Screening Designs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-dexpy.factorial">Two-Level Factorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#two-level-factorial">Two-Level Factorial</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#response-surface-designs">Response Surface Designs</a><ul>
@@ -97,13 +106,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#simplex-centroid">Simplex Centroid</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#optimal-designs">Optimal Designs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example-coffee.html">Example: Coffee Taste Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-optimal.html">Example: Optimal Design</a></li>
 </ul>
 
             
@@ -116,8 +128,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">dexpy</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dexpy</a>
+        
       </nav>
 
 
@@ -126,23 +140,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Building a Design</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Building a Design</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/design-build.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/design-build.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -161,47 +192,8 @@
 <p>These designs are meant to be run with many factors, and are used to determine
 which factors are important and which can be discarded. They typically have
 fewer runs and are meant to be used with a linear or interaction model.</p>
-<div class="section" id="module-dexpy.factorial">
-<span id="two-level-factorial"></span><span id="factorial"></span><h3>Two-Level Factorial<a class="headerlink" href="#module-dexpy.factorial" title="Permalink to this headline">¶</a></h3>
-<p>Functions to build factorial designs.</p>
-<dl class="function">
-<dt id="dexpy.factorial.build_factorial">
-<code class="descname">build_factorial</code><span class="sig-paren">(</span><em>factor_count</em>, <em>run_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factorial.html#build_factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factorial.build_factorial" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a regular two-level design based on a number of factors and runs.</p>
-<p>Full two-level factorial designs may be run for up to 9 factors. These
-designs permit estimation of all main effects and all interaction effects.
-If the number of runs requested is a 2^factor_count, the design will be a
-full factorial.</p>
-<p>If the number of runs is less than 2^factor_count (it still must be a power
-of two) a fractional design will be created. Not all combinations of runs
-and factor counts will result in a design. Use the
-<a class="reference internal" href="evaluation.html#alias-list"><span class="std std-ref">alias list</span></a> method to see what terms are estimable in
-the resulting design.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>factor_count</strong> (<em>int</em>) &#8211; The number of factors to build for.</li>
-<li><strong>run_count</strong> (<em>int</em>) &#8211; The number of runs in the resulting design. Must be a power of 2.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A pandas.DataFrame object containing the requested design.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="dexpy.factorial.build_full_factorial">
-<code class="descname">build_full_factorial</code><span class="sig-paren">(</span><em>factor_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/factorial.html#build_full_factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.factorial.build_full_factorial" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a full 2^K factorial design.</p>
-<p>The resulting design will contain every combination of -1 and +1 for the
-number of factors given.</p>
-</dd></dl>
-
+<div class="section" id="two-level-factorial">
+<span id="factorial"></span><h3>Two-Level Factorial<a class="headerlink" href="#two-level-factorial" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="response-surface-designs">
@@ -212,70 +204,6 @@ within multi-linear constraints, to custom polynomial models, and have more
 flexible blocking structures.</p>
 <div class="section" id="central-composite">
 <span id="id3"></span><h3>Central Composite<a class="headerlink" href="#central-composite" title="Permalink to this headline">¶</a></h3>
-<dl class="function">
-<dt id="dexpy.ccd.build_ccd">
-<code class="descname">build_ccd</code><span class="sig-paren">(</span><em>factor_count</em>, <em>alpha='rotatable'</em>, <em>center_points=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/ccd.html#build_ccd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.ccd.build_ccd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a central composite design.</p>
-<p>The most popular response surface method (RSM) design is the central
-composite design (CCD). A CCD has three groups of design points:</p>
-<ol class="loweralpha simple">
-<li>two-level factorial or fractional factorial design points</li>
-<li>axial points (sometimes called &#8220;star&#8221; points)</li>
-<li>center points</li>
-</ol>
-<p>CCDs are designed to estimate the coefficients of a quadratic model.</p>
-<p><strong>Factorial Points</strong></p>
-<p>The two-level factorial part of the design consists of all possible
-combinations of the +1 and -1 levels of the factors. For the two factor case
-there are four design points:</p>
-<blockquote>
-<div>(-1, -1) (+1, -1) (-1, +1) (+1, +1)</div></blockquote>
-<p><strong>Star or Axial Points</strong></p>
-<p>The star points have all of the factors set to 0, the midpoint, except one
-factor, which has the value +/- Alpha. For a two-factor problem, the star
-points are:</p>
-<blockquote>
-<div>(-Alpha, 0) (+Alpha, 0) (0, -Alpha) (0, +Alpha)</div></blockquote>
-<p>The value for Alpha is calculated in each design for both rotatability and
-orthogonality of blocks. The experimenter can choose between these values or
-enter a different one. The default value is set to the rotatable value.</p>
-<p>Another position for the star points is at the face of the cube portion on
-the design. This is commonly referred to as a face-centered central
-composite design. You can create this by setting the alpha distance to one,
-or setting the alpha parameter to &#8220;face centered&#8221;. This design only requires
-three levels for each factor.</p>
-<p><strong>Center Points</strong></p>
-<p>Center points, as implied by the name, are points with all levels set to
-coded level 0 - the midpoint of each factor range: (0, 0)</p>
-<p>Center points are usually repeated 4-6 times to get a good estimate of
-experimental error (pure error).</p>
-<p>To summarize, central composite designs require 5 levels of each factor:
--Alpha, -1, 0, 1, and +Alpha. One of the commendable attributes of the
-central composite design is that its structure lends itself to sequential
-experimentation. Central composite designs can be carried out in blocks.</p>
-<p><strong>Categorical Factors</strong></p>
-<p>You may also add categorical factors to this design. This will cause the
-number of runs generated to be multiplied by the number of combinations of
-the categorical factor levels.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>factor_count</strong> (<em>int</em>) &#8211; The number of factors to build for.</li>
-<li><strong>alpha_type</strong> (<em>integer or float</em>) &#8211; The alpha to use for the axial points calculate. This can
-be either a float, in which case the &#8220;star&#8221; or &#8220;axial&#8221;
-points in the design will be placed at that distance. It
-can also be a string indicating the type of CCD to build
-e.g. &#8220;rotatable&#8221;.</li>
-<li><strong>center_points</strong> (<em>integer</em>) &#8211; The number of center points to include in the design.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 </div>
 <div class="section" id="mixture-designs">
@@ -290,78 +218,33 @@ optimal designs are most commonly used because they allow the most flexibility
 in your component ranges.</p>
 <div class="section" id="simplex-lattice">
 <h3>Simplex Lattice<a class="headerlink" href="#simplex-lattice" title="Permalink to this headline">¶</a></h3>
-<dl class="function">
-<dt id="dexpy.simplex_lattice.build_simplex_lattice">
-<code class="descname">build_simplex_lattice</code><span class="sig-paren">(</span><em>factor_count</em>, <em>model_order=&lt;ModelOrder.quadratic: 2&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/simplex_lattice.html#build_simplex_lattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.simplex_lattice.build_simplex_lattice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a Simplex Lattice mixture design.</p>
-<p>This design can be used for 2 to 30 components. A simplex-lattice mixture
-design of degree m consists of m+1 points of equally spaced values between
-0 and 1 for each component. If m = 2 then possible fractions are 0, 1/2, 1.
-For m = 3 the possible values are 0, 1/3, 2/3, 1. The points include the
-pure components and enough points between them to estimate an equation of
-degree m. This design differs from a simplex-centroid design by having
-enough points to estimate a full cubic model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>factor_count</strong> (<em>int</em>) &#8211; The number of mixture components to build for.</li>
-<li><strong>model_order</strong> (<em>dexpy.model.ModelOrder</em>) &#8211; The order to build for. ModelOrder.linear will choose
-vertices only (pure blends). ModelOrder.quadratice will
-add binary blends, and ModelOrder.cubic will add blends
-of three components.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 <div class="section" id="simplex-centroid">
 <h3>Simplex Centroid<a class="headerlink" href="#simplex-centroid" title="Permalink to this headline">¶</a></h3>
-<dl class="function">
-<dt id="dexpy.simplex_centroid.build_simplex_centroid">
-<code class="descname">build_simplex_centroid</code><span class="sig-paren">(</span><em>factor_count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dexpy/simplex_centroid.html#build_simplex_centroid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.simplex_centroid.build_simplex_centroid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a Simplex Centroid mixture design.</p>
-<p>This mixture design can be used for 3 to 8 components. A simplex-centroid
-design consists of all points that are equally weighted mixtures of 1 to q
-components. Included are permutations of:</p>
-<blockquote>
-<div><p>Pure blends: (1, 0, ...,0)</p>
-<p>Binary blends: (1/2, 1/2, 0, ...,0)</p>
-<p>Tertiary blends: (1/3, 1/3, 1/3, 0, ...,0)</p>
-</div></blockquote>
-<p>and so on to the overall centroid: (1/q, 1/q, ..., 1/q).</p>
-<p>This design differs from a simplex-lattice design. It cannot be used to
-estimate the full cubic model, but can be used to estimate a special cubic
-model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>factor_count</strong> (<em>int</em>) &#8211; The number of mixture components to build for.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
+</div>
+<div class="section" id="optimal-designs">
+<h2>Optimal Designs<a class="headerlink" href="#optimal-designs" title="Permalink to this headline">¶</a></h2>
+<p>Optimal designs are designs built algorithmically to satisfy some criteria (e.g. D-optimality).</p>
+<p class="rubric">References</p>
+<p id="bibtex-bibliography-design-build-0"></p>
 </div>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="evaluation.html" class="btn btn-neutral float-right" title="Design Evaluation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="evaluation.html" class="btn btn-neutral float-right" title="Design Evaluation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="install.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -370,7 +253,7 @@ model.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, Stat-Ease, Inc..
+        &copy; Copyright 2017, Stat-Ease, Inc..
 
     </p>
   </div>
@@ -395,13 +278,14 @@ model.</p>
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

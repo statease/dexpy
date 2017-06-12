@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example: Optimal Design &mdash; dexpy 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
+        <link rel="prev" title="Example: Coffee Taste Test" href="example-coffee.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dexpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="confirmation.html">Confirmation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example-coffee.html">Example: Coffee Taste Test</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example: Optimal Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem-description">Problem Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-choice">Design Choice</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dexpy</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Example: Optimal Design</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/example-optimal.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-optimal-design">
+<h1>Example: Optimal Design<a class="headerlink" href="#example-optimal-design" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="problem-description">
+<h2>Problem Description<a class="headerlink" href="#problem-description" title="Permalink to this headline">¶</a></h2>
+<p>A chemist is trying to improve the yield of a chemical process.</p>
+<p>She can vary:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Reaction time (40-50 minutes)</li>
+<li>Temperature (80-90 °C)</li>
+</ul>
+</div></blockquote>
+<p>With one output, or <cite>response</cite>, variable:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Conversion (%)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="design-choice">
+<h2>Design Choice<a class="headerlink" href="#design-choice" title="Permalink to this headline">¶</a></h2>
+<p>Due to the expense of the experiment, only 6 runs may be performed. From prior
+experimention the chemist knows to expect a quadratic effect. Standard designs
+such as a two-level factorial (with center points), or a Central Composite
+design have too many runs. Instead the chemist decides to use an
+<a class="reference external" href="http://www.itl.nist.gov/div898/handbook/pri/section5/pri521.htm">optimal design</a>,
+where the factor settings are chosen in an algorithmic search, designed to
+optimize some criteria. We will be using the <strong>D-optimal</strong> criteria, which
+minimizes the joint confidence interval of the model parameters.</p>
+<p>This can easily be done in dexpy using
+<code class="xref py py-func docutils literal"><span class="pre">build_optimal</span></code>. Note that by default the
+size of the design is the minimal number of runs required to support the model
+(in this case 6).</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
+<span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">ModelOrder</span>
+<span class="n">reaction_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">optimal</span><span class="o">.</span><span class="n">build_optimal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reaction_design</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="41%" />
+<col width="41%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#160;</td>
+<td>time</td>
+<td>temp</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>43.64</td>
+<td>80.00</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>40.00</td>
+<td>90.00</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>40.00</td>
+<td>82.73</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>50.00</td>
+<td>80.00</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>45.45</td>
+<td>85.45</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>50.00</td>
+<td>90.00</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, the runs are arranged in a less structured manner than a
+standard design. If you look at the design graphically, you can see that
+the points are spread out throughout the space.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">fg</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">reaction_design</span><span class="p">,</span> <span class="n">fit_reg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;40 min&#39;</span><span class="p">,</span> <span class="s1">&#39;45 min&#39;</span><span class="p">,</span> <span class="s1">&#39;50 min&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s1">&#39;80C&#39;</span><span class="p">,</span> <span class="s1">&#39;85C&#39;</span><span class="p">,</span> <span class="s1">&#39;90C&#39;</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/optimal-6-run.svg" src="_images/optimal-6-run.svg" /><p>We can calculate the D-optimality of this design, which is just the
+determinant of the information matrix <span class="math">\(|X'X|\)</span>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">make_model</span><span class="p">,</span> <span class="n">ModelOrder</span>
+<span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">quad_model</span> <span class="o">=</span> <span class="n">make_model</span><span class="p">(</span><span class="n">reaction_design</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">quad_model</span><span class="p">,</span> <span class="n">reaction_design</span><span class="p">)</span>
+<span class="n">XtX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">XtX</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|(X&#39;X)| for optimal design: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+
+<span class="c1"># |(X&#39;X)| for optimal design: 264.56712477125734</span>
+</pre></div>
+</div>
+<p>What if the chemist was able to run 10 experiments? You can give the optimal
+builder a <strong>run_count</strong> parameter.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
+<span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">ModelOrder</span>
+<span class="n">reaction_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">optimal</span><span class="o">.</span><span class="n">build_optimal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">run_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reaction_design</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#160;</td>
+<td>time</td>
+<td>temp</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>50.0</td>
+<td>80.0</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>50.0</td>
+<td>85.5</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>40.0</td>
+<td>90.0</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>50.0</td>
+<td>90.0</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>40.0</td>
+<td>80.0</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>40.0</td>
+<td>85.5</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>50.0</td>
+<td>80.0</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>44.5</td>
+<td>80.0</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>45.4</td>
+<td>84.5</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>44.5</td>
+<td>90.0</td>
+</tr>
+</tbody>
+</table>
+<img alt="_images/optimal-10-run.svg" src="_images/optimal-10-run.svg" /><p>Notice that there appears to be only 9 runs in the image. That is because one of
+the vertices (indicated in red) has been duplicated by the optimal search
+algorithm. Both run 0 and run 6 have a time of 50 minutes and a temp of 80 °C.</p>
+<p>Note that the <strong>run_count</strong> parameter must be greater than, or equal to, the
+size of the model. In this example, the quadratic model
+<span class="math">\(\hat{y} = 1 + X_1 + X_2 + {X_1}{X_2} + X_1^2 + X_2^2\)</span>
+requires at least 6 runs. If you try to pass in too few runs you get an exception.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
+<span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">ModelOrder</span>
+<span class="n">reaction_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">optimal</span><span class="o">.</span><span class="n">build_optimal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">run_count</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Produces:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Can</span><span class="s1">&#39;t build a design of size 4 for a model of rank 6. Model: &#39;</span><span class="p">(</span><span class="n">X1</span><span class="o">+</span><span class="n">X2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="nb">pow</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="nb">pow</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="example-coffee.html" class="btn btn-neutral" title="Example: Coffee Taste Test" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Stat-Ease, Inc..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
