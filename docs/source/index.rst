@@ -30,6 +30,7 @@ analysis packages, for example :ref:`statistical power <power>`.
     optimization
     reference
     example-coffee
+    example-optimal
 
 
 Indices and tables
