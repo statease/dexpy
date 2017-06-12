@@ -9,38 +9,44 @@ from patsy import dmatrix, ModelDesc
 from dexpy.model import make_model, ModelOrder
 from dexpy.samplers import hit_and_run
 
-def update(XtXi, new_point, old_point):
-    """rank-2 update of the variance-covariance matrix
+class DOptimality:
 
-    Equation (6) from Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
-    """
-    F2 = np.vstack((new_point, old_point))
-    F1 = F2.T.copy()
-    F1[:,1] *= -1
-    FD = np.dot(F2, XtXi)
-    I2x2 = np.identity(2) + np.dot(FD, F1)
-    Inverse2x2 = np.linalg.inv(I2x2)
-    F2x2FD = np.dot(np.dot(F1, Inverse2x2), FD)
-    return XtXi - np.dot(XtXi, F2x2FD)
+    def __init__(self, X):
+        self.XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
+
+    def update(self, new_point, old_point):
+        """rank-2 update of the variance-covariance matrix
+
+        Equation (6) from Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
+        """
+        F2 = np.vstack((new_point, old_point))
+        F1 = F2.T.copy()
+        F1[:,1] *= -1
+        FD = np.dot(F2, self.XtXi)
+        I2x2 = np.identity(2) + np.dot(FD, F1)
+        Inverse2x2 = np.linalg.inv(I2x2)
+        F2x2FD = np.dot(np.dot(F1, Inverse2x2), FD)
+        self.XtXi = self.XtXi - np.dot(self.XtXi, F2x2FD)
+
+    def delta(self, X, row, new_point):
+        """Calculates the change in D-optimality from exchanging a point.
+
+        This is equation (1) in Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
+        """
+        old_point = X[row]
+
+        added_variance = np.dot(new_point, np.dot(self.XtXi, new_point.T))
+        removed_variance = np.dot(old_point, np.dot(self.XtXi, old_point.T))
+        covariance = np.dot(new_point, np.dot(self.XtXi, old_point.T))
+        return (
+            1 + (added_variance - removed_variance) +
+                (covariance * covariance - added_variance * removed_variance)
+        )
+
 
 def expand_point(design_point, code):
     """Converts a point in factor space to conform with the X matrix."""
     return np.array(eval(code, {}, design_point))
-
-def delta(X, XtXi, row, new_point):
-    """Calculates the change in D-optimality from exchanging a point.
-
-    This is equation (1) in Meyer and Nachtsheim :cite:`MeyerNachtsheim1995`.
-    """
-    old_point = X[row]
-
-    added_variance = np.dot(new_point, np.dot(XtXi, new_point.T))
-    removed_variance = np.dot(old_point, np.dot(XtXi, old_point.T))
-    covariance = np.dot(new_point, np.dot(XtXi, old_point.T))
-    return (
-        1 + (added_variance - removed_variance) +
-            (covariance * covariance - added_variance * removed_variance)
-    )
 
 def build_optimal(factor_count, **kwargs):
     r"""Builds an optimal design.
@@ -95,8 +101,7 @@ def build_optimal(factor_count, **kwargs):
     low = -1
     high = 1
 
-    XtXi = np.linalg.inv(np.dot(np.transpose(X), X))
-    (_, d_optimality) = np.linalg.slogdet(XtXi)
+    criteria = DOptimality(X)
 
     design_improved = True
     swaps = 0
@@ -121,7 +126,7 @@ def build_optimal(factor_count, **kwargs):
 
                     design_point[f] = low + ((high - low) / (steps - 1)) * s
                     new_point = expand_point(design_point, code)
-                    change_in_d = delta(X, XtXi, i, new_point)
+                    change_in_d = criteria.delta(X, i, new_point)
                     evals += 1
 
                     if change_in_d - best_change > np.finfo(float).eps:
@@ -133,10 +138,8 @@ def build_optimal(factor_count, **kwargs):
 
                     # update X with the best point
                     design_point[f] = low + ((high - low) / (steps - 1)) * best_step
-                    XtXi = update(XtXi, best_point, X[i])
+                    criteria.update(best_point, X[i])
                     X[i] = best_point
-
-                    d_optimality -= math.log(best_change)
                     design_improved = True
                     swaps += 1
 
