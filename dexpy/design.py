@@ -96,3 +96,25 @@ def create_model_matrix(factor_data, formula):
     :returns: A patsy.dmatrix representing the model.
     """
     return dmatrix(formula, factor_data)
+
+def coded_to_actual(coded_data, actual_lows, actual_highs):
+    """Converts a pandas DataFrame from coded units to actuals.
+
+    :param coded_data: A pandas.Dataframe that contains the runs to convert.
+    :param actual_lows: A dictionary mapping factor names to factor lows.
+    :param actual_highs: A dictionary mapping factor names to factor highs.
+    :returns: A pandas.DataFrame containing factor settings in actual values.
+	"""
+    actual_data = coded_data.copy()
+    for col in actual_data.columns:
+        if not (col in actual_highs and col in actual_lows):
+            continue
+        try:
+            # convert continuous variables to their actual value
+            actual_data[col] *= 0.5 * (float(actual_highs[col]) - float(actual_lows[col]))
+            # don't need to cast to float here, if either are not a float exception will have been thrown
+            actual_data[col] += 0.5 * (actual_highs[col] + actual_lows[col])
+        except ValueError:
+            # assume 2 level categorical
+            actual_data[col] = actual_data[col].map({-1: actual_lows[col], 1: actual_highs[col]})
+    return actual_data

@@ -15,3 +15,6 @@ dist
 *~
 .idea
 .vscode
+
+# osx drops these everywhere
+.DS_Store
