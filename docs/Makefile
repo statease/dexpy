@@ -16,7 +16,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
 
 # added by hpa for deploying to github pages
 # see: http://nikhilism.com/post/2012/automatic-github-pages-generation-from/
-GH_PAGES_SOURCES = source Makefile
+GH_PAGES_SOURCES = source Makefile ../dexpy
 
 .PHONY: help
 help:
