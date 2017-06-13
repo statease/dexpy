@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design-build.html">Building a Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="evaluation.html">Design Evaluation</a></li>
@@ -106,8 +112,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">dexpy</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dexpy</a>
+        
       </nav>
 
 
@@ -116,23 +124,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Reference</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Reference</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/reference.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -140,19 +165,48 @@
             
   <div class="section" id="reference">
 <h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dexpy.model.ModelOrder">
+<em class="property">class </em><code class="descname">ModelOrder</code><a class="reference internal" href="_modules/dexpy/model.html#ModelOrder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dexpy.model.ModelOrder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a full model order.</p>
+<dl class="attribute">
+<dt id="dexpy.model.ModelOrder.constant">
+<code class="descname">constant</code><em class="property"> = 0</em><a class="headerlink" href="#dexpy.model.ModelOrder.constant" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dexpy.model.ModelOrder.cubic">
+<code class="descname">cubic</code><em class="property"> = 3</em><a class="headerlink" href="#dexpy.model.ModelOrder.cubic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dexpy.model.ModelOrder.linear">
+<code class="descname">linear</code><em class="property"> = 1</em><a class="headerlink" href="#dexpy.model.ModelOrder.linear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dexpy.model.ModelOrder.quadratic">
+<code class="descname">quadratic</code><em class="property"> = 2</em><a class="headerlink" href="#dexpy.model.ModelOrder.quadratic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="example-coffee.html" class="btn btn-neutral float-right" title="Example: Coffee Taste Test" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="example-coffee.html" class="btn btn-neutral float-right" title="Example: Coffee Taste Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="optimization.html" class="btn btn-neutral" title="Optimization" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="optimization.html" class="btn btn-neutral" title="Optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -186,13 +240,14 @@
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

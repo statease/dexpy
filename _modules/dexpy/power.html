@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dexpy.power &mdash; dexpy 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="dexpy 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> dexpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design-build.html">Building a Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation.html">Design Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../confirmation.html">Confirmation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example-coffee.html">Example: Coffee Taste Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example-optimal.html">Example: Optimal Design</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">dexpy</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>dexpy.power</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dexpy.power</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to calculate statistical power for a design.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">f</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ncf</span>
+<span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
+
+
+<div class="viewcode-block" id="f_power"><a class="viewcode-back" href="../../evaluation.html#dexpy.power.f_power">[docs]</a><span class="k">def</span> <span class="nf">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">design</span><span class="p">,</span> <span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the power of an F test.</span>
+
+<span class="sd">    This calculates the probability that the F-statistic is above its critical</span>
+<span class="sd">    value (alpha) given an effect of some size.</span>
+
+<span class="sd">    :param model: A patsy formula for which to calculate power.</span>
+<span class="sd">    :type model: patsy.formula</span>
+<span class="sd">    :param design: A pandas.DataFrame representing a design.</span>
+<span class="sd">    :type design: pandas.DataFrame</span>
+<span class="sd">    :param effect_size: The size of the effect that the test should be able to detect (also called a signal to noise</span>
+<span class="sd">        ratio).</span>
+<span class="sd">    :type effect_size: float</span>
+<span class="sd">    :param alpha: The critical value that we want the test to be above.</span>
+<span class="sd">    :type alpha: float between 0 and 1</span>
+<span class="sd">    :returns: A list of percentage probabilities that an F-test could detect an effect of the given size at the given</span>
+<span class="sd">        alpha value for a particular column.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">      &gt;&gt;&gt; design = dexpy.factorial.build_factorial(4, 8)</span>
+<span class="sd">      &gt;&gt;&gt; print(dexpy.power.f_power(&quot;1 + A + B + C + D&quot;, design, 2.0, 0.05))</span>
+<span class="sd">      [ 95.016, 49.003, 49.003, 49.003, 49.003 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>
+    <span class="n">residual_df</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">XtXi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">X</span><span class="p">))</span>
+    <span class="n">non_centrality</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">XtXi</span><span class="p">)</span>
+
+    <span class="c1"># pre-calculate crit value for 1 df, most common case</span>
+    <span class="n">crit_value</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">residual_df</span><span class="p">)</span>
+
+    <span class="n">power</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="n">adjust_non_centrality</span><span class="p">(</span><span class="n">non_centrality</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="n">t</span><span class="p">])</span>
+        <span class="n">nc</span> <span class="o">*=</span> <span class="n">effect_size</span> <span class="o">*</span> <span class="n">effect_size</span> <span class="o">/</span> <span class="mf">4.0</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ncf</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">crit_value</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">residual_df</span><span class="p">,</span> <span class="n">nc</span><span class="p">))</span>
+        <span class="n">power</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">power</span></div>
+
+<span class="k">def</span> <span class="nf">adjust_non_centrality</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">x_col</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Adjusts the non-centrality parameter for terms that aren&#39;t -1 to 1.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">always_positive</span><span class="p">(</span><span class="n">x_col</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nc</span> <span class="o">*</span> <span class="mi">4</span> <span class="c1"># term goes from 0 to 1</span>
+    <span class="k">return</span> <span class="n">nc</span>
+
+<span class="k">def</span> <span class="nf">always_positive</span><span class="p">(</span><span class="n">x_col</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks that a column is always positive in the design space.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x_col</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Stat-Ease, Inc..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
