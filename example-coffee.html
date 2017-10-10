@@ -204,7 +204,12 @@ not to over-caffienate our testers, and can only do the tests on days when all
 so.</p>
 <p>We can calculate the power of a full factorial using dexpy, assuming a signal
 to noise ratio of 2:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.factorial</span>
+<span class="kn">import</span> <span class="nn">dexpy.power</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">center_points</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
@@ -214,6 +219,8 @@ to noise ratio of 2:</p>
 <span class="n">coffee_design</span> <span class="o">=</span> <span class="n">coffee_design</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">center_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
 <span class="n">coffee_design</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coffee_design</span><span class="p">))</span>
 
+<span class="n">sn</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
 <span class="n">factorial_power</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># remove intercept</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">factorial_power</span><span class="p">]</span> <span class="c1"># convert to %</span>
@@ -266,6 +273,8 @@ see the power is still quite good.</p>
 <span class="n">coffee_design</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coffee_design</span><span class="p">))</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">sn</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
 <span class="n">factorial_power</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># remove intercept</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">factorial_power</span><span class="p">]</span> <span class="c1"># convert to %</span>
@@ -301,6 +310,8 @@ see the power is still quite good.</p>
 </table>
 <p>We can also check the power for the interaction model:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">twofi_model</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)**2&quot;</span>
+<span class="n">sn</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">twofi_model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
 <span class="n">factorial_power</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">factorial_power</span><span class="p">]</span> <span class="c1"># convert to %</span>
@@ -601,15 +612,17 @@ that a lower amount of coffee is better.</p>
 <col width="19%" />
 <col width="14%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>run</td>
-<td>hank</td>
-<td>joe</td>
-<td>neal</td>
-<td>mike</td>
-<td>martin</td>
-<td>mean</td>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">run</th>
+<th class="head">hank</th>
+<th class="head">joe</th>
+<th class="head">neal</th>
+<th class="head">mike</th>
+<th class="head">martin</th>
+<th class="head">mean</th>
 </tr>
+</thead>
+<tbody valign="top">
 <tr class="row-even"><td>0</td>
 <td>4</td>
 <td>4</td>
@@ -619,20 +632,20 @@ that a lower amount of coffee is better.</p>
 <td>4.4</td>
 </tr>
 <tr class="row-odd"><td>1</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
 <td>1</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>1</td>
-<td>1.6</td>
+<td>2.6</td>
 </tr>
 <tr class="row-even"><td>2</td>
-<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
 <td>2</td>
 <td>2</td>
-<td>1</td>
-<td>1</td>
-<td>1.4</td>
+<td>2.4</td>
 </tr>
 <tr class="row-odd"><td>3</td>
 <td>9</td>
@@ -740,11 +753,11 @@ that a lower amount of coffee is better.</p>
 </tr>
 <tr class="row-even"><td>16</td>
 <td>7</td>
-<td>5</td>
-<td>3</td>
+<td>6</td>
 <td>4</td>
-<td>3</td>
-<td>4.4</td>
+<td>5</td>
+<td>5</td>
+<td>5.4</td>
 </tr>
 <tr class="row-odd"><td>17</td>
 <td>7</td>
@@ -806,9 +819,9 @@ that a lower amount of coffee is better.</p>
 </table>
 <p>We’ll store the mean for later as another column in the DataFrame.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span><span class="p">[</span><span class="s1">&#39;taste_rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="mf">4.4</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span>
+    <span class="mf">4.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span>
     <span class="mf">6.8</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span>
-    <span class="mf">4.4</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">5.8</span>
+    <span class="mf">5.4</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">5.8</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -816,16 +829,255 @@ that a lower amount of coffee is better.</p>
 <div class="section" id="fit-a-model">
 <h2>Fit a Model<a class="headerlink" href="#fit-a-model" title="Permalink to this headline">¶</a></h2>
 <p>The statsmodels package has an OLS fitting routine that takes a patsy formula:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">lm</span> <span class="o">=</span> <span class="n">statsmodels</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">twofi_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="k">import</span> <span class="n">ols</span>
+
+<span class="n">lm</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">twofi_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">summary2</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>We can reduce this model by removing terms that have a p-value above 0.05:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">reduced_model</span> <span class="o">=</span> <span class="s2">&quot;amount + grind_size + brew_time + grind_type + amount:grind_type + grind_size:brew_time + grind_size:grind_type&quot;</span>
-<span class="n">lm</span> <span class="o">=</span> <span class="n">statsmodels</span><span class="o">.</span><span class="n">formula</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">reduced_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="11%" />
+<col width="12%" />
+<col width="11%" />
+<col width="15%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">term</th>
+<th class="head">Coef.</th>
+<th class="head">Std.Err.</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[0.025</th>
+<th class="head">0.975]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Intercept</td>
+<td>5.1</td>
+<td>0.1434</td>
+<td>35.5718</td>
+<td>0</td>
+<td>4.7694</td>
+<td>5.4306</td>
+</tr>
+<tr class="row-odd"><td>amount</td>
+<td>0.875</td>
+<td>0.1756</td>
+<td>4.9831</td>
+<td><strong>0.0011</strong></td>
+<td>0.4701</td>
+<td>1.2799</td>
+</tr>
+<tr class="row-even"><td>grind_size</td>
+<td>-0.125</td>
+<td>0.1756</td>
+<td>-0.7119</td>
+<td>0.4968</td>
+<td>-0.5299</td>
+<td>0.2799</td>
+</tr>
+<tr class="row-odd"><td>brew_time</td>
+<td>1.2</td>
+<td>0.1756</td>
+<td>6.8339</td>
+<td><strong>0.0001</strong></td>
+<td>0.7951</td>
+<td>1.6049</td>
+</tr>
+<tr class="row-even"><td>grind_type</td>
+<td>-0.1333</td>
+<td>0.1434</td>
+<td>-0.93</td>
+<td>0.3796</td>
+<td>-0.4639</td>
+<td>0.1973</td>
+</tr>
+<tr class="row-odd"><td>beans</td>
+<td>0.45</td>
+<td>0.1434</td>
+<td>3.1387</td>
+<td><strong>0.0138</strong></td>
+<td>0.1194</td>
+<td>0.7806</td>
+</tr>
+<tr class="row-even"><td>amount:grind_size</td>
+<td>0.25</td>
+<td>0.1756</td>
+<td>1.4237</td>
+<td>0.1923</td>
+<td>-0.1549</td>
+<td>0.6549</td>
+</tr>
+<tr class="row-odd"><td>amount:brew_time</td>
+<td>-0.075</td>
+<td>0.1756</td>
+<td>-0.4271</td>
+<td>0.6806</td>
+<td>-0.4799</td>
+<td>0.3299</td>
+</tr>
+<tr class="row-even"><td>amount:grind_type</td>
+<td>-0.175</td>
+<td>0.1756</td>
+<td>-0.9966</td>
+<td>0.3481</td>
+<td>-0.5799</td>
+<td>0.2299</td>
+</tr>
+<tr class="row-odd"><td>amount:beans</td>
+<td>-1.325</td>
+<td>0.1756</td>
+<td>-7.5458</td>
+<td><strong>0.0001</strong></td>
+<td>-1.7299</td>
+<td>-0.9201</td>
+</tr>
+<tr class="row-even"><td>grind_size:brew_time</td>
+<td>0.375</td>
+<td>0.1756</td>
+<td>2.1356</td>
+<td>0.0652</td>
+<td>-0.0299</td>
+<td>0.7799</td>
+</tr>
+<tr class="row-odd"><td>grind_size:grind_type</td>
+<td>-0.725</td>
+<td>0.1756</td>
+<td>-4.1288</td>
+<td><strong>0.0033</strong></td>
+<td>-1.1299</td>
+<td>-0.3201</td>
+</tr>
+<tr class="row-even"><td>grind_size:beans</td>
+<td>0.375</td>
+<td>0.1756</td>
+<td>2.1356</td>
+<td>0.0652</td>
+<td>-0.0299</td>
+<td>0.7799</td>
+</tr>
+<tr class="row-odd"><td>brew_time:grind_type</td>
+<td>0.75</td>
+<td>0.1756</td>
+<td>4.2712</td>
+<td><strong>0.0027</strong></td>
+<td>0.3451</td>
+<td>1.1549</td>
+</tr>
+<tr class="row-even"><td>brew_time:beans</td>
+<td>0.15</td>
+<td>0.1756</td>
+<td>0.8542</td>
+<td>0.4178</td>
+<td>-0.2549</td>
+<td>0.5549</td>
+</tr>
+<tr class="row-odd"><td>grind_type:beans</td>
+<td>0.0833</td>
+<td>0.1434</td>
+<td>0.5812</td>
+<td>0.5771</td>
+<td>-0.2473</td>
+<td>0.4139</td>
+</tr>
+</tbody>
+</table>
+<p>We can reduce this model by keeping only terms that have a p-value below 0.05
+(bolded in the table above):</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># this gets the pvalues dataframe from the RegressionResults</span>
+<span class="c1"># and slices out the rows with p &lt; 0.05</span>
+<span class="n">pvalues</span> <span class="o">=</span> <span class="n">lm</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">reduced_model</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pvalues</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pvalues</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="c1"># you could also just specify it by hand:</span>
+<span class="c1"># reduced_model = &quot;amount + brew_time + beans + amount:beans + &quot; \</span>
+<span class="c1">#                 &quot;grind_size:grind_type + brew_time:grind_type&quot;</span>
+<span class="n">lm</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">reduced_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">summary2</span><span class="p">())</span>
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="13%" />
+<col width="13%" />
+<col width="12%" />
+<col width="10%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">Coef.</th>
+<th class="head">Std.Err.</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[0.025</th>
+<th class="head">0.975]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Intercept</td>
+<td>5.1</td>
+<td>0.1659</td>
+<td>30.7405</td>
+<td>0</td>
+<td>4.75</td>
+<td>5.45</td>
+</tr>
+<tr class="row-odd"><td>amount</td>
+<td>0.875</td>
+<td>0.2032</td>
+<td>4.3063</td>
+<td>0.0005</td>
+<td>0.4463</td>
+<td>1.3037</td>
+</tr>
+<tr class="row-even"><td>brew_time</td>
+<td>1.2</td>
+<td>0.2032</td>
+<td>5.9058</td>
+<td>0</td>
+<td>0.7713</td>
+<td>1.6287</td>
+</tr>
+<tr class="row-odd"><td>beans</td>
+<td>0.45</td>
+<td>0.1659</td>
+<td>2.7124</td>
+<td>0.0148</td>
+<td>0.1</td>
+<td>0.8</td>
+</tr>
+<tr class="row-even"><td>amount:beans</td>
+<td>-1.325</td>
+<td>0.2032</td>
+<td>-6.5209</td>
+<td>0</td>
+<td>-1.7537</td>
+<td>-0.8963</td>
+</tr>
+<tr class="row-odd"><td>grind_size:grind_type</td>
+<td>-0.725</td>
+<td>0.2032</td>
+<td>-3.5681</td>
+<td>0.0024</td>
+<td>-1.1537</td>
+<td>-0.2963</td>
+</tr>
+<tr class="row-even"><td>brew_time:grind_type</td>
+<td>0.75</td>
+<td>0.2032</td>
+<td>3.6911</td>
+<td>0.0018</td>
+<td>0.3213</td>
+<td>1.1787</td>
+</tr>
+</tbody>
+</table>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
