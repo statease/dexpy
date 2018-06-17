@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
-        <link rel="next" title="Example: Optimal Design" href="example-optimal.html"/>
-        <link rel="prev" title="Reference" href="reference.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example: Optimal Design" href="example-optimal.html" />
+    <link rel="prev" title="Reference" href="reference.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -117,7 +109,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">dexpy</a>
@@ -125,9 +117,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -204,7 +197,7 @@ not to over-caffienate our testers, and can only do the tests on days when all
 so.</p>
 <p>We can calculate the power of a full factorial using dexpy, assuming a signal
 to noise ratio of 2:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.factorial</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.factorial</span>
 <span class="kn">import</span> <span class="nn">dexpy.power</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -260,7 +253,7 @@ high enough that we decide to run a fraction instead, and get the experiment
 done more quickly. We can create a 2<sup>5-1</sup> fractional factorial, which
 will have 16 runs, along with the 4 center points for a total of 20. As you can
 see the power is still quite good.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_type&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">]</span>
 <span class="n">center_points</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
@@ -309,7 +302,7 @@ see the power is still quite good.</p>
 </tbody>
 </table>
 <p>We can also check the power for the interaction model:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">twofi_model</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)**2&quot;</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twofi_model</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)**2&quot;</span>
 <span class="n">sn</span> <span class="o">=</span> <span class="mf">2.0</span>
 <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">factorial_power</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">f_power</span><span class="p">(</span><span class="n">twofi_model</span><span class="p">,</span> <span class="n">coffee_design</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
@@ -381,7 +374,7 @@ see the power is still quite good.</p>
 <p>We can build the 2<sup>5-1</sup> design using <a class="reference internal" href="design-build.html#factorial"><span class="std std-ref">build_factorial</span></a>,
 then appending the 8 center point runs. We actually already did this to evaluate
 the power, but here is the code again.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">coffee_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">factorial</span><span class="o">.</span><span class="n">build_factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">coffee_design</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">,</span> <span class="s1">&#39;grind_type&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">]</span>
 <span class="n">center_points</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
@@ -396,7 +389,7 @@ the power, but here is the code again.</p>
 </div>
 <p>It is convenient to print out the design in actual values, rather than the
 coded -1 and +1 values, for when we make the coffee.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">actual_lows</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;amount&#39;</span> <span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">actual_lows</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;amount&#39;</span> <span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span> <span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span>
                 <span class="s1">&#39;grind_type&#39;</span><span class="p">:</span> <span class="s1">&#39;burr&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">:</span> <span class="s1">&#39;light&#39;</span> <span class="p">}</span>
 <span class="n">actual_highs</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;amount&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;grind_size&#39;</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;brew_time&#39;</span><span class="p">:</span> <span class="mf">4.5</span><span class="p">,</span>
                  <span class="s1">&#39;grind_type&#39;</span><span class="p">:</span> <span class="s1">&#39;blade&#39;</span><span class="p">,</span> <span class="s1">&#39;beans&#39;</span><span class="p">:</span> <span class="s1">&#39;dark&#39;</span> <span class="p">}</span>
@@ -818,7 +811,7 @@ that a lower amount of coffee is better.</p>
 </tbody>
 </table>
 <p>We’ll store the mean for later as another column in the DataFrame.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">coffee_design</span><span class="p">[</span><span class="s1">&#39;taste_rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">coffee_design</span><span class="p">[</span><span class="s1">&#39;taste_rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
     <span class="mf">4.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span>
     <span class="mf">6.8</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span>
     <span class="mf">5.4</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">5.8</span>
@@ -829,7 +822,7 @@ that a lower amount of coffee is better.</p>
 <div class="section" id="fit-a-model">
 <h2>Fit a Model<a class="headerlink" href="#fit-a-model" title="Permalink to this headline">¶</a></h2>
 <p>The statsmodels package has an OLS fitting routine that takes a patsy formula:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="k">import</span> <span class="n">ols</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="k">import</span> <span class="n">ols</span>
 
 <span class="n">lm</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s2">&quot;taste_rating ~&quot;</span> <span class="o">+</span> <span class="n">twofi_model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coffee_design</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">summary2</span><span class="p">())</span>
@@ -988,7 +981,7 @@ that a lower amount of coffee is better.</p>
 </table>
 <p>We can reduce this model by keeping only terms that have a p-value below 0.05
 (bolded in the table above):</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># this gets the pvalues dataframe from the RegressionResults</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># this gets the pvalues dataframe from the RegressionResults</span>
 <span class="c1"># and slices out the rows with p &lt; 0.05</span>
 <span class="n">pvalues</span> <span class="o">=</span> <span class="n">lm</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">reduced_model</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pvalues</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pvalues</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
@@ -1089,9 +1082,7 @@ that a lower amount of coffee is better.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1113,7 +1104,7 @@ that a lower amount of coffee is better.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1132,6 +1123,7 @@ that a lower amount of coffee is better.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1145,19 +1137,13 @@ that a lower amount of coffee is better.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

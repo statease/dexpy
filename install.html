@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
-        <link rel="next" title="Building a Design" href="design-build.html"/>
-        <link rel="prev" title="dexpy - Design of Experiments (DOE) in Python" href="index.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building a Design" href="design-build.html" />
+    <link rel="prev" title="dexpy - Design of Experiments (DOE) in Python" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -114,7 +106,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">dexpy</a>
@@ -122,9 +114,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -170,29 +163,27 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>dexpy can be installed using <cite>pip</cite>, which will install the dependencies
 automatically. Windows users should see the note below.</p>
-<div class="highlight-batch"><div class="highlight"><pre><span></span>pip install dexpy
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>pip install dexpy
 </pre></div>
 </div>
 <div class="section" id="dependencies-on-windows">
 <h2>Dependencies on Windows<a class="headerlink" href="#dependencies-on-windows" title="Permalink to this headline">¶</a></h2>
-<p>dexpy uses <code class="docutils literal"><span class="pre">numpy</span></code> and <code class="docutils literal"><span class="pre">scipy</span></code>, which can be difficult to build on Windows
+<p>dexpy uses <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, which can be difficult to build on Windows
 via pip. You may consider to using <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a> or <a class="reference external" href="http://conda.pydata.org/miniconda.html">Miniconda</a> to install prebuilt numpy/scipy
 binaries. This can be done by creating an environment containing these packages
 , then installing.</p>
-<div class="highlight-batch"><div class="highlight"><pre><span></span>conda create --name dexpy_env numpy scipy pandas patsy
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>conda create --name dexpy_env numpy scipy pandas patsy
 activate dexpy_env
 pip install dexpy
 </pre></div>
 </div>
-<p>You can use whatever name you want in place of <code class="docutils literal"><span class="pre">dexpy_env</span></code>.</p>
+<p>You can use whatever name you want in place of <code class="docutils literal notranslate"><span class="pre">dexpy_env</span></code>.</p>
 </div>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -214,7 +205,7 @@ pip install dexpy
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -233,6 +224,7 @@ pip install dexpy
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -246,19 +238,13 @@ pip install dexpy
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

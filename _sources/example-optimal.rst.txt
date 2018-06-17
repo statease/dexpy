@@ -37,7 +37,11 @@ size of the design is the minimal number of runs required to support the model
   import dexpy.optimal
   from dexpy.model import ModelOrder
   reaction_design = dexpy.optimal.build_optimal(2, order=ModelOrder.quadratic)
-  print(reaction_design)
+  column_names = ['time', 'temp']
+  actual_lows = { 'time': 40, 'temp': 80 }
+  actual_highs = { 'time': 50, 'temp': 90 }
+  reaction_design.columns = column_names
+  print(coded_to_actual(reaction_design, actual_lows, actual_highs))
 
 +---+-------+-------+
 |   | time  | temp  |
@@ -98,7 +102,11 @@ builder a **run_count** parameter.
   import dexpy.optimal
   from dexpy.model import ModelOrder
   reaction_design = dexpy.optimal.build_optimal(2, run_count=10, order=ModelOrder.quadratic)
-  print(reaction_design)
+  column_names = ['time', 'temp']
+  actual_lows = { 'time': 40, 'temp': 80 }
+  actual_highs = { 'time': 50, 'temp': 90 }
+  reaction_design.columns = column_names
+  print(coded_to_actual(reaction_design, actual_lows, actual_highs))
 
 +---+------+------+
 |   | time | temp |

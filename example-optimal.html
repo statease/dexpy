@@ -24,26 +24,18 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="dexpy 0.1 documentation" href="index.html"/>
-        <link rel="prev" title="Example: Coffee Taste Test" href="example-coffee.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Example: Coffee Taste Test" href="example-coffee.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -114,7 +106,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">dexpy</a>
@@ -122,9 +114,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -196,13 +189,17 @@ where the factor settings are chosen in an algorithmic search, designed to
 optimize some criteria. We will be using the <strong>D-optimal</strong> criteria, which
 minimizes the joint confidence interval of the model parameters.</p>
 <p>This can easily be done in dexpy using
-<a class="reference internal" href="design-build.html#dexpy.optimal.build_optimal" title="dexpy.optimal.build_optimal"><code class="xref py py-func docutils literal"><span class="pre">build_optimal</span></code></a>. Note that by default the
+<a class="reference internal" href="design-build.html#dexpy.optimal.build_optimal" title="dexpy.optimal.build_optimal"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_optimal</span></code></a>. Note that by default the
 size of the design is the minimal number of runs required to support the model
 (in this case 6).</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
 <span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">ModelOrder</span>
 <span class="n">reaction_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">optimal</span><span class="o">.</span><span class="n">build_optimal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">reaction_design</span><span class="p">)</span>
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">]</span>
+<span class="n">actual_lows</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">80</span> <span class="p">}</span>
+<span class="n">actual_highs</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">90</span> <span class="p">}</span>
+<span class="n">reaction_design</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">column_names</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coded_to_actual</span><span class="p">(</span><span class="n">reaction_design</span><span class="p">,</span> <span class="n">actual_lows</span><span class="p">,</span> <span class="n">actual_highs</span><span class="p">))</span>
 </pre></div>
 </div>
 <table border="1" class="docutils">
@@ -245,7 +242,7 @@ size of the design is the minimal number of runs required to support the model
 <p>As you can see, the runs are arranged in a less structured manner than a
 standard design. If you look at the design graphically, you can see that
 the points are spread out throughout the space.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">fg</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">reaction_design</span><span class="p">,</span> <span class="n">fit_reg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fg</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -256,8 +253,8 @@ the points are spread out throughout the space.</p>
 </pre></div>
 </div>
 <img alt="_images/optimal-6-run.svg" src="_images/optimal-6-run.svg" /><p>We can calculate the D-optimality of this design, which is just the
-determinant of the information matrix <span class="math">\(|X'X|\)</span>.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">make_model</span><span class="p">,</span> <span class="n">ModelOrder</span>
+determinant of the information matrix <span class="math notranslate nohighlight">\(|X'X|\)</span>.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">make_model</span><span class="p">,</span> <span class="n">ModelOrder</span>
 <span class="kn">from</span> <span class="nn">patsy</span> <span class="k">import</span> <span class="n">dmatrix</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -273,10 +270,14 @@ determinant of the information matrix <span class="math">\(|X'X|\)</span>.</p>
 </div>
 <p>What if the chemist was able to run 10 experiments? You can give the optimal
 builder a <strong>run_count</strong> parameter.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
 <span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">ModelOrder</span>
 <span class="n">reaction_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">optimal</span><span class="o">.</span><span class="n">build_optimal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">run_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">reaction_design</span><span class="p">)</span>
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">]</span>
+<span class="n">actual_lows</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">80</span> <span class="p">}</span>
+<span class="n">actual_highs</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mi">90</span> <span class="p">}</span>
+<span class="n">reaction_design</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">column_names</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coded_to_actual</span><span class="p">(</span><span class="n">reaction_design</span><span class="p">,</span> <span class="n">actual_lows</span><span class="p">,</span> <span class="n">actual_highs</span><span class="p">))</span>
 </pre></div>
 </div>
 <table border="1" class="docutils">
@@ -337,15 +338,15 @@ the vertices (indicated in red) has been duplicated by the optimal search
 algorithm. Both run 0 and run 6 have a time of 50 minutes and a temp of 80 °C.</p>
 <p>Note that the <strong>run_count</strong> parameter must be greater than, or equal to, the
 size of the model. In this example, the quadratic model
-<span class="math">\(\hat{y} = 1 + X_1 + X_2 + {X_1}{X_2} + X_1^2 + X_2^2\)</span>
+<span class="math notranslate nohighlight">\(\hat{y} = 1 + X_1 + X_2 + {X_1}{X_2} + X_1^2 + X_2^2\)</span>
 requires at least 6 runs. If you try to pass in too few runs you get an exception.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dexpy.optimal</span>
 <span class="kn">from</span> <span class="nn">dexpy.model</span> <span class="k">import</span> <span class="n">ModelOrder</span>
 <span class="n">reaction_design</span> <span class="o">=</span> <span class="n">dexpy</span><span class="o">.</span><span class="n">optimal</span><span class="o">.</span><span class="n">build_optimal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">run_count</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">ModelOrder</span><span class="o">.</span><span class="n">quadratic</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Produces:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Can</span><span class="s1">&#39;t build a design of size 4 for a model of rank 6. Model: &#39;</span><span class="p">(</span><span class="n">X1</span><span class="o">+</span><span class="n">X2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="nb">pow</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="nb">pow</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="s1">&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Can</span><span class="s1">&#39;t build a design of size 4 for a model of rank 6. Model: &#39;</span><span class="p">(</span><span class="n">X1</span><span class="o">+</span><span class="n">X2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="nb">pow</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="nb">pow</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="s1">&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -353,9 +354,7 @@ requires at least 6 runs. If you try to pass in too few runs you get an exceptio
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -375,7 +374,7 @@ requires at least 6 runs. If you try to pass in too few runs you get an exceptio
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -394,6 +393,7 @@ requires at least 6 runs. If you try to pass in too few runs you get an exceptio
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -407,19 +407,13 @@ requires at least 6 runs. If you try to pass in too few runs you get an exceptio
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
