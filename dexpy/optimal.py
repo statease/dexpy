@@ -1,4 +1,5 @@
 """Functions for creating an optimal design."""
+from __future__ import division
 
 import dexpy.design
 import pandas as pd
@@ -53,7 +54,7 @@ def build_optimal(factor_count, **kwargs):
 
     :Keyword Arguments:
         * **order** (:class:`ModelOrder <dexpy.model.ModelOrder>`) -- \
-            Builds a design for this order model.\
+            Builds a design for this order model. \
             Mutually exclusive with the **model** parameter.
         * **model** (`patsy formula <https://patsy.readthedocs.io>`_) -- \
             Builds a design for this model formula. \

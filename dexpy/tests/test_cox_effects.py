@@ -1,3 +1,4 @@
+from __future__ import division
 import dexpy.cox_effects as cx
 import unittest
 import numpy as np
