@@ -1,4 +1,5 @@
 """Functions for building a simplex lattice design."""
+from __future__ import division
 
 import dexpy.design as design
 import pandas as pd

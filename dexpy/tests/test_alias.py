@@ -1,3 +1,4 @@
+from __future__ import division
 from unittest import TestCase
 
 from dexpy.alias import alias_list
