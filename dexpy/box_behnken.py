@@ -7,7 +7,7 @@ import os
 
 
 def build_box_behnken(factor_count, center_points = 5):
-    """Builds a Box-Behnken design.create_model_matrix
+    """Builds a Box-Behnken design.
 
     Box-Behnken designs are response surface designs, specially made to require
     only 3 levels, coded as -1, 0, and +1. Box-Behnken designs are available
